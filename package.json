@@ -1,6 +1,5 @@
 {
   "name": "gatsby-starter-default",
-  "private": true,
   "description": "A simple starter to get up and developing quickly with Gatsby",
   "version": "0.1.0",
   "author": "Kyle Mathews <mathews.kyle@gmail.com>",
@@ -34,21 +33,15 @@
     "gatsby"
   ],
   "license": "MIT",
+  "main": "n/a",
   "scripts": {
     "build": "gatsby build",
     "develop": "gatsby develop",
     "format": "prettier --write \"**/*.{js,jsx,json,md}\"",
     "start": "npm run develop",
     "serve": "gatsby serve",
-    "clean": "gatsby clean",
+    "clean": "rm yarn.lock && gatsby clean && rm -rf node_modules && yarn install",
     "test": "echo \"Write tests! -> https://gatsby.dev/unit-testing\" && exit 1",
     "lint": "eslint --ignore-path .gitignore . --ext ts --ext tsx --ext js --ext jsx"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/gatsbyjs/gatsby-starter-default"
-  },
-  "bugs": {
-    "url": "https://github.com/gatsbyjs/gatsby/issues"
   }
 }

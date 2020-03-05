@@ -1,7 +1,17 @@
-/**
- * Implement Gatsby's Node APIs in this file.
- *
- * See: https://www.gatsbyjs.org/docs/node-apis/
- */
+const path = require(`path`);
 
-// You can delete this file if you're not using it
+exports.createPages = ({ actions }) => {
+  const { createPage } = actions;
+  ["index", "secondPage"].forEach(page => {
+    ["it", "en"].forEach(locale => {
+      const pathLocalePrefix = locale === "en" ? "" : `/${locale}`;
+      const slug = page === "index" ? "" : page;
+      const pagePath = `${pathLocalePrefix}/${slug}`;
+      createPage({
+        path: pagePath,
+        component: path.resolve(`./src/templates/${page}.tsx`),
+        context: { locale }
+      });
+    });
+  });
+};
