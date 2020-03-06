@@ -9,22 +9,27 @@ type DatoCmsProps<X> = {
 };
 
 type SecondPageProps = {
-  datoCmsSecondpage: {
-    text: string;
+  secondPage: {
+    heading: string;
     locale: string;
+  };
+  index: {
+    pagename: string;
   };
 };
 
 class SecondPage extends React.Component<DatoCmsProps<SecondPageProps>> {
   render() {
     const { data } = this.props;
-    if (data && data.datoCmsSecondpage) {
-      const { text, locale } = data.datoCmsSecondpage;
+    if (data && data.secondPage) {
+      const { heading, locale } = data.secondPage;
       return (
         <Layout>
-          <h1>{text}</h1>
-          {/* TODO: localized link names (eg. "Home" vs. "Casa". Add slug to CMS page models) */}
-          <LocalizedLink to="/" locale={locale}>Home</LocalizedLink>
+          <h1>{heading}</h1>
+          {/* Consider adding slug to index for consistency */}
+          <LocalizedLink to="/" locale={locale}>
+            {data.index.pagename}
+          </LocalizedLink>
         </Layout>
       );
     } else {
@@ -38,8 +43,11 @@ export default SecondPage;
 // TODO: get this working
 export const query = graphql`
   query SecondPageQuery($locale: String!) {
-    datoCmsSecondpage(locale: { eq: $locale }) {
-      text
+    index: datoCmsIndex(locale: { eq: $locale }) {
+      pagename
+    }
+    secondPage: datoCmsSecondpage(locale: { eq: $locale }) {
+      heading
       locale
     }
   }

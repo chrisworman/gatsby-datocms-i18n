@@ -9,28 +9,35 @@ type DatoCmsProps<X> = {
 };
 
 type IndexProps = {
-  datoCmsIndex: {
+  index: {
     heading: string;
     locale: string;
+  };
+  secondPage: {
+    pagename: string;
+    slug: string;
   };
 };
 
 class IndexPage extends React.Component<DatoCmsProps<IndexProps>> {
   render() {
     const { data } = this.props;
-    const datoCmsIndex = data ? data.datoCmsIndex : null;
-    if (datoCmsIndex) {
-      const { heading, locale } = datoCmsIndex;
-      return (
-        <Layout>
-          <h1>{heading}</h1>
-          <LocalizedLink to="/secondPage" locale={locale}>Second Page</LocalizedLink>
-        </Layout>
-      );
-    } else {
-      // TODO: introduce component for "no page data"
-      return <p>No data for index page</p>;
+    if (data) {
+      const index = data ? data.index : null;
+      const secondPage = data ? data.secondPage : null;
+      if (index && secondPage) {
+        const { heading, locale } = index;
+        return (
+          <Layout>
+            <h1>{heading}</h1>
+            <LocalizedLink to={secondPage.slug} locale={locale}>
+              {secondPage.pagename}
+            </LocalizedLink>
+          </Layout>
+        );
+      }
     }
+    return <p>No data for index page</p>;
   }
 }
 
@@ -38,9 +45,13 @@ export default IndexPage;
 
 export const query = graphql`
   query IndexQuery($locale: String!) {
-    datoCmsIndex(locale: { eq: $locale }) {
+    index: datoCmsIndex(locale: { eq: $locale }) {
       heading
       locale
+    }
+    secondPage: datoCmsSecondpage(locale: { eq: $locale }) {
+      pagename
+      slug
     }
   }
 `;

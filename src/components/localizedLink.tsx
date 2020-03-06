@@ -12,7 +12,7 @@ class LocalizedLink extends React.Component<LocalizedLinkProps> {
     render() {
         const { locale, to, children } = this.props;
         const localePrefix = !locale || locale === DEFAULT_LOCALE ? "" : `/${locale}`;
-        return <Link to={`${localePrefix}${to}`}>{children}</Link>;
+        return <Link to={`${localePrefix}/${to}`}>{children}</Link>;
     }
 }
 
