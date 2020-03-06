@@ -1,11 +1,11 @@
 const path = require(`path`);
 
-exports.createPages = ({ graphql, actions }) => {
+exports.createPages = async ({ graphql, actions }) => {
   const { createPage } = actions;
   const locales = ["it", "en"]; // Move to CMS?
 
   // Create core pages
-  return Promise.all(
+  Promise.all(
     locales.map(locale => {
       graphql(`
         {
@@ -18,8 +18,6 @@ exports.createPages = ({ graphql, actions }) => {
           }
         }
       `).then(result => {
-        console.log(`result CW: ${JSON.stringify(result)}`);
-
         ["index", "secondPage"].forEach(pageId => {
           const pageData = result.data[pageId];
           // TODO: move "en" to constants file
@@ -36,5 +34,32 @@ exports.createPages = ({ graphql, actions }) => {
     })
   );
 
-  // TODO: create pages defined in CMS (eg. landing pages for ads)
+  // TODO: create custom defined in CMS (eg. landing pages for ads)
+  graphql(`
+    {
+      customPage: allDatoCmsCustompage {
+        edges {
+          node {
+            locale
+            title
+            slug
+            html
+          }
+        }
+      }
+    }
+  `).then(result => {
+    result.data.customPage.edges.forEach(edge => {
+      const pageData = edge.node;
+      // TODO: move "en" to constants file
+      // TODO: consider consolidating localized link creation to helper utility (see LocalizedLink)
+      const localePrefix = pageData.locale === "en" ? "" : `/${pageData.locale}`;
+      const { slug, title, html } = pageData;
+      createPage({
+        path: `${localePrefix}/${slug}`,
+        component: path.resolve(`./src/templates/customPage.tsx`), // TODO: add a check to ensure the page template exists?
+        context: { title, html }
+      });
+    });
+  });
 };

@@ -14,7 +14,7 @@ const Header = ({ siteTitle }) => (
         float: "right"
       }}
     >
-      {/* TODO: languages passed in props */}
+      {/* TODO: supported languages passed in props; create localeToggle.tsx component */}
       <Link to="/" style={{ color: "#eee" }}>
         English
       </Link> | 
