@@ -1,5 +1,5 @@
 import React from "react";
-import { graphql } from "gatsby";
+import { Link, graphql } from "gatsby";
 import Layout from "../components/layout";
 
 // TODO: move to its own file
@@ -15,14 +15,11 @@ type SecondPageProps = {
 
 class SecondPage extends React.Component<DatoCmsProps<SecondPageProps>> {
   render() {
-    console.log("SecondPage.render()");
-    console.log(`SecondPage this.props=${JSON.stringify(this.props)}`);
     const { data } = this.props;
-    console.log(`SecondPage data=${JSON.stringify(data)}`);
     return (
       <Layout>
         <p>{data ? data.datoCmsSecondpage.text : "No data!"}</p>
-        <a href="/">Home</a>
+        <Link to="">Home</Link>
       </Layout>
     );
   }

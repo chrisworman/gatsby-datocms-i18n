@@ -1,10 +1,10 @@
 import React from "react";
-import { graphql } from "gatsby";
+import { Link, graphql } from "gatsby";
 import Layout from "../components/layout";
 
 // TODO: move to its own file
 type DatoCmsProps<X> = {
-  data: X,
+  data: X;
 };
 
 type IndexProps = {
@@ -15,13 +15,11 @@ type IndexProps = {
 
 class IndexPage extends React.Component<DatoCmsProps<IndexProps>> {
   render() {
-    console.log("IndexPage.render()");
-    console.log(`IndexPage.render() this.props=${JSON.stringify(this.props)}`);
     const { data } = this.props;
     return (
       <Layout>
         <h1>{data ? data.datoCmsIndex.heading : "No data"}</h1>
-        <a href="/secondPage">Second Page</a>
+        <Link to="/secondPage">Second Page</Link>
       </Layout>
     );
   }

@@ -30,7 +30,7 @@ module.exports = {
     rules: {
       'react/prop-types': 'off', // Disable prop-types as we use TypeScript for type checking
       '@typescript-eslint/explicit-function-return-type': 'off',
-      //'comma-dangle': [WARN, 'always'],
+      'comma-dangle': [WARN, 'always-multiline'],
     },
     overrides: [
         // Override some TypeScript rules just for .js files
