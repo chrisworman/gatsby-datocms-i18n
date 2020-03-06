@@ -1,27 +1,36 @@
 import React from "react";
-import { Link, graphql } from "gatsby";
+import { graphql } from "gatsby";
 import Layout from "../components/layout";
+import LocalizedLink from "../components/localizedLink";
 
 // TODO: move to its own file
 type DatoCmsProps<X> = {
-  data: X;
+  data: X | null;
 };
 
 type IndexProps = {
   datoCmsIndex: {
     heading: string;
+    locale: string;
   };
 };
 
 class IndexPage extends React.Component<DatoCmsProps<IndexProps>> {
   render() {
     const { data } = this.props;
-    return (
-      <Layout>
-        <h1>{data ? data.datoCmsIndex.heading : "No data"}</h1>
-        <Link to="/secondPage">Second Page</Link>
-      </Layout>
-    );
+    const datoCmsIndex = data ? data.datoCmsIndex : null;
+    if (datoCmsIndex) {
+      const { heading, locale } = datoCmsIndex;
+      return (
+        <Layout>
+          <h1>{heading}</h1>
+          <LocalizedLink to="/secondPage" locale={locale}>Second Page</LocalizedLink>
+        </Layout>
+      );
+    } else {
+      // TODO: introduce component for "no page data"
+      return <p>No data for index page</p>;
+    }
   }
 }
 
@@ -31,6 +40,7 @@ export const query = graphql`
   query IndexQuery($locale: String!) {
     datoCmsIndex(locale: { eq: $locale }) {
       heading
+      locale
     }
   }
 `;

@@ -1,6 +1,7 @@
 import React from "react";
-import { Link, graphql } from "gatsby";
+import { graphql } from "gatsby";
 import Layout from "../components/layout";
+import LocalizedLink from "../components/localizedLink";
 
 // TODO: move to its own file
 type DatoCmsProps<X> = {
@@ -10,18 +11,25 @@ type DatoCmsProps<X> = {
 type SecondPageProps = {
   datoCmsSecondpage: {
     text: string;
+    locale: string;
   };
 };
 
 class SecondPage extends React.Component<DatoCmsProps<SecondPageProps>> {
   render() {
     const { data } = this.props;
-    return (
-      <Layout>
-        <p>{data ? data.datoCmsSecondpage.text : "No data!"}</p>
-        <Link to="">Home</Link>
-      </Layout>
-    );
+    if (data && data.datoCmsSecondpage) {
+      const { text, locale } = data.datoCmsSecondpage;
+      return (
+        <Layout>
+          <h1>{text}</h1>
+          {/* TODO: localized link names (eg. "Home" vs. "Casa". Add slug to CMS page models) */}
+          <LocalizedLink to="/" locale={locale}>Home</LocalizedLink>
+        </Layout>
+      );
+    } else {
+      return <p>No data for second page</p>;
+    }
   }
 }
 
@@ -32,6 +40,7 @@ export const query = graphql`
   query SecondPageQuery($locale: String!) {
     datoCmsSecondpage(locale: { eq: $locale }) {
       text
+      locale
     }
   }
 `;

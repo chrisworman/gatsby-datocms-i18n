@@ -1,6 +1,7 @@
 const path = require(`path`);
 
 exports.createPages = ({ actions }) => {
+  // Create the core pages
   const { createPage } = actions;
   ["index", "secondPage"].forEach(page => {
     ["it", "en"].forEach(locale => {
@@ -14,4 +15,5 @@ exports.createPages = ({ actions }) => {
       });
     });
   });
+  // TODO: create pages defined in CMS
 };

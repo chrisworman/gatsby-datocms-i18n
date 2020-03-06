@@ -22,7 +22,7 @@ module.exports = {
     plugins: ['@typescript-eslint/eslint-plugin', 'react'],
     parserOptions: {
       ecmaFeatures: {
-        jsx: true
+        jsx: true,
       },
       ecmaVersion: 2018, // Allows for the parsing of modern ECMAScript features
       sourceType: 'module' // Allows for the use of imports
@@ -30,7 +30,7 @@ module.exports = {
     rules: {
       'react/prop-types': 'off', // Disable prop-types as we use TypeScript for type checking
       '@typescript-eslint/explicit-function-return-type': 'off',
-      'comma-dangle': [WARN, 'always-multiline'],
+      // 'comma-dangle': [WARN, 'always-multiline'],
     },
     overrides: [
         // Override some TypeScript rules just for .js files
