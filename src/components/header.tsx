@@ -11,6 +11,20 @@ const Header = ({ siteTitle }) => (
   >
     <div
       style={{
+        float: "right"
+      }}
+    >
+      {/* TODO: languages passed in props */}
+      <Link to="/" style={{ color: "#eee" }}>
+        English
+      </Link> | 
+      
+      <Link to="/it" style={{ color: "#eee" }}>
+        Italiano
+      </Link>
+    </div>
+    <div
+      style={{
         margin: `0 auto`,
         maxWidth: 960,
         padding: `1.45rem 1.0875rem`,

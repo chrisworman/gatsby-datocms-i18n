@@ -9,7 +9,11 @@ type DatoCmsProps<X> = {
 };
 
 type SecondPageProps = {
+  layout: {
+    sitetitle: string;
+  };
   secondPage: {
+    pagename: string;
     heading: string;
     locale: string;
   };
@@ -21,10 +25,11 @@ type SecondPageProps = {
 class SecondPage extends React.Component<DatoCmsProps<SecondPageProps>> {
   render() {
     const { data } = this.props;
-    if (data && data.secondPage) {
-      const { heading, locale } = data.secondPage;
+    const layout = data ? data.layout : null;
+    if (data && data.secondPage && layout) {
+      const { heading, locale, pagename } = data.secondPage;
       return (
-        <Layout>
+        <Layout siteTitle={layout.sitetitle} pageTitle={pagename}>
           <h1>{heading}</h1>
           {/* Consider adding slug to index for consistency */}
           <LocalizedLink to="/" locale={locale}>
@@ -43,10 +48,14 @@ export default SecondPage;
 // TODO: get this working
 export const query = graphql`
   query SecondPageQuery($locale: String!) {
+    layout: datoCmsLayout(locale: { eq: $locale }) {
+      sitetitle
+    }
     index: datoCmsIndex(locale: { eq: $locale }) {
       pagename
     }
     secondPage: datoCmsSecondpage(locale: { eq: $locale }) {
+      pagename
       heading
       locale
     }

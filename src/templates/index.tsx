@@ -9,7 +9,11 @@ type DatoCmsProps<X> = {
 };
 
 type IndexProps = {
+  layout: {
+    sitetitle: string;
+  };
   index: {
+    pagename: string; // TODO: change to linkname?
     heading: string;
     locale: string;
   };
@@ -25,10 +29,12 @@ class IndexPage extends React.Component<DatoCmsProps<IndexProps>> {
     if (data) {
       const index = data ? data.index : null;
       const secondPage = data ? data.secondPage : null;
-      if (index && secondPage) {
+      const layout = data ? data.layout : null;
+      if (index && secondPage && layout) {
         const { heading, locale } = index;
         return (
-          <Layout>
+          // TODO: introduce "title" to page models instead of using "pagename"
+          <Layout siteTitle={layout.sitetitle} pageTitle={index.pagename}>
             <h1>{heading}</h1>
             <LocalizedLink to={secondPage.slug} locale={locale}>
               {secondPage.pagename}
@@ -45,7 +51,11 @@ export default IndexPage;
 
 export const query = graphql`
   query IndexQuery($locale: String!) {
+    layout: datoCmsLayout(locale: { eq: $locale }) {
+      sitetitle
+    }
     index: datoCmsIndex(locale: { eq: $locale }) {
+      pagename
       heading
       locale
     }
