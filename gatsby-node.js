@@ -22,7 +22,8 @@ exports.createPages = async ({ graphql, actions }) => {
           const pageData = result.data[pageId];
           // TODO: move "en" to constants file
           // TODO: consider consolidating localized link creation to helper utility (see LocalizedLink)
-          const localePrefix = pageData.locale === "en" ? "" : `/${pageData.locale}`;
+          const localePrefix =
+            pageData.locale === "en" ? "" : `/${pageData.locale}`;
           const slug = pageData.slug ? pageData.slug : "";
           createPage({
             path: `${localePrefix}/${slug}`,
@@ -34,7 +35,7 @@ exports.createPages = async ({ graphql, actions }) => {
     })
   );
 
-  // TODO: create custom defined in CMS (eg. landing pages for ads)
+  // Create custom defined in CMS (eg. landing pages for ads)
   graphql(`
     {
       customPage: allDatoCmsCustompage {
@@ -53,7 +54,8 @@ exports.createPages = async ({ graphql, actions }) => {
       const pageData = edge.node;
       // TODO: move "en" to constants file
       // TODO: consider consolidating localized link creation to helper utility (see LocalizedLink)
-      const localePrefix = pageData.locale === "en" ? "" : `/${pageData.locale}`;
+      const localePrefix =
+        pageData.locale === "en" ? "" : `/${pageData.locale}`;
       const { slug, title, html } = pageData;
       createPage({
         path: `${localePrefix}/${slug}`,
@@ -62,4 +64,41 @@ exports.createPages = async ({ graphql, actions }) => {
       });
     });
   });
+
+  // Shopify collection landing pages
+  // TODO: consider i18n for shopify content
+  // TODO: consider organizing components (eg. shopify, dato, etc.)
+  graphql(`
+    {
+      allShopifyCollection {
+        edges {
+          node {
+            handle
+            title
+            descriptionHtml
+            products {
+              availableForSale
+              title
+              descriptionHtml
+            }
+          }
+        }
+      }
+    }
+  `).then(result => {
+    result.data.allShopifyCollection.edges.forEach(({ node }) => {
+      const { handle, title, descriptionHtml, products } = node;
+      createPage({
+        path: `/collections/${node.handle}/`,
+        component: path.resolve(`./src/templates/collection.tsx`),
+        context: {
+          handle,
+          title,
+          descriptionHtml,
+          products
+        }
+      });
+    });
+  });
+
 };
