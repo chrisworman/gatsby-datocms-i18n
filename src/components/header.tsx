@@ -17,8 +17,7 @@ const Header = ({ siteTitle }) => (
       {/* TODO: supported languages passed in props; create localeToggle.tsx component */}
       <Link to="/" style={{ color: "#eee" }}>
         English
-      </Link> | 
-      
+      </Link> |
       <Link to="/it" style={{ color: "#eee" }}>
         Italiano
       </Link>

@@ -2,7 +2,7 @@ const path = require(`path`);
 
 exports.createPages = async ({ graphql, actions }) => {
   const { createPage } = actions;
-  const locales = ["it", "en"]; // Move to CMS?
+  const locales = ["it", "en"]; // TODO: Move to CMS?
 
   // Create core pages
   Promise.all(

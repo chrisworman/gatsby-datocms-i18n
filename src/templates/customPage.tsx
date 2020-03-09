@@ -11,7 +11,6 @@ type CustomPageProps = {
 class CustomPage extends React.Component<CustomPageProps> {
   render() {
     const { title, html } = this.props.pageContext;
-    console.log(this.props);
     return (
       <Layout siteTitle="TODO: Custom Pages need site title!" pageTitle={title}>
         <div dangerouslySetInnerHTML={{ __html: html }} />
