@@ -23,7 +23,7 @@ class Layout extends React.Component<LayoutProps> {
     return (
       <>
         <Helmet title={collatedTitle} />
-        <Header siteTitle={collatedTitle} />
+        <Header />
         <div
           style={{
             margin: `0 auto`,

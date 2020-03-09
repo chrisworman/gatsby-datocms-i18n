@@ -1,7 +1,8 @@
 import React from "react";
-import Layout from "../components/layout";
+import Layout from "../../components/layout";
+import { Link } from "gatsby";
 
-type ColllectionProps = {
+type CollectionProps = {
   pageContext: {
     handle: string;
     title: string;
@@ -14,9 +15,10 @@ type CollectionProduct = {
   availableForSale: boolean;
   title: string;
   descriptionHtml: string;
+  handle: string;
 };
 
-class Collection extends React.Component<ColllectionProps> {
+class Collection extends React.Component<CollectionProps> {
   render() {
     const { pageContext } = this.props;
     if (pageContext) {
@@ -34,7 +36,6 @@ class Collection extends React.Component<ColllectionProps> {
         );
       }
     }
-    console.log(`pageContext ${JSON.stringify(pageContext)}`);
     return <p>No data for collection page</p>;
   }
 
@@ -43,7 +44,9 @@ class Collection extends React.Component<ColllectionProps> {
       return (
         <div>
           <hr />
-          <h3>{product.title}</h3>
+          <h3>
+            <Link to={`/products/${product.handle}`}>{product.title}</Link>
+          </h3>
           <div dangerouslySetInnerHTML={{ __html: product.descriptionHtml }} />
         </div>
       );

@@ -65,9 +65,9 @@ exports.createPages = async ({ graphql, actions }) => {
     });
   });
 
-  // Shopify collection landing pages
   // TODO: consider i18n for shopify content
-  // TODO: consider organizing components (eg. shopify, dato, etc.)
+
+  // Shopify collection landing pages
   graphql(`
     {
       allShopifyCollection {
@@ -77,6 +77,7 @@ exports.createPages = async ({ graphql, actions }) => {
             title
             descriptionHtml
             products {
+              handle
               availableForSale
               title
               descriptionHtml
@@ -89,13 +90,40 @@ exports.createPages = async ({ graphql, actions }) => {
     result.data.allShopifyCollection.edges.forEach(({ node }) => {
       const { handle, title, descriptionHtml, products } = node;
       createPage({
-        path: `/collections/${node.handle}/`,
-        component: path.resolve(`./src/templates/collection.tsx`),
+        path: `/collections/${handle}/`,
+        component: path.resolve(`./src/templates/shopify/collection.tsx`),
         context: {
           handle,
           title,
           descriptionHtml,
           products
+        }
+      });
+    });
+  });
+
+  // Shopify product landing pages
+  graphql(`
+    {
+      allShopifyProduct {
+        edges {
+          node {
+            handle
+            title
+            descriptionHtml
+          }
+        }
+      }
+    }
+  `).then(result => {
+    result.data.allShopifyProduct.edges.forEach(({ node }) => {
+      const { handle, title, descriptionHtml } = node;
+      createPage({
+        path: `/products/${handle}/`,
+        component: path.resolve(`./src/templates/shopify/product.tsx`),
+        context: {
+          title,
+          descriptionHtml
         }
       });
     });

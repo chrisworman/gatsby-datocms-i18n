@@ -1,6 +1,8 @@
 import React from "react";
 import Layout from "../components/layout";
 
+// TODO: move to dato folder
+
 type CustomPageProps = {
   pageContext: {
     title: string;

@@ -39,10 +39,10 @@
   "license": "MIT",
   "main": "n/a",
   "scripts": {
-    "build": "gatsby build",
-    "develop": "gatsby develop",
+    "build": "time gatsby build",
+    "develop": "time gatsby develop",
     "format": "prettier --write \"**/*.{js,jsx,json,md}\"",
-    "start": "npm run develop",
+    "start": "yarn develop",
     "serve": "gatsby serve",
     "clean": "rm yarn.lock && gatsby clean && rm -rf node_modules $$ rm -rf .cahce && yarn install",
     "test": "echo \"Write tests! -> https://gatsby.dev/unit-testing\" && exit 1",

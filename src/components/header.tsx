@@ -1,55 +1,52 @@
-import { Link } from "gatsby";
-import PropTypes from "prop-types";
 import React from "react";
+import { Link, StaticQuery, graphql } from "gatsby";
 
-const Header = ({ siteTitle }) => (
-  <header
-    style={{
-      background: `rebeccapurple`,
-      marginBottom: `1.45rem`,
-    }}
-  >
-    <div
-      style={{
-        float: "right"
-      }}
-    >
-      {/* TODO: supported languages passed in props; create localeToggle.tsx component */}
-      <Link to="/" style={{ color: "#eee" }}>
-        English
-      </Link> |
-      <Link to="/it" style={{ color: "#eee" }}>
-        Italiano
-      </Link>
-    </div>
-    <div
-      style={{
-        margin: `0 auto`,
-        maxWidth: 960,
-        padding: `1.45rem 1.0875rem`,
-      }}
-    >
-      <h1 style={{ margin: 0 }}>
-        <Link
-          to="/"
-          style={{
-            color: `white`,
-            textDecoration: `none`,
-          }}
-        >
-          {siteTitle}
-        </Link>
-      </h1>
-    </div>
-  </header>
+const Header = () => (
+  <StaticQuery
+    query={graphql`
+      query HeadingQuery {
+        allShopifyCollection {
+          edges {
+            node {
+              handle
+              title
+            }
+          }
+        }
+      }
+    `}
+    render={data => (
+      <header
+        style={{
+          height: "200px",
+          overflow: "scroll",
+          borderBottom: "1px solid #666",
+          backgroundColor: "#eee",
+          marginBottom: "20px"
+        }}
+      >
+        {data.allShopifyCollection.edges.map(edge => {
+          const { handle, title } = edge.node;
+          return (
+            <Link
+              key={handle}
+              to={`/collections/${handle}`}
+              style={{
+                fontSize: "12px",
+                display: "inline-block",
+                width: "200px",
+                overflow: "hidden",
+                whiteSpace: "nowrap",
+                marginLeft: "20px"
+              }}
+            >
+              {title}
+            </Link>
+          );
+        })}
+      </header>
+    )}
+  />
 );
-
-Header.propTypes = {
-  siteTitle: PropTypes.string
-};
-
-Header.defaultProps = {
-  siteTitle: ``
-};
 
 export default Header;
