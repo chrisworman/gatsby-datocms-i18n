@@ -1,11 +1,33 @@
 #!/bin/bash
 
-# TODO: ensure nvm
+echo "This script assumes zsh is your default shell"
 
+# Ensure nvm
+if [[ $(command -v nvm) ]]; then
+    echo "✓ nvm found"
+else
+    echo "- installing nvm"
+    curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.32.1/install.sh | bash
+    # echo '# nvm' >> ~/.zshrc
+    # echo 'export NVM_DIR="$HOME/.nvm"' >> ~/.zshrc
+    # echo '[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh" # This loads nvm' >> ~/.zshrc
+    source ~/.zshrc
+fi
+
+# Ensure node and use correct version
 nvm install v13.10.1
 nvm use
 
-# TODO: ensure yarn
+# Ensure yarn
+if [[ $(which yarn) ]]; then
+    echo "✓ yarn found"
+else
+    echo "- installing yarn"
+    brew install yarn
+fi
 
+# Install gatsby-cli globally
 yarn global add gatsby-cli
+
+# Install dependencies
 yarn install
