@@ -14,6 +14,7 @@ type CollectionProps = {
 type CollectionEdge = {
   node: {
     handle: string;
+    title: string;
     descriptionHtml: string;
     // TODO: extract GatsbyFluidImage type into new file?
     image: {
@@ -23,30 +24,34 @@ type CollectionEdge = {
         };
       };
     };
+    products: CollectionProduct[];
   };
+};
+
+type CollectionProduct = {
+  title: string;
+  availableForSale: string;
+  descriptionHtml: string;
+  handle: string;
 };
 
 class Collection extends React.Component<CollectionProps> {
   render() {
     const { edges } = this.props.data.allShopifyCollection;
     if (edges && edges.length === 1) {
-      // TODO: products and title
-      const { descriptionHtml, image } = edges[0].node;
-      // Not all collections have descriptionHtml
-      // if (handle && title && products && image) {
+      const { title, descriptionHtml, image, products } = edges[0].node;
       // TODO: site data (eg. site title)
       // TODO: i18n?
       return (
-        <Layout siteTitle={"Pela"} pageTitle={"title"}>
-          {/* <h1>{title}</h1> */}
+        <Layout siteTitle={"Pela"} pageTitle={title}>
+          <h1>{title}</h1>
           {image ? (
             <Image fluid={image.localFile.childImageSharp.fluid} />
           ) : null}
           <div dangerouslySetInnerHTML={{ __html: descriptionHtml }} />
-          {/* {products.map(product => this.getCollectionProduct(product))} */}
+          {products.map(product => this.getCollectionProduct(product))}
         </Layout>
       );
-      //}
     }
     return (
       <Layout siteTitle={"Pela"} pageTitle={"Unknown"}>
@@ -55,20 +60,20 @@ class Collection extends React.Component<CollectionProps> {
     );
   }
 
-  // getCollectionProduct(product: CollectionProduct) {
-  //   if (product && product.availableForSale) {
-  //     return (
-  //       <div>
-  //         <hr />
-  //         <h3>
-  //           <Link to={`/products/${product.handle}`}>{product.title}</Link>
-  //         </h3>
-  //         <div dangerouslySetInnerHTML={{ __html: product.descriptionHtml }} />
-  //       </div>
-  //     );
-  //   }
-  //   return null;
-  // }
+  getCollectionProduct(product: CollectionProduct) {
+    if (product && product.availableForSale) {
+      return (
+        <div>
+          <hr />
+          <h3>
+            <Link to={`/products/${product.handle}`}>{product.title}</Link>
+          </h3>
+          <div dangerouslySetInnerHTML={{ __html: product.descriptionHtml }} />
+        </div>
+      );
+    }
+    return null;
+  }
 }
 
 export default Collection;
@@ -79,6 +84,7 @@ export const query = graphql`
       edges {
         node {
           handle
+          title
           descriptionHtml
           image {
             localFile {
@@ -88,6 +94,12 @@ export const query = graphql`
                 }
               }
             }
+          }
+          products {
+            availableForSale
+            title
+            descriptionHtml
+            handle
           }
         }
       }
