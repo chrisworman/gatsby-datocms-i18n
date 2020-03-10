@@ -74,35 +74,25 @@ exports.createPages = async ({ graphql, actions }) => {
         edges {
           node {
             handle
-            title
-            descriptionHtml
-            products {
-              handle
-              availableForSale
-              title
-              descriptionHtml
-            }
           }
         }
       }
     }
   `).then(result => {
     result.data.allShopifyCollection.edges.forEach(({ node }) => {
-      const { handle, title, descriptionHtml, products } = node;
+      const { handle } = node;
       createPage({
         path: `/collections/${handle}/`,
         component: path.resolve(`./src/templates/shopify/collection.tsx`),
-        context: {
-          handle,
-          title,
-          descriptionHtml,
-          products
-        }
+        context: { handle }
       });
     });
   });
 
   // Shopify product landing pages
+  // TODO: seems like I should only be querying for 'handle' then
+  // resolve the remaining "product" data in the product template component
+  // see: https://github.com/gatsbyjs/gatsby/issues/8156
   graphql(`
     {
       allShopifyProduct {

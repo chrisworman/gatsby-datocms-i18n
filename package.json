@@ -40,7 +40,7 @@
   "main": "n/a",
   "scripts": {
     "build": "time gatsby build",
-    "develop": "time gatsby develop",
+    "develop": "gatsby develop",
     "format": "prettier --write \"**/*.{js,jsx,json,md}\"",
     "start": "yarn develop",
     "serve": "gatsby serve",

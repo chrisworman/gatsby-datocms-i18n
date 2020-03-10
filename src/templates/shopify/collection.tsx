@@ -1,58 +1,96 @@
 import React from "react";
 import Layout from "../../components/layout";
-import { Link } from "gatsby";
+import { Link, graphql } from "gatsby";
+import Image, { FluidObject } from "gatsby-image";
 
 type CollectionProps = {
-  pageContext: {
-    handle: string;
-    title: string;
-    descriptionHtml: string;
-    products: CollectionProduct[];
+  data: {
+    allShopifyCollection: {
+      edges: CollectionEdge[];
+    };
   };
 };
 
-type CollectionProduct = {
-  availableForSale: boolean;
-  title: string;
-  descriptionHtml: string;
-  handle: string;
+type CollectionEdge = {
+  node: {
+    handle: string;
+    descriptionHtml: string;
+    // TODO: extract GatsbyFluidImage type into new file?
+    image: {
+      localFile: {
+        childImageSharp: {
+          fluid: FluidObject;
+        };
+      };
+    };
+  };
 };
 
 class Collection extends React.Component<CollectionProps> {
   render() {
-    const { pageContext } = this.props;
-    if (pageContext) {
-      const { handle, descriptionHtml, title, products } = pageContext;
+    const { edges } = this.props.data.allShopifyCollection;
+    if (edges && edges.length === 1) {
+      // TODO: products and title
+      const { descriptionHtml, image } = edges[0].node;
       // Not all collections have descriptionHtml
-      if (handle && title && products) {
-        // TODO: site data (eg. site title)
-        // TODO: i18n?
-        return (
-          <Layout siteTitle={"Pela"} pageTitle={title}>
-            <h1>{title}</h1>
-            <div dangerouslySetInnerHTML={{ __html: descriptionHtml }} />
-            {products.map(product => this.getCollectionProduct(product))}
-          </Layout>
-        );
-      }
+      // if (handle && title && products && image) {
+      // TODO: site data (eg. site title)
+      // TODO: i18n?
+      return (
+        <Layout siteTitle={"Pela"} pageTitle={"title"}>
+          {/* <h1>{title}</h1> */}
+          {image ? (
+            <Image fluid={image.localFile.childImageSharp.fluid} />
+          ) : null}
+          <div dangerouslySetInnerHTML={{ __html: descriptionHtml }} />
+          {/* {products.map(product => this.getCollectionProduct(product))} */}
+        </Layout>
+      );
+      //}
     }
-    return <p>No data for collection page</p>;
+    return (
+      <Layout siteTitle={"Pela"} pageTitle={"Unknown"}>
+        <p>No edges for collection page</p>
+      </Layout>
+    );
   }
 
-  getCollectionProduct(product: CollectionProduct) {
-    if (product && product.availableForSale) {
-      return (
-        <div>
-          <hr />
-          <h3>
-            <Link to={`/products/${product.handle}`}>{product.title}</Link>
-          </h3>
-          <div dangerouslySetInnerHTML={{ __html: product.descriptionHtml }} />
-        </div>
-      );
-    }
-    return null;
-  }
+  // getCollectionProduct(product: CollectionProduct) {
+  //   if (product && product.availableForSale) {
+  //     return (
+  //       <div>
+  //         <hr />
+  //         <h3>
+  //           <Link to={`/products/${product.handle}`}>{product.title}</Link>
+  //         </h3>
+  //         <div dangerouslySetInnerHTML={{ __html: product.descriptionHtml }} />
+  //       </div>
+  //     );
+  //   }
+  //   return null;
+  // }
 }
 
 export default Collection;
+
+export const query = graphql`
+  query CollectionQuery($handle: String!) {
+    allShopifyCollection(filter: { handle: { eq: $handle } }) {
+      edges {
+        node {
+          handle
+          descriptionHtml
+          image {
+            localFile {
+              childImageSharp {
+                fluid(maxWidth: 1000) {
+                  ...GatsbyImageSharpFluid
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+`;
