@@ -4,7 +4,7 @@ exports.createPages = async ({ graphql, actions }) => {
   const { createPage } = actions;
   const locales = ["it", "en"]; // TODO: Move to CMS?
 
-  // Create core pages
+  // Create pages defined in code, i.e. pages that are "baked-in"
   Promise.all(
     locales.map(locale => {
       graphql(`
@@ -36,6 +36,9 @@ exports.createPages = async ({ graphql, actions }) => {
   );
 
   // Create custom defined in CMS (eg. landing pages for ads)
+  // TODO: I think the better pattern is for the slug/locale to be passed to
+  // the custom page then the custom page queries 'allDatoCmsCustompage'
+  // using the slug/locale to get the title and html
   graphql(`
     {
       customPage: allDatoCmsCustompage {
@@ -90,33 +93,24 @@ exports.createPages = async ({ graphql, actions }) => {
   });
 
   // Shopify product landing pages
-  // TODO: seems like I should only be querying for 'handle' then
-  // resolve the remaining "product" data in the product template component
-  // see: https://github.com/gatsbyjs/gatsby/issues/8156
   graphql(`
     {
       allShopifyProduct {
         edges {
           node {
             handle
-            title
-            descriptionHtml
           }
         }
       }
     }
   `).then(result => {
     result.data.allShopifyProduct.edges.forEach(({ node }) => {
-      const { handle, title, descriptionHtml } = node;
+      const { handle } = node;
       createPage({
         path: `/products/${handle}/`,
         component: path.resolve(`./src/templates/shopify/product.tsx`),
-        context: {
-          title,
-          descriptionHtml
-        }
+        context: { handle }
       });
     });
   });
-
 };
