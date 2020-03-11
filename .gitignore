@@ -79,3 +79,5 @@ typings/
 .cache/
 public
 
+# OSX noise
+.DS_Store
