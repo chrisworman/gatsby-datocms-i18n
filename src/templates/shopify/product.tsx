@@ -1,7 +1,7 @@
 import React from "react";
 import Layout from "../../components/layout";
 import { graphql } from "gatsby";
-import Image from "gatsby-image";
+import Image, { FluidObject } from "gatsby-image";
 
 type ProductProps = {
   data: {
@@ -16,38 +16,46 @@ type ProductEdge = {
     handle: string;
     title: string;
     descriptionHtml: string;
-    // TODO: extract GatsbyFluidImage (LocalGatsbyFluidImage?) type into new file?
-    // images: {
-    //   localFile: {
-    //     childImageSharp: {
-    //       fluid: FluidObject;
-    //     };
-    //   };
-    // };
+    images: LocalGatsbyFluidImage[];
+  };
+};
+
+type LocalGatsbyFluidImage = {
+  localFile: {
+    childImageSharp: {
+      fluid: FluidObject;
+    };
   };
 };
 
 class Product extends React.Component<ProductProps> {
   render() {
-    console.log(JSON.stringify(this.props));
     const { edges } = this.props.data.allShopifyProduct;
     if (edges && edges.length === 1) {
-      const { descriptionHtml, title } = edges[0].node;
+      const { descriptionHtml, title, images } = edges[0].node;
       if (title && descriptionHtml) {
         // TODO: site data (eg. site title)
         // TODO: i18n?
         return (
           <Layout siteTitle={"Pela"} pageTitle={title}>
             <h1>{title}</h1>
-            {/* {images ? (
-              <Image fluid={images.localFile.childImageSharp.fluid} />
-            ) : null} */}
             <div dangerouslySetInnerHTML={{ __html: descriptionHtml }} />
+            {this.productImages(images)}
           </Layout>
         );
       }
     }
     return <p>No data for product page</p>;
+  }
+
+  // TODO: replace with carousel/slider
+  productImages(images: LocalGatsbyFluidImage[]) {
+    if (images) {
+      return images.map(image => {
+        return <Image fluid={image.localFile.childImageSharp.fluid} />
+      });
+    }
+    return null;
   }
 }
 
@@ -61,18 +69,18 @@ export const query = graphql`
           handle
           title
           descriptionHtml
+          images {
+            localFile {
+              childImageSharp {
+                fluid(maxWidth: 1000) {
+                  ...GatsbyImageSharpFluid
+                }
+              }
+            }
+          }
         }
       }
     }
   }
 `;
 
-// images {
-//   localFile {
-//     childImageSharp {
-//       fluid(maxWidth: 1000) {
-//         ...GatsbyImageSharpFluid
-//       }
-//     }
-//   }
-// }

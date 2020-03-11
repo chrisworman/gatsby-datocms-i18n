@@ -86,7 +86,7 @@ exports.createPages = async ({ graphql, actions }) => {
     result.data.allShopifyCollection.edges.forEach(({ node }) => {
       const { handle } = node;
       createPage({
-        path: `/collections/${handle}/`,
+        path: `/collections/${handle}`,
         component: path.resolve(`./src/templates/shopify/collection.tsx`),
         context: { handle }
       });
@@ -108,7 +108,7 @@ exports.createPages = async ({ graphql, actions }) => {
     result.data.allShopifyProduct.edges.forEach(({ node }) => {
       const { handle } = node;
       createPage({
-        path: `/products/${handle}/`,
+        path: `/products/${handle}`,
         component: path.resolve(`./src/templates/shopify/product.tsx`),
         context: { handle }
       });
