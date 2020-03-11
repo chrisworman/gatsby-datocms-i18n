@@ -8,9 +8,6 @@ if [[ $(command -v nvm) ]]; then
 else
     echo "- installing nvm"
     curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.32.1/install.sh | bash
-    # echo '# nvm' >> ~/.zshrc
-    # echo 'export NVM_DIR="$HOME/.nvm"' >> ~/.zshrc
-    # echo '[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh" # This loads nvm' >> ~/.zshrc
     source ~/.zshrc
 fi
 
