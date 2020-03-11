@@ -1,4 +1,4 @@
-## Shopify Store API Metafield Setup
+## Shopify Storefront API Metafield Setup
 
 By default, shopify entity `metafields` are not exposed to the storefront API.  Since we use `metafields` to express product variant information,
 we need the `metafields` exposed in the shopify storefront API.  Here are the steps used to exposes the product metafields to the shopify storefront api.
