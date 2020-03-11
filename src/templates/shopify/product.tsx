@@ -20,7 +20,9 @@ type ProductEdge = {
   };
 };
 
+// TODO: extract
 type LocalGatsbyFluidImage = {
+  id: string;
   localFile: {
     childImageSharp: {
       fluid: FluidObject;
@@ -52,7 +54,7 @@ class Product extends React.Component<ProductProps> {
   productImages(images: LocalGatsbyFluidImage[]) {
     if (images) {
       return images.map(image => {
-        return <Image fluid={image.localFile.childImageSharp.fluid} />
+        return image ? <Image key={image.id} fluid={image.localFile.childImageSharp.fluid} /> : null;
       });
     }
     return null;
@@ -62,14 +64,15 @@ class Product extends React.Component<ProductProps> {
 export default Product;
 
 export const query = graphql`
-  query ProductQuery($handle: String!) {
-    allShopifyProduct(filter: { handle: { eq: $handle } }) {
+  query ProductQuery($id: String!) {
+    allShopifyProduct(filter: { id: { eq: $id } }) {
       edges {
         node {
           handle
           title
           descriptionHtml
           images {
+            id
             localFile {
               childImageSharp {
                 fluid(maxWidth: 1000) {

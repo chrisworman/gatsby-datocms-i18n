@@ -11,4 +11,3 @@ Now you're ready to build the project and start the development server:
 ```
 $ yarn develop
 ```
-

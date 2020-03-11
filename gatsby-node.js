@@ -77,6 +77,7 @@ exports.createPages = async ({ graphql, actions }) => {
       allShopifyCollection {
         edges {
           node {
+            id
             handle
           }
         }
@@ -84,11 +85,11 @@ exports.createPages = async ({ graphql, actions }) => {
     }
   `).then(result => {
     result.data.allShopifyCollection.edges.forEach(({ node }) => {
-      const { handle } = node;
+      const { id, handle } = node;
       createPage({
         path: `/collections/${handle}`,
         component: path.resolve(`./src/templates/shopify/collection.tsx`),
-        context: { handle }
+        context: { id }
       });
     });
   });
@@ -99,6 +100,7 @@ exports.createPages = async ({ graphql, actions }) => {
       allShopifyProduct {
         edges {
           node {
+            id
             handle
           }
         }
@@ -106,11 +108,11 @@ exports.createPages = async ({ graphql, actions }) => {
     }
   `).then(result => {
     result.data.allShopifyProduct.edges.forEach(({ node }) => {
-      const { handle } = node;
+      const { id, handle } = node;
       createPage({
         path: `/products/${handle}`,
         component: path.resolve(`./src/templates/shopify/product.tsx`),
-        context: { handle }
+        context: { id }
       });
     });
   });

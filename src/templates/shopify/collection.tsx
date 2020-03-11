@@ -16,7 +16,7 @@ type CollectionEdge = {
     handle: string;
     title: string;
     descriptionHtml: string;
-    // TODO: extract GatsbyFluidImage type into new file?
+    // TODO: extract LocalGatsbyFluidImage type into new file?  See product.tsx
     image: {
       localFile: {
         childImageSharp: {
@@ -62,13 +62,14 @@ class Collection extends React.Component<CollectionProps> {
 
   getCollectionProduct(product: CollectionProduct) {
     if (product && product.availableForSale) {
+      const { handle, title, descriptionHtml } = product;
       return (
-        <div>
+        <div key={handle}>
           <hr />
           <h3>
-            <Link to={`/products/${product.handle}`}>{product.title}</Link>
+            <Link to={`/products/${handle}`}>{title}</Link>
           </h3>
-          <div dangerouslySetInnerHTML={{ __html: product.descriptionHtml }} />
+          <div dangerouslySetInnerHTML={{ __html: descriptionHtml }} />
         </div>
       );
     }
@@ -79,8 +80,8 @@ class Collection extends React.Component<CollectionProps> {
 export default Collection;
 
 export const query = graphql`
-  query CollectionQuery($handle: String!) {
-    allShopifyCollection(filter: { handle: { eq: $handle } }) {
+  query CollectionQuery($id: String!) {
+    allShopifyCollection(filter: { id: { eq: $id } }) {
       edges {
         node {
           handle
