@@ -1,7 +1,7 @@
 import React from "react";
 import { graphql } from "gatsby";
-import Layout from "../components/layout";
-import LocalizedLink from "../components/localizedLink";
+import Layout from "../../components/layout";
+import LocalizedLink from "../../components/localizedLink";
 
 // TODO: move to its own file
 type DatoCmsProps<X> = {

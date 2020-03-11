@@ -4,7 +4,8 @@ exports.createPages = async ({ graphql, actions }) => {
   const { createPage } = actions;
   const locales = ["it", "en"]; // TODO: Move to CMS?
 
-  // Create pages defined in code, i.e. pages that are "baked-in"
+  // Create pages defined in code, i.e. pages that are "baked-in",
+  // but have localized content defined in dato
   Promise.all(
     locales.map(locale => {
       graphql(`
@@ -27,7 +28,7 @@ exports.createPages = async ({ graphql, actions }) => {
           const slug = pageData.slug ? pageData.slug : "";
           createPage({
             path: `${localePrefix}/${slug}`,
-            component: path.resolve(`./src/templates/${pageId}.tsx`), // TODO: add a check to ensure the page template exists?
+            component: path.resolve(`./src/templates/dato/${pageId}.tsx`), // TODO: add a check to ensure the page template exists?
             context: { locale: pageData.locale } // TODO: coallesce with default locale?
           });
         });
@@ -35,7 +36,7 @@ exports.createPages = async ({ graphql, actions }) => {
     })
   );
 
-  // Create custom defined in CMS (eg. landing pages for ads)
+  // Create custom pages defined in CMS (eg. landing pages for ads)
   // TODO: I think the better pattern is for the slug/locale to be passed to
   // the custom page then the custom page queries 'allDatoCmsCustompage'
   // using the slug/locale to get the title and html
@@ -62,7 +63,7 @@ exports.createPages = async ({ graphql, actions }) => {
       const { slug, title, html } = pageData;
       createPage({
         path: `${localePrefix}/${slug}`,
-        component: path.resolve(`./src/templates/customPage.tsx`), // TODO: add a check to ensure the page template exists?
+        component: path.resolve(`./src/templates/dato/customPage.tsx`),
         context: { title, html }
       });
     });
