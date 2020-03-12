@@ -4,8 +4,7 @@ exports.createPages = async ({ graphql, actions }) => {
   const { createPage } = actions;
   const locales = ["it", "en"]; // TODO: Move to CMS?
 
-  // Create pages defined in code, i.e. pages that are "baked-in",
-  // but have localized content defined in dato
+  /* Create pages defined in code, i.e. pages that are "baked-in", but have localized content defined in dato */
   Promise.all(
     locales.map(locale => {
       graphql(`
@@ -33,14 +32,14 @@ exports.createPages = async ({ graphql, actions }) => {
           });
         });
       });
-    })
+    }),
   );
 
-  // Create custom pages defined in CMS (eg. landing pages for ads)
+  /* Create custom pages defined in CMS (eg. landing pages for ads) */
   // TODO: I think the better pattern is for the slug/locale to be passed to
   // the custom page then the custom page queries 'allDatoCmsCustompage'
   // using the slug/locale to get the title and html
-  graphql(`
+  const datoCustomPageResult = await graphql(`
     {
       customPage: allDatoCmsCustompage {
         edges {
@@ -53,25 +52,25 @@ exports.createPages = async ({ graphql, actions }) => {
         }
       }
     }
-  `).then(result => {
-    result.data.customPage.edges.forEach(edge => {
-      const pageData = edge.node;
-      // TODO: move "en" to constants file
-      // TODO: consider consolidating localized link creation to helper utility (see LocalizedLink)
-      const localePrefix =
-        pageData.locale === "en" ? "" : `/${pageData.locale}`;
-      const { slug, title, html } = pageData;
-      createPage({
-        path: `${localePrefix}/${slug}`,
-        component: path.resolve(`./src/templates/dato/customPage.tsx`),
-        context: { title, html }
-      });
+  `);
+  
+  datoCustomPageResult.data.customPage.edges.forEach(edge => {
+    const pageData = edge.node;
+    // TODO: move "en" to constants file
+    // TODO: consider consolidating localized link creation to helper utility (see LocalizedLink)
+    const localePrefix =
+      pageData.locale === "en" ? "" : `/${pageData.locale}`;
+    const { slug, title, html } = pageData;
+    createPage({
+      path: `${localePrefix}/${slug}`,
+      component: path.resolve(`./src/templates/dato/customPage.tsx`),
+      context: { title, html }
     });
   });
 
   // TODO: consider i18n for shopify content
 
-  // Shopify collection landing pages
+  /* Shopify collection landing pages */
   graphql(`
     {
       allShopifyCollection {
@@ -94,7 +93,9 @@ exports.createPages = async ({ graphql, actions }) => {
     });
   });
 
-  // Shopify product landing pages
+  /* Shopify product landing pages */
+
+  // First build a map of products by handle
   graphql(`
     {
       allShopifyProduct {
@@ -102,18 +103,57 @@ exports.createPages = async ({ graphql, actions }) => {
           node {
             id
             handle
+            metafields {
+              key
+              value
+            }
           }
         }
       }
     }
   `).then(result => {
+    const productsByHandle = new Map();
     result.data.allShopifyProduct.edges.forEach(({ node }) => {
-      const { id, handle } = node;
+      const { id, handle, metafields } = node;
+      const colourMeta = metafields.find(x => x.key === "colour");
+      const colour = colourMeta ? colourMeta.value : null;
+      const handlesMeta = metafields.find(x => x.key === "handles");
+      const variants = handlesMeta && handlesMeta.value ? handlesMeta.value.split("|").map(x => x.trim()).filter(x => x !== handle).map(x => { return { handle: x } }) : [];
+
+      productsByHandle.set(
+        handle, 
+        {
+          id,
+          handle,
+          colour,
+          variants
+        });
+    });
+
+    console.log(`${productsByHandle.size} products found`);
+
+    // Populate variant colours
+    for (let product of productsByHandle.values()) {
+      const { variants } = product;
+      for (let i=0; i<variants.length; i++) {
+        const variant = variants[i];
+        const variantProduct = productsByHandle.get(variant.handle);
+        if (variantProduct) {
+          variant.colour = variantProduct.colour;
+        } else {
+          console.log(`WARNING: no product variant found for handle "${variant.handle}".  The "${product.handle}" product page will not should this variant.`);
+        }
+      }
+    }
+
+    // Create the shopify product landing pages
+    for (let product of productsByHandle.values()) {
+      const { id, handle, variants } = product;
       createPage({
         path: `/products/${handle}`,
         component: path.resolve(`./src/templates/shopify/product.tsx`),
-        context: { id }
+        context: { id, variants }
       });
-    });
+    }
   });
 };
