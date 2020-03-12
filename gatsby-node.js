@@ -120,6 +120,9 @@ exports.createPages = async ({ graphql, actions }) => {
       const handlesMeta = metafields.find(x => x.key === "handles");
       const variants = handlesMeta && handlesMeta.value ? handlesMeta.value.split("|").map(x => x.trim()).filter(x => x !== handle).map(x => { return { handle: x } }) : [];
 
+      // Add the actual product as a variant (for swatches)
+      variants.push({ colour, handle });
+
       productsByHandle.set(
         handle, 
         {
@@ -148,11 +151,11 @@ exports.createPages = async ({ graphql, actions }) => {
 
     // Create the shopify product landing pages
     for (let product of productsByHandle.values()) {
-      const { id, handle, variants } = product;
+      const { id, handle, variants, colour } = product;
       createPage({
         path: `/products/${handle}`,
         component: path.resolve(`./src/templates/shopify/product.tsx`),
-        context: { id, variants }
+        context: { id, variants, handle, colour }
       });
     }
   });

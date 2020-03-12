@@ -18,7 +18,7 @@ const Header = () => (
     render={data => (
       <header
         style={{
-          height: "200px",
+          height: "100px",
           overflow: "scroll",
           borderBottom: "1px solid #666",
           backgroundColor: "#eee",

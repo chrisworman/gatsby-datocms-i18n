@@ -14,6 +14,7 @@ type ProductProps = {
 
 type ProductEdge = {
   node: {
+    colour: string;
     handle: string;
     title: string;
     descriptionHtml: string;
@@ -36,13 +37,15 @@ class Product extends React.Component<ProductProps> {
     const { edges } = this.props.data.allShopifyProduct;
     if (edges && edges.length === 1) {
       const { descriptionHtml, title, images } = edges[0].node;
-      if (title && descriptionHtml) {
+      if (title) {
         // TODO: site data (eg. site title)
         // TODO: i18n?
         return (
           <Layout siteTitle={"Pela"} pageTitle={title}>
             <h1>{title}</h1>
-            <div dangerouslySetInnerHTML={{ __html: descriptionHtml }} />
+            {descriptionHtml ?
+             <div dangerouslySetInnerHTML={{ __html: descriptionHtml }} /> : null
+             }
             {this.variants()}
             {this.productImages(images)}
           </Layout>
@@ -103,16 +106,19 @@ class Product extends React.Component<ProductProps> {
       neomint: '#91f3a5',
       yellow: '#f4c712'
     };
+    const { edges } = this.props.data.allShopifyProduct;
+    const { handle } = edges[0].node; // TODO: use to highlight current swatch
     const { variants } = this.props.pageContext;
     if (variants) {
-      console.log(`Product this.props.pageContext.variants = ${JSON.stringify(variants)}`);
+      variants.sort((x, y) => x.handle.localeCompare(y.handle));
+      console.log(JSON.stringify(variants));
       return variants
         .filter(x => x.colour && x.handle)
         .map(x => {
-          const colourHex = colourToHex[x.colour] || "#000";
+          const backgroundColor = colourToHex[x.colour] || "#000";
           return (
             <Link key={x.handle} to={`/products/${x.handle}`}>
-              <div style={{ display: "inline-block", width : "25px", height: "25px", border: "solid 1px #333", backgroundColor: colourHex}}></div>
+              <div style={{ display: "inline-block", marginLeft: "10px", width : "25px", height: "25px", border: "solid 1px #333", backgroundColor}}></div>
             </Link>
           );
         });
