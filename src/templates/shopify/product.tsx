@@ -1,6 +1,6 @@
 import React from "react";
 import Layout from "../../components/layout";
-import { graphql } from "gatsby";
+import { graphql, Link } from "gatsby";
 import Image, { FluidObject } from "gatsby-image";
 
 type ProductProps = {
@@ -9,6 +9,7 @@ type ProductProps = {
       edges: ProductEdge[];
     };
   };
+  pageContext: any;
 };
 
 type ProductEdge = {
@@ -42,6 +43,7 @@ class Product extends React.Component<ProductProps> {
           <Layout siteTitle={"Pela"} pageTitle={title}>
             <h1>{title}</h1>
             <div dangerouslySetInnerHTML={{ __html: descriptionHtml }} />
+            {this.variants()}
             {this.productImages(images)}
           </Layout>
         );
@@ -58,6 +60,65 @@ class Product extends React.Component<ProductProps> {
       });
     }
     return null;
+  }
+
+  variants() {
+    const colourToHex = {
+      black: '#000000',
+      green: '#416365',
+      lavender: '#9ea3e3',
+      beetroot: '#661c1a',
+      blue: '#3a376d',
+      ocean_turquoise: '#a5e5d5',
+      rose_quartz: '#efc9e0',
+      oceana_blue: '#167cdf',
+      skyblue: '#a3d3ee',
+      sunshine_yellow: '#f3f36d',
+      white: '#fafafa',
+      red: '#aa2c37',
+      red_canada: '#c80707',
+      shark_skin: '#767b7f',
+      light_brown: '#d6b691',
+      oceana_blue_wavemaker: '#177fdd',
+      honey: '#deaa15',
+      honey_bee: '#f2b811',
+      coral: '#ff6d6d',
+      seashell: '#fceec2',
+      seashell_flower: '#f9ecd0',
+      tidal: '#308ba1',
+      moss: '#427141',
+      moss_flower: '#859b84',
+      brown: '#5e3434',
+      clear_shiny: '#fef8f8',
+      gray: '#d0d0d0',
+      matt_black: '#000000',
+      clear_matt: '#fefbfb',
+      pumpkin_spice: '#f6a538',
+      clay: '#969090',
+      wave: '#706f7d',
+      orange: '#ed9111',
+      cassis: '#9b0808',
+      cantaloupe: '#f2965a',
+      puristblue: '#20ade9',
+      neomint: '#91f3a5',
+      yellow: '#f4c712'
+    };
+    const { variants } = this.props.pageContext;
+    if (variants) {
+      console.log(`Product this.props.pageContext.variants = ${JSON.stringify(variants)}`);
+      return variants
+        .filter(x => x.colour && x.handle)
+        .map(x => {
+          const colourHex = colourToHex[x.colour] || "#000";
+          return (
+            <Link key={x.handle} to={`/products/${x.handle}`}>
+              <div style={{ display: "inline-block", width : "25px", height: "25px", border: "solid 1px #333", backgroundColor: colourHex}}></div>
+            </Link>
+          );
+        });
+    } else {
+      console.log('No variants found in this.props.pageContext');
+    }
   }
 }
 
