@@ -111,7 +111,6 @@ class Product extends React.Component<ProductProps> {
     const { variants } = this.props.pageContext;
     if (variants) {
       variants.sort((x, y) => x.handle.localeCompare(y.handle));
-      console.log(JSON.stringify(variants));
       return variants
         .filter(x => x.colour && x.handle)
         .map(x => {

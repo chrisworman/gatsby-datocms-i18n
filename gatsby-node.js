@@ -144,7 +144,7 @@ exports.createPages = async ({ graphql, actions }) => {
         if (variantProduct) {
           variant.colour = variantProduct.colour;
         } else {
-          console.log(`WARNING: no product variant found for handle "${variant.handle}".  The "${product.handle}" product page will not should this variant.`);
+          console.log(`WARNING: no product variant found for handle "${variant.handle}".  The "${product.handle}" product page will not show this variant.`);
         }
       }
     }
