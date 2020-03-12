@@ -116,9 +116,10 @@ class Product extends React.Component<ProductProps> {
         .filter(x => x.colour && x.handle)
         .map(x => {
           const backgroundColor = colourToHex[x.colour] || "#000";
+          const border = handle === x.handle ? "solid 2px #333" : "solid 2px #fff";
           return (
             <Link key={x.handle} to={`/products/${x.handle}`}>
-              <div style={{ display: "inline-block", marginLeft: "10px", width : "25px", height: "25px", border: "solid 1px #333", backgroundColor}}></div>
+              <div style={{ display: "inline-block", marginLeft: "10px", width : "25px", height: "25px", border, backgroundColor}}></div>
             </Link>
           );
         });
