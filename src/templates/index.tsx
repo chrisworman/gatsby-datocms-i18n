@@ -26,6 +26,9 @@ type HomeEdge = {
 
 type HomeSection = {
     id: string;
+    icon: {
+        url: string;
+    }
     description: string;
     linktext: string;
     linkurl: string;
@@ -50,7 +53,7 @@ class IndexPage extends React.Component<DatoCmsProps<IndexProps>> {
                 return (
                     <CallToAction
                         key={section.id}
-                        icon=""
+                        icon={section.icon?.url}
                         preTitle={section.pretitle}
                         title={section.title}
                         description={section.description}
@@ -81,13 +84,16 @@ export const query = graphql`
           node {
             sections {
               id
+              icon {
+                url
+              }
               description
               linktext
               linkurl
               pretitle
               title
               image {
-                  url
+                url
               }
             }
           }
