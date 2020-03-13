@@ -25,8 +25,8 @@ class Layout extends React.Component<LayoutProps> {
           }}
         >
           <main>{this.props.children}</main>
-          <footer>Footer goes here</footer>
         </div>
+        <footer>Footer goes here</footer>
       </>
     );
   }
