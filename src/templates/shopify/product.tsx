@@ -59,7 +59,8 @@ class Product extends React.Component<ProductProps> {
   productImages(images: LocalGatsbyFluidImage[]) {
     if (images) {
       return images.map(image => {
-        return image ? <Image key={image.id} fluid={image.localFile.childImageSharp.fluid} /> : null;
+        const { fluid } = image?.localFile?.childImageSharp;
+        return fluid ? <Image key={image.id} fluid={fluid} /> : null;
       });
     }
     return null;
