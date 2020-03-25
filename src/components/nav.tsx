@@ -5,7 +5,7 @@ const Nav = () => {
   return (
     <StaticQuery
         query={graphql`
-            query NavQuery {
+            query MainNavQuery {
                 allDatoCmsMainnav(sort: { fields: [position], order: ASC }) {
                     edges {
                         node {

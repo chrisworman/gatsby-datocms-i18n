@@ -2,6 +2,7 @@ import React from "react";
 import Nav from "./nav";
 import { Helmet } from "react-helmet";
 import "./layout.css";
+import Footer from "./footer";
 
 type LayoutProps = {
   siteTitle: string;
@@ -26,7 +27,7 @@ class Layout extends React.Component<LayoutProps> {
         >
           <main>{this.props.children}</main>
         </div>
-        <footer>Footer goes here</footer>
+        <Footer />
       </>
     );
   }
