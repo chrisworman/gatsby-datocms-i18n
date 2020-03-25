@@ -1,8 +1,7 @@
 import React from "react";
 import { graphql } from "gatsby";
 import Layout from "../components/layout";
-import CallToAction from "../components/callToAction";
-import { any } from "prop-types";
+import CallToAction from "../components/callToAction/callToAction";
 
 // TODO: move to its own file
 type DatoCmsProps<X> = {
@@ -26,6 +25,7 @@ type HomeEdge = {
 
 type HomeSection = {
     id: string;
+    layout: string;
     icon: {
         url: string;
     }
@@ -46,13 +46,15 @@ class IndexPage extends React.Component<DatoCmsProps<IndexProps>> {
       const layout = data?.layout;
       if (layout) {
         const { edges } = data?.home;
-        const sections = edges && edges.length ? edges[0]?.node?.sections : [];;
+        const sections = edges && edges.length ? edges[0]?.node?.sections : [];
         return (
             <Layout siteTitle={layout.sitetitle} pageTitle=''>
               {sections.map(section => {
+                  // TODO: switch on section type
                 return (
                     <CallToAction
                         key={section.id}
+                        layout={section.layout}
                         icon={section.icon?.url}
                         preTitle={section.pretitle}
                         title={section.title}
@@ -73,7 +75,7 @@ class IndexPage extends React.Component<DatoCmsProps<IndexProps>> {
 
 export default IndexPage;
 
-// TODO: home page content queries
+// TODO: section queries partitioned by section type (aka modular block type)
 export const query = graphql`
   query IndexQuery {
     layout: datoCmsLayout {
@@ -87,6 +89,7 @@ export const query = graphql`
               icon {
                 url
               }
+              layout
               description
               linktext
               linkurl
