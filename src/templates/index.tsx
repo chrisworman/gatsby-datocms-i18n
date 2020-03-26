@@ -1,7 +1,7 @@
 import React from "react";
 import { graphql } from "gatsby";
 import Layout from "../components/layout";
-import CallToAction from "../components/callToAction/callToAction";
+import ShowCase from "../components/showCase/showCase";
 
 // TODO: move to its own file
 type DatoCmsProps<X> = {
@@ -52,16 +52,16 @@ class IndexPage extends React.Component<DatoCmsProps<IndexProps>> {
               {sections.map(section => {
                   // TODO: switch on section type
                 return (
-                    <CallToAction
-                        key={section.id}
-                        layout={section.layout}
-                        icon={section.icon?.url}
-                        preTitle={section.pretitle}
-                        title={section.title}
-                        description={section.description}
-                        linkText={section.linktext}
-                        linkUrl={section.linkurl}
-                        image={section.image.url}
+                    <ShowCase
+                      key={section.id}
+                      layout={section.layout}
+                      icon={section.icon?.url}
+                      preTitle={section.pretitle}
+                      title={section.title}
+                      description={section.description}
+                      linkText={section.linktext}
+                      linkUrl={section.linkurl}
+                      image={section.image.url}
                     />
                 );
               })}

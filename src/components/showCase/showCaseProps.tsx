@@ -1,4 +1,4 @@
-type CallToActionProps = {
+type ShowCaseProps = {
     layout: string;
     icon: string;
     preTitle: string;
@@ -9,4 +9,4 @@ type CallToActionProps = {
     image: string;
 };
 
-export default CallToActionProps;
+export default ShowCaseProps;

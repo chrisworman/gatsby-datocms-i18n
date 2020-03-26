@@ -1,5 +1,6 @@
 import React from "react";
 import { StaticQuery, graphql } from "gatsby";
+import { PersonOutline } from '@material-ui/icons';
 
 const Nav = () => {  
   return (
@@ -99,12 +100,13 @@ const Nav = () => {
                                 style={{ 
                                     float: "left",
                                     width: "10%",
-                                    textAlign: "right"
+                                    textAlign: "right",
+                                    color: "#4f5057",
                                     }} 
                                 href="https://pelacase.com/account"
                                 title="My Account"
                             >
-                                Account
+                                <PersonOutline />
                             </a>
                             <div style={{ clear: "left" }}></div>
                         </div>
