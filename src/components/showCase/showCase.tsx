@@ -14,7 +14,7 @@ const ShowCase = (props: ShowCaseProps) => {
         case 'Two Column': 
             return <TwoColumnShowCase {... props} />;
         default:
-            console.error(`ShowCase layout "${layout}" not recognized.`);
+            console.log(`ShowCase layout "${layout}" not recognized.`);
             return null;
     }
 };

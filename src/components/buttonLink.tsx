@@ -15,7 +15,8 @@ const useStyles = makeStyles(theme => ({
         border: "solid 1px #000",
         textDecoration: "none",
         fontWeight: "bolder",
-    }
+        backgroundColor: '#fff',
+    },
 }));
 
 export default function ButtonLink(props: ButtonLinkProps) {
