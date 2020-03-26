@@ -2,6 +2,7 @@ import React from "react";
 import ShowCaseProps from "./showCaseProps";
 import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
+import ButtonLink from '../buttonLink';
 
 const useStyles = makeStyles(theme => ({
     twoColumnShowCase: {
@@ -80,8 +81,7 @@ export default function TwoColumnShowCase(props: ShowCaseProps) {
                 <h2 className={classes.preTitle}>{preTitle}</h2>
                 <h3 className={classes.title}>{title}</h3>
                 <p className={classes.description}>{description}</p>
-                {/* TODO: button link component */}
-                <a className="button-link" href={linkUrl}>{linkText}</a>
+                <ButtonLink text={linkText} url={linkUrl} />
             </Grid>
         </Grid>
     );
