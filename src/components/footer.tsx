@@ -56,13 +56,15 @@ const useStyles = makeStyles(theme => ({
     },
     copyright: {
         color: '#d0d0d0',
-        fontSize: '0.625rem',
         [theme.breakpoints.up('xs')]: {
             textAlign: 'center',
             paddingTop: '20px',
+            fontSize: '0.625rem',
         },
         [theme.breakpoints.up('md')]: {
             textAlign: 'left',
+            paddingTop: '0',
+            fontSize: '0.875rem',
         },
     },
     policyLinks: {
