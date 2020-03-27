@@ -61,7 +61,7 @@ class IndexPage extends React.Component<DatoCmsProps<IndexProps>> {
                       description={section.description}
                       linkText={section.linktext}
                       linkUrl={section.linkurl}
-                      image={section.image.url}
+                      image={section.image?.url}
                     />
                 );
               })}
