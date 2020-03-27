@@ -66,7 +66,7 @@ const useStyles = makeStyles(theme => ({
             textAlign: "left"
         },
     }
-  }));
+}));
 
 export default function TwoColumnShowCase(props: ShowCaseProps) {
     const classes = useStyles();

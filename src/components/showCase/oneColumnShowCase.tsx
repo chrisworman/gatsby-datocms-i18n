@@ -1,6 +1,5 @@
 import React from "react";
 import ShowCaseProps from "./showCaseProps";
-import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
 import ButtonLink from '../buttonLink';
 
@@ -9,14 +8,6 @@ const useStyles = makeStyles(theme => ({
         textAlign: "center",
         margin: "3rem 0"
     },
-    // column2: {
-    //     [theme.breakpoints.up('xs')]: {
-    //         textAlign: 'center',
-    //     },
-    //     [theme.breakpoints.up('md')]: {
-    //         textAlign: 'left',
-    //     }
-    // },
     image: {
         width: "100%",
         height: "auto",
@@ -56,7 +47,7 @@ const useStyles = makeStyles(theme => ({
             
         }
     }
-  }));
+}));
 
 export default function OneColumnShowCase(props: ShowCaseProps) {
     const classes = useStyles();

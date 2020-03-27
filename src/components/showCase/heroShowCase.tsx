@@ -86,7 +86,7 @@ const useStyles = makeStyles((theme => ({
             textAlign: "left",
         },
     }
-  })));
+})));
 
 export default function HeroShowCase(props: ShowCaseProps) {
     const classes = useStyles(props);
