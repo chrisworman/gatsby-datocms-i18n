@@ -1,8 +1,13 @@
 import React from "react";
 import { StaticQuery, graphql } from "gatsby";
-import { PersonOutline } from '@material-ui/icons';
+import { Menu, PersonOutline, ArrowBack } from '@material-ui/icons';
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
+import Button from '@material-ui/core/Button';
+import Drawer from '@material-ui/core/Drawer';
+import ExpansionPanel from '@material-ui/core/ExpansionPanel';
+import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
+import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 
 const useStyles = makeStyles(theme => ({
     header: {
@@ -19,10 +24,28 @@ const useStyles = makeStyles(theme => ({
             fontSize: "0.75rem"
         },
     },
+    logo: {
+        maxWidth: "3.5rem",
+    },
+    account: {
+        textAlign: "right",
+        '& a': {
+            color: "#4f5057",
+            display: "inline-block",
+            margin: "8px 10px 0 0px",
+        }
+    },
+    bannerBelowNav: {
+        height : "60px",
+        backgroundColor: "#000",
+    },
     fullNav: {
         [theme.breakpoints.down('sm')]: {
             display: 'none',
         },
+    },
+    fullNavLogoContainer: {
+        margin: "8px 10px",
     },
     fullNavItem: {
         '&:hover $fullNavMenu': {
@@ -84,25 +107,48 @@ const useStyles = makeStyles(theme => ({
         }
     },
     compactNav: {
+        padding: '5px',
         [theme.breakpoints.up('md')]: {
             display: 'none',
+        },
+    },
+    compactNavLogoContainer: {
+        textAlign: 'center',
+    },
+    compactNavMenuIconContainer: {
+        padding: "5px 0 0 0",
+    },
+    compactNavMenuIcon: {
+        cursor: 'pointer',
+    },
+    compactNavItem: {
+        color: '#000',
+        textDecoration: 'none',
+        fontWeight: 'bold',
+        fontSize: '1rem',
+        display: 'inline-block',
+        margin: '2rem',
+        cursor: 'pointer',
+    },
+    compactNavExpansion: {
+        border: 'none',
+        boxShadow: 'none',
+        width: '100%',
+        '&::before': {
+            display: 'none', // Remove divider
         }
     },
-    logo: {
-        maxWidth: "3.5rem",
-        margin: "8px 0 0 10px",
+    compactNavExpansionSummary: {
+        padding: '0',
     },
-    account: {
-        textAlign: "right",
-        '& a': {
-            color: "#4f5057",
-            display: "inline-block",
-            margin: "8px 10px 0 0px",
-        }
+    compactNavExpansionPanelDetails: {
+        display: 'block',
     },
-    bannerBelowNav: {
-        height : "60px",
-        backgroundColor: "#000",
+    compactNavMenuLink: {
+        display: 'block',
+        color: '#000',
+        textDecoration: 'none',
+        margin: '1rem 0',
     },
 }));
 
@@ -145,103 +191,211 @@ const createMenuGroupColumns = (menuGroups, menuItems) => {
     return menuColumnsByGroup;
 };
 
-export default function Nav() {  
-  return (
-    <StaticQuery
-        query={graphql`
-            query MainNavQuery {
-                allDatoCmsMainnav(sort: { fields: [position], order: ASC }) {
-                    edges {
-                        node {
-                            text
-                            url
-                            menugroups
-                            menuitems {
+export default function Nav() {
+
+    const [state, setState] = React.useState({
+        drawerOpen: false,
+    });
+
+    const toggleDrawer = (drawerOpen) => event => {
+        if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
+            return;
+        }
+        setState({ ...state, drawerOpen });
+    };
+
+    return (
+        <StaticQuery
+            query={graphql`
+                query MainNavQuery {
+                    allDatoCmsMainnav(sort: { fields: [position], order: ASC }) {
+                        edges {
+                            node {
                                 text
                                 url
-                                group
+                                menugroups
+                                menuitems {
+                                    text
+                                    url
+                                    group
+                                }
                             }
                         }
                     }
                 }
-            }
-        `}
-        render={data => {
-            const classes = useStyles();
-            const { edges } = data?.allDatoCmsMainnav;
-            if (edges) {
-                return (
-                    <header className={classes.header}>
-                        {/* TODO: cms */}
-                        <div className={classes.bannerAboveNav}>
-                            <a href="#">Free Global Shipping on all orders</a>
-                        </div>
-                        <Grid container className={classes.fullNav}>
-                            <Grid item md={1}>
-                                <a href="https://pelacase.com">
-                                    <img className={classes.logo} src="/pela-logo-sm.webp" />
-                                </a>
-                            </Grid>
-                            <Grid item md={10}>
-                                <Grid container spacing={0}>
-                                    {edges.map(edge => {
-                                        const { text, url, menugroups, menuitems } = edge.node;
-                                        return (
-                                            <Grid item xs key={text} className={classes.fullNavItem}>
-                                                <a href={url} className={classes.fullNavItemLink}>{text}</a>
-                                                {
-                                                    menuitems && menuitems.length ?
-                                                    <div className={classes.fullNavMenu}>
-                                                        <div className={classes.fullNavMenuLinkContainer}>
-                                                            <Grid container direction="row" justify="space-evenly" alignItems="flex-start">
-                                                            {
-                                                                Array.from(createMenuGroupColumns(menugroups, menuitems).entries()).map(entry => {
-                                                                    const group = entry[0];
-                                                                    const columns = entry[1];
-                                                                    return (
-                                                                        <Grid item>
-                                                                            {group ? <h5 className={classes.fullNavMenuGroupHeading}>{group}</h5> : null }
-                                                                            <Grid container spacing={5}>
-                                                                                {columns.map((column, index) => {
-                                                                                    return (
-                                                                                        <Grid item>
-                                                                                            { column.map(menuItem => <a key={index} className={classes.fullNavMenuLink} href={menuItem.url}>{menuItem.text}</a>) }
-                                                                                        </Grid>
-                                                                                    );
-                                                                                })}
+            `}
+            render={data => {
+                const classes = useStyles();
+                const { edges } = data?.allDatoCmsMainnav;
+                if (edges) {
+                    return (
+                        <header className={classes.header}>
+
+                            {/* Banner Above Navigation TODO CMS */}
+                            <div className={classes.bannerAboveNav}>
+                                <a href="#">Free Global Shipping on all orders</a>
+                            </div>
+
+                            {/* Full Navigation */}
+                            <Grid container className={classes.fullNav}>
+                                <Grid item md={1}>
+                                    <div className={classes.fullNavLogoContainer}>
+                                        <a href="https://pelacase.com">
+                                            <img className={classes.logo} src="/pela-logo-sm.webp" />
+                                        </a>
+                                    </div>
+                                </Grid>
+                                <Grid item md={10}>
+                                    <Grid container spacing={0}>
+                                        {edges.map(edge => {
+                                            const { text, url, menugroups, menuitems } = edge.node;
+                                            return (
+                                                <Grid item xs key={text} className={classes.fullNavItem}>
+                                                    <a href={url} className={classes.fullNavItemLink}>{text}</a>
+                                                    {
+                                                        menuitems && menuitems.length ?
+                                                        <div className={classes.fullNavMenu}>
+                                                            <div className={classes.fullNavMenuLinkContainer}>
+                                                                <Grid container direction="row" justify="space-evenly" alignItems="flex-start">
+                                                                {
+                                                                    Array.from(createMenuGroupColumns(menugroups, menuitems).entries()).map((entry, index) => {
+                                                                        const group = entry[0];
+                                                                        const columns = entry[1];
+                                                                        return (
+                                                                            <Grid item key={index}>
+                                                                                {group ? <h5 className={classes.fullNavMenuGroupHeading}>{group}</h5> : null }
+                                                                                <Grid container spacing={5}>
+                                                                                    {columns.map((column, i) => {
+                                                                                        return (
+                                                                                            <Grid item key={i}>
+                                                                                                { column.map((menuItem, j) => {
+                                                                                                    return (
+                                                                                                        <a key={`${i}.${j}`} className={classes.fullNavMenuLink} href={menuItem.url}>{menuItem.text}</a>
+                                                                                                    );
+                                                                                                })}
+                                                                                            </Grid>
+                                                                                        );
+                                                                                    })}
+                                                                                </Grid>
                                                                             </Grid>
-                                                                        </Grid>
-                                                                    );
-                                                                })
-                                                            }
-                                                            </Grid>
-                                                        </div>
-                                                    </div> : null
-                                                }
-                                            </Grid>
-                                        );
-                                    })}
+                                                                        );
+                                                                    })
+                                                                }
+                                                                </Grid>
+                                                            </div>
+                                                        </div> : null
+                                                    }
+                                                </Grid>
+                                            );
+                                        })}
+                                    </Grid>
+                                </Grid>
+                                <Grid item md={1} className={classes.account}>
+                                    <a href="https://pelacase.com/account">
+                                        <PersonOutline fontSize="large" />
+                                    </a>
                                 </Grid>
                             </Grid>
-                            <Grid item md={1} className={classes.account}>
-                                <a href="https://pelacase.com/account">
-                                    <PersonOutline fontSize="large" />
-                                </a>
+
+                            {/* Compact Navigation */}
+                            <Grid container className={classes.compactNav}>
+                                <Grid item xs={3}>
+                                    <div className={classes.compactNavMenuIconContainer}>
+                                        <Button onClick={toggleDrawer(true)}>
+                                            <Menu className={classes.compactNavMenuIcon} fontSize="large" />
+                                        </Button>
+                                    </div>
+                                </Grid>
+                                <Grid item xs={6} className={classes.compactNavLogoContainer}>
+                                    <a href="https://pelacase.com">
+                                        <img className={classes.logo} src="/pela-logo-sm.webp" />
+                                    </a>
+                                </Grid>
+                                <Grid item xs={3}></Grid>
                             </Grid>
-                        </Grid>
 
-                        <Grid container className={classes.compactNav}>
-                            Compact
-                        </Grid>
+                            {/* Drawer */}
+                            <Drawer open={state.drawerOpen} onClose={toggleDrawer(false)}>
+                                
+                                {/* Close Drawer and Account Icon */}
+                                <Grid container>
+                                    <Grid item xs={6}>
+                                        <Button onClick={toggleDrawer(false)}>
+                                            <ArrowBack fontSize="large" />
+                                        </Button>
+                                    </Grid>
+                                    <Grid item xs={6} className={classes.account}>
+                                        <a href="https://pelacase.com/account">
+                                            <PersonOutline fontSize="large" />
+                                        </a>
+                                    </Grid>
+                                </Grid>
 
-                        <div className={classes.bannerBelowNav}></div>
-                        
-                    </header>
-                )
+                                {/* Drawer Nav Links */}
+                                {edges.map(edge => {
+                                    const { text, url, menugroups, menuitems } = edge.node;
+                                    return (  
+                                        <div key={text}>
+                                            {
+                                                !menuitems || menuitems.length === 0
+                                                ? <a className={classes.compactNavItem} href={url}>{text}</a>
+                                                : 
+                                                <ExpansionPanel className={classes.compactNavExpansion}>
+                                                    <ExpansionPanelSummary className={classes.compactNavExpansionSummary}>
+                                                        <span className={classes.compactNavItem}>{text}</span> 
+                                                    </ExpansionPanelSummary>
+                                                    <ExpansionPanelDetails className={classes.compactNavExpansionPanelDetails}>
+                                                    {
+                                                        // TODO: only create expansion panel if there is more than one menugroup
+                                                        
+                                                        menugroups 
+                                                        ? Array.from(createMenuGroupColumns(menugroups, menuitems).entries()).map((entry, index) => {
+                                                            const group = entry[0];
+                                                            const columns = entry[1];
+                                                            return (
+                                                                <ExpansionPanel key={index} className={classes.compactNavExpansion}>
+                                                                    <ExpansionPanelSummary className={classes.compactNavExpansionSummary}>
+                                                                        { group ? <h5>{group}</h5> : null }
+                                                                    </ExpansionPanelSummary>
+                                                                    <ExpansionPanelDetails>
+                                                                        <div key={`${index}`}>
+                                                                            {columns.map((column, i) => {
+                                                                                return (
+                                                                                    column.map((menuItem, j) => {
+                                                                                        return (
+                                                                                            <a key={`${i}.${j}}`} className={classes.compactNavMenuLink} href={menuItem.url}>{menuItem.text}</a>
+                                                                                        );
+                                                                                    })
+                                                                                );
+                                                                            })}
+                                                                        </div>
+                                                                    </ExpansionPanelDetails>
+                                                                </ExpansionPanel>
+                                                            );
+                                                        })
+                                                        : 
+                                                        <>
+                                                            { menuitems.map((menuItem, i) => <a key={i} className={classes.compactNavMenuLink} href={menuItem.url}>{menuItem.text}</a>) }
+                                                        </>
+                                                    }
+                                                    </ExpansionPanelDetails>
+                                                </ExpansionPanel>
+                                                
+                                            }
+                                        </div>
+                                    );
+                                })}
+                            </Drawer>
+
+                            {/* Banner Below Navigation: TODO CMS */}
+                            <div className={classes.bannerBelowNav}></div>
+                            
+                        </header>
+                    )
+                }
+
+                console.log(`No "edges" found in data.allDatoCmsMainnav: data=${JSON.stringify(data)}`);
             }
-
-            console.log(`No "edges" found in data.allDatoCmsMainnav: data=${JSON.stringify(data)}`);
-        }
         }
     />
   )
