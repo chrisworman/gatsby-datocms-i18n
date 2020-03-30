@@ -47,15 +47,29 @@ const useStyles = makeStyles(theme => ({
         position: 'absolute',
         left: '0',
         width: '100%',
-        backgroundColor: '#fff',
         borderTop: '0.0625rem solid rgb(226, 226, 226)',
-        paddingBottom: '50px',
-        borderBottom: '0.0625rem solid rgb(226, 226, 226)',
         '& h5': {
             fontWeight: 'bold',
             fontSize: '1rem',
             marginBottom: '10px',
+        },
+        '&::after': {
+            content: "'.'",
+            fontSize: 0,
+            lineHeight: 0,
+            borderTop: '0.0625rem solid rgb(226, 226, 226)',
+            display: 'block',
+            height : '200px',
+            width : '100%',
+            background: "linear-gradient(rgba(0.3, 0.3, 0.3, 0.8), rgba(1, 1, 1, 0))",
         }
+    },
+    fullNavMenuLinkContainer: {
+        padding: '20px 0px 50px 0px',
+        backgroundColor: '#fff',
+    },
+    fullNavMenuGroupHeading: {
+        marginTop: "0",
     },
     fullNavMenuLink: {
         color: '#4f5057',
@@ -92,7 +106,9 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
-const groupMenuItems = (menuGroups, menuItems) => {
+const MENU_GROUP_2ND_COLUMN_THRESHOLD = 6; // The number menu items in a group before a second column is added
+
+const createMenuGroupColumns = (menuGroups, menuItems) => {
     if (!menuItems || menuItems.length === 0) {
         return new Map();
     }
@@ -113,7 +129,20 @@ const groupMenuItems = (menuGroups, menuItems) => {
         }
     }
 
-    return menuItemsByGroup;
+    // Create columns
+    const menuColumnsByGroup = new Map();
+    menuItemsByGroup.forEach((menuItems, group) => {
+        if (menuItems.length < MENU_GROUP_2ND_COLUMN_THRESHOLD) { // One column
+            menuColumnsByGroup.set(group, [menuItems]);
+        } else { // Two columns
+            const mid = Math.ceil(menuItems.length / 2)
+            const column1 = menuItems.slice(0, mid);
+            const column2  = menuItems.slice(mid, menuItems.length);
+            menuColumnsByGroup.set(group, [column1, column2]);
+        }
+    });
+
+    return menuColumnsByGroup;
 };
 
 export default function Nav() {  
@@ -163,22 +192,30 @@ export default function Nav() {
                                                 {
                                                     menuitems && menuitems.length ?
                                                     <div className={classes.fullNavMenu}>
-                                                        <Grid container direction="row" justify="space-evenly" alignItems="flex-start">
-                                                        {
-                                                            Array.from(groupMenuItems(menugroups, menuitems).entries()).map(entry => {
-                                                                const group = entry[0];
-                                                                const menuItems = entry[1];
-                                                                return (
-                                                                    <Grid item>
-                                                                        {group ? <h5>{group}</h5> : null }
-                                                                        {menuItems.map((menuItem, index) => {
-                                                                            return <a key={index} className={classes.fullNavMenuLink} href={menuItem.url}>{menuItem.text}</a>;
-                                                                        })}
-                                                                    </Grid>
-                                                                );
-                                                            })
-                                                        }
-                                                        </Grid>
+                                                        <div className={classes.fullNavMenuLinkContainer}>
+                                                            <Grid container direction="row" justify="space-evenly" alignItems="flex-start">
+                                                            {
+                                                                Array.from(createMenuGroupColumns(menugroups, menuitems).entries()).map(entry => {
+                                                                    const group = entry[0];
+                                                                    const columns = entry[1];
+                                                                    return (
+                                                                        <Grid item>
+                                                                            {group ? <h5 className={classes.fullNavMenuGroupHeading}>{group}</h5> : null }
+                                                                            <Grid container spacing={5}>
+                                                                                {columns.map((column, index) => {
+                                                                                    return (
+                                                                                        <Grid item>
+                                                                                            { column.map(menuItem => <a key={index} className={classes.fullNavMenuLink} href={menuItem.url}>{menuItem.text}</a>) }
+                                                                                        </Grid>
+                                                                                    );
+                                                                                })}
+                                                                            </Grid>
+                                                                        </Grid>
+                                                                    );
+                                                                })
+                                                            }
+                                                            </Grid>
+                                                        </div>
                                                     </div> : null
                                                 }
                                             </Grid>
