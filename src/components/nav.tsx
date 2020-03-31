@@ -13,11 +13,11 @@ const useStyles = makeStyles(theme => ({
     header: {
         backgroundColor: "#eee"
     },
-    bannerAboveNav: {
+    firstBanner: {
         backgroundColor: "#4E5057",
         textAlign: "center",
         padding: "0.3rem 0px",
-        '& a': {
+        '& a, & span': {
             textTransform: "uppercase", 
             textDecoration: "none",
             color: "#f4f4f2",
@@ -35,9 +35,26 @@ const useStyles = makeStyles(theme => ({
             margin: "8px 10px 0 0px",
         }
     },
-    bannerBelowNav: {
-        height : "60px",
+    secondBanner: {
+        padding: '1rem',
         backgroundColor: "#000",
+        textAlign: 'center',
+        color: '#fff',
+        '& h3, & a': {
+            margin: '0 0 0.5rem 0',
+            color: '#fff',
+            textDecoration: "none",
+            fontSize: "18px",
+            fontWeight: 'bold',
+            display: 'inline-block',
+        },
+        '& h5': {
+            margin: '0',
+            color: '#fff',
+            fontSize: "10px",
+            lineHeight: '1.5',
+            fontWeight: 'normal',
+        },
     },
     fullNav: {
         [theme.breakpoints.down('sm')]: {
@@ -191,6 +208,58 @@ const createMenuGroupColumns = (menuGroups, menuItems) => {
     return menuColumnsByGroup;
 };
 
+const getFirstBanner = (allDatoCmsFirstbanner, bannerCssClassName) => {
+    if (!allDatoCmsFirstbanner || !allDatoCmsFirstbanner.edges || !allDatoCmsFirstbanner.edges.length) {
+        return null;
+    }
+    
+    const firstBanner = allDatoCmsFirstbanner.edges[0].node;
+    if (!firstBanner || !firstBanner.text) {
+        return null;
+    }
+
+    if (firstBanner.url) {
+        return (
+            <div className={bannerCssClassName}>
+                <a href={firstBanner.url}>{firstBanner.text}</a>
+            </div>
+        );
+    } else {
+        return (
+            <div className={bannerCssClassName}>
+                <span>{firstBanner.text}</span>
+            </div>
+        );
+    }
+};
+
+const getSecondBanner = (allDatoCmsSecondbanner, bannerCssClassName) => {
+    if (!allDatoCmsSecondbanner || !allDatoCmsSecondbanner.edges || !allDatoCmsSecondbanner.edges.length) {
+        return null;
+    }
+
+    const secondBanner = allDatoCmsSecondbanner.edges[0].node;
+    if (!secondBanner || !secondBanner.text) {
+        return null;
+    }
+
+    if (secondBanner.url) {
+        return (
+            <div className={bannerCssClassName}>
+                <a href={secondBanner.url}>{secondBanner.text}</a>
+                { secondBanner.subtitle ? <h5>{secondBanner.subtitle}</h5> : null }
+            </div>
+        );
+    } else {
+        return (
+            <div className={bannerCssClassName}>
+                <h3>{secondBanner.text}</h3>
+                { secondBanner.subtitle ? <h5>{secondBanner.subtitle}</h5> : null }
+            </div>
+        );
+    }
+};
+
 export default function Nav() {
 
     const [state, setState] = React.useState({
@@ -208,6 +277,14 @@ export default function Nav() {
         <StaticQuery
             query={graphql`
                 query MainNavQuery {
+                    allDatoCmsFirstbanner {
+                        edges {
+                            node {
+                                text
+                                url
+                            }
+                        }
+                    }
                     allDatoCmsMainnav(sort: { fields: [position], order: ASC }) {
                         edges {
                             node {
@@ -222,19 +299,27 @@ export default function Nav() {
                             }
                         }
                     }
+                    allDatoCmsSecondbanner {
+                        edges {
+                            node {
+                                subtitle
+                                text
+                                url
+                            }
+                        }
+                    }
                 }
             `}
             render={data => {
                 const classes = useStyles();
                 const { edges } = data?.allDatoCmsMainnav;
                 if (edges) {
+                    
                     return (
                         <header className={classes.header}>
 
-                            {/* Banner Above Navigation TODO CMS */}
-                            <div className={classes.bannerAboveNav}>
-                                <a href="#">Free Global Shipping on all orders</a>
-                            </div>
+                            {/* First Banner */}
+                            {getFirstBanner(data.allDatoCmsFirstbanner, classes.firstBanner)}
 
                             {/* Full Navigation */}
                             <Grid container className={classes.fullNav}>
@@ -387,8 +472,8 @@ export default function Nav() {
                                 })}
                             </Drawer>
 
-                            {/* Banner Below Navigation: TODO CMS */}
-                            <div className={classes.bannerBelowNav}></div>
+                            {/* Second Banner */}
+                            {getSecondBanner(data.allDatoCmsSecondbanner, classes.secondBanner)}
                             
                         </header>
                     )
