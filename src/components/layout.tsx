@@ -5,17 +5,15 @@ import "./layout.css";
 import Footer from "./footer";
 
 type LayoutProps = {
-  siteTitle: string;
-  pageTitle: string;
-  // TODO: footer, SEO?, etc.
+  title?: string;
 };
 
 const Layout : FC<LayoutProps> = props => {
-    const { siteTitle, pageTitle, children } = props;
-    const collatedTitle = siteTitle + (pageTitle ? ` - ${pageTitle}` : "");
+    const { title, children } = props;
     return (
       <>
-        <Helmet title={collatedTitle} />
+        {/* TODO: load default title from datocms static query */}
+        <Helmet title={title ? title : 'Eco-Friendly iPhone, Google and Samsung Cases - 100% Biodegradable– Pela Case'} />
         <Nav />
         <main>{children}</main>
         <Footer />

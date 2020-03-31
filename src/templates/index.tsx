@@ -9,9 +9,6 @@ type DatoCmsProps<X> = {
 };
 
 type IndexProps = {
-  layout: {
-    sitetitle: string;
-  };
   home: {
       edges: HomeEdge[];
   };
@@ -43,31 +40,28 @@ class IndexPage extends React.Component<DatoCmsProps<IndexProps>> {
   render() {
     const { data } = this.props;
     if (data) {
-      const layout = data?.layout;
-      if (layout) {
-        const { edges } = data?.home;
-        const sections = edges && edges.length ? edges[0]?.node?.sections : [];
-        return (
-            <Layout siteTitle={layout.sitetitle} pageTitle=''>
-              {sections.map(section => {
-                  // TODO: switch on section type
-                return (
-                    <ShowCase
-                      key={section.id}
-                      layout={section.layout}
-                      icon={section.icon?.url}
-                      preTitle={section.pretitle}
-                      title={section.title}
-                      description={section.description}
-                      linkText={section.linktext}
-                      linkUrl={section.linkurl}
-                      image={section.image?.url}
-                    />
-                );
-              })}
-            </Layout>
+      const { edges } = data?.home;
+      const sections = edges && edges.length ? edges[0]?.node?.sections : [];
+      return (
+          <Layout>
+            {sections.map(section => {
+                // TODO: switch on section type
+              return (
+                  <ShowCase
+                    key={section.id}
+                    layout={section.layout}
+                    icon={section.icon?.url}
+                    preTitle={section.pretitle}
+                    title={section.title}
+                    description={section.description}
+                    linkText={section.linktext}
+                    linkUrl={section.linkurl}
+                    image={section.image?.url}
+                  />
+              );
+            })}
+          </Layout>
         );
-      }
     }
     return <p>No data for index page</p>;
   }
@@ -78,9 +72,6 @@ export default IndexPage;
 // TODO: section queries partitioned by section type (aka modular block type)
 export const query = graphql`
   query IndexQuery {
-    layout: datoCmsLayout {
-      sitetitle
-    }
     home: allDatoCmsHome {
         edges {
           node {
