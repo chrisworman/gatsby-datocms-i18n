@@ -6,7 +6,7 @@ import ButtonLink from '../buttonLink';
 
 const useStyles = makeStyles(theme => ({
     twoColumnShowCase: {
-        margin: "4rem 2rem"
+        margin: "5rem 2rem"
     },
     column1: {
         textAlign: "center",
