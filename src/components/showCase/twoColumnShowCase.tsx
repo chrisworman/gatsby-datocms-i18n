@@ -6,7 +6,7 @@ import ButtonLink from '../buttonLink';
 
 const useStyles = makeStyles(theme => ({
     twoColumnShowCase: {
-        margin: "3rem 2rem"
+        margin: "4rem 2rem"
     },
     column1: {
         textAlign: "center",
@@ -72,18 +72,20 @@ export default function TwoColumnShowCase(props: ShowCaseProps) {
     const classes = useStyles();
     const { icon, preTitle, title, description, linkText, linkUrl, image} = props;
     return (
-        <Grid container spacing={3} direction="row-reverse" className={classes.twoColumnShowCase}>
-            <Grid item xs={12} sm={12} md={6} className={classes.column1}>
-                {/* TODO: gatsby responsive image */}
-                <img className={classes.image} src={image} />
+        <div className={classes.twoColumnShowCase}>
+            <Grid container spacing={3} direction="row-reverse">
+                <Grid item xs={12} sm={12} md={6} className={classes.column1}>
+                    {/* TODO: gatsby responsive image */}
+                    <img className={classes.image} src={image} />
+                </Grid>
+                <Grid item xs={12} sm={12} md={6} className={classes.column2}>
+                    {icon ? <img src={icon} className={classes.icon} /> : null}
+                    <h2 className={classes.preTitle}>{preTitle}</h2>
+                    <h3 className={classes.title}>{title}</h3>
+                    <p className={classes.description}>{description}</p>
+                    <ButtonLink text={linkText} url={linkUrl} />
+                </Grid>
             </Grid>
-            <Grid item xs={12} sm={12} md={6} className={classes.column2}>
-                {icon ? <img src={icon} className={classes.icon} /> : null}
-                <h2 className={classes.preTitle}>{preTitle}</h2>
-                <h3 className={classes.title}>{title}</h3>
-                <p className={classes.description}>{description}</p>
-                <ButtonLink text={linkText} url={linkUrl} />
-            </Grid>
-        </Grid>
+        </div>
     );
 };
