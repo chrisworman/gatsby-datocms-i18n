@@ -113,7 +113,6 @@ const createPartnersArray = (partner: DatoPartner) => {
     let text = anyPartner[`partner${partnerNumber}text`];
     let linkUrl = anyPartner[`partner${partnerNumber}linkurl`];
     let description = anyPartner[`partner${partnerNumber}description`];
-    console.log(`imageUrl=${imageUrl}, text=${text}, linkUrl=${linkUrl}, description=${description}`)
     if (imageUrl && text && linkUrl && description) {
       result.push({
         imageUrl,
@@ -157,11 +156,11 @@ class IndexPage extends React.Component<DatoCmsProps<IndexProps>> {
                     );
                   case 'imagegrid':
                     return (
-                      <ImageGrid images={createImageGridArray(section as DatoImageGrid)} />
+                      <ImageGrid key={section.id} images={createImageGridArray(section as DatoImageGrid)} />
                     );
                   case 'partner':
                     return (
-                      <Partners partners={createPartnersArray(section as DatoPartner)} />
+                      <Partners key={section.id} partners={createPartnersArray(section as DatoPartner)} />
                     );
                 }
             })}

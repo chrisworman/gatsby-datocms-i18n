@@ -53,7 +53,6 @@ const Partners : FC<PartnersProps> = props => {
         return null;
     }
 
-    console.log(`Rendering ${partners.length} partners`)
     const classes = useStyles();
     return (
         <div className={classes.container}>

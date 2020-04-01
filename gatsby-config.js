@@ -22,19 +22,6 @@ module.exports = {
     `gatsby-transformer-sharp`,
     `gatsby-plugin-sharp`,
     {
-      resolve: `gatsby-plugin-manifest`,
-      // TODO: SEO
-      options: {
-        name: `Pela`,
-        short_name: `Pela`,
-        start_url: `/`,
-        background_color: `#90be02`,
-        theme_color: `#90be02`,
-        display: `browser`,
-        icon: `src/images/favicon_32x32.png`
-      }
-    },
-    {
       resolve: `gatsby-source-datocms`,
       options: {
         apiToken: process.env.DATOCMS_API_TOKEN,

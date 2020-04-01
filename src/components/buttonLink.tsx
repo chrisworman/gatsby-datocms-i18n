@@ -12,7 +12,7 @@ const useStyles = makeStyles(theme => ({
         display: "inline-block",
         padding: "15px 30px",
         color : "#000",
-        border: "solid 1px #000",
+        border: "solid thin #000",
         textDecoration: "none",
         fontWeight: "bolder",
         backgroundColor: '#fff',
