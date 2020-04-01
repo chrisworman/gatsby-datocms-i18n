@@ -1,14 +1,33 @@
 import React from "react"
-
 import Layout from "../components/layout"
-import SEO from "../components/seo"
+import ButtonLink from "../components/buttonLink"
+import { makeStyles } from '@material-ui/core/styles';
 
-const NotFoundPage = () => (
-  <Layout>
-    <SEO title="404: Not found" />
-    <h1>NOT FOUND</h1>
-    <p>You just hit a route that doesn&#39;t exist... the sadness.</p>
-  </Layout>
-)
+const useStyles = makeStyles(theme => ({
+  container: {
+      textAlign: 'center',
+      padding: '80px',
+      '& h1': {
+        margin: '0',
+      },
+      '& p': {
+        maxWidth : '400px',
+        margin : '2rem auto',
+        lineHeight: '2rem',
+      },
+  },
+}));
 
-export default NotFoundPage
+
+export default function NotFoundPage() {
+  const classes = useStyles();
+  return (
+    <Layout title="404" titleSuffix="Page Not Found">
+      <div className={classes.container}>
+        <h1>Page Not Found</h1>
+        <p>The page you requested does not exist.<br/>  Click the following link to continue shopping.</p>
+        <ButtonLink text="Continue Shopping" url="/" />
+      </div>
+    </Layout>
+  );
+}
