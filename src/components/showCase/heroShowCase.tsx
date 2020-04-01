@@ -9,6 +9,7 @@ const useStyles = makeStyles((theme => ({
         backgroundRepeat: 'no-repeat',
         backgroundPosition: 'right',
         flex: '0 0 75%',
+        position: 'relative',
         [theme.breakpoints.only('xs')]: {
             height: "36.25rem",
             backgroundImage: `linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5) ), url(${props.image?.fluid?.src})`,
@@ -21,22 +22,29 @@ const useStyles = makeStyles((theme => ({
         [theme.breakpoints.up('md')]: {
             margin: '0 50px 50px 50px',
             height: "46.25rem",
-            padding: "3.75rem 0",
             backgroundImage: `url(${props.image?.fluid?.src})`,
         }
     }),
     textContainer: {
-        padding: "6.25rem 3.75rem 5rem 3.75rem",
+        padding: "1rem 3.75rem 1rem 3.75rem",
         [theme.breakpoints.down('sm')]: {
             textAlign: "center",
         },
         [theme.breakpoints.up('md')]: {
-            width: "40%",
+            width: "400px",
             background: 'white',
-            position: "absolute",
-            top: "50%",
-            transform: "translateY(-50%)",
-        }
+            position: 'absolute',
+            top: '0',
+            bottom: '0',
+            left: '0',
+            right: '0',
+            height: '43%', // center vertically
+            margin: 'auto 0',
+        },
+        [theme.breakpoints.up('lg')]: {
+            width: "500px",
+            height: '35%', // center vertically
+        },
     },
     image: {
         width: "100%",
