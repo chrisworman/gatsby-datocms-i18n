@@ -1,12 +1,13 @@
 import React from "react";
 import ShowCaseProps from "./showCaseProps";
 import { makeStyles } from '@material-ui/core/styles';
-import ButtonLink from '../buttonLink';
+import ButtonLink from '../buttonLink/buttonLink';
+import FluidImage from '../fluidImage/fluidImage';
 
 const useStyles = makeStyles(theme => ({
     oneColumnShowCase: {
         textAlign: "center",
-        margin: "3rem 0"
+        margin: "8rem 0"
     },
     image: {
         width: "100%",
@@ -54,8 +55,7 @@ export default function OneColumnShowCase(props: ShowCaseProps) {
     const { icon, preTitle, title, description, linkText, linkUrl, image} = props;
     return (
         <div className={classes.oneColumnShowCase}>
-            {/* TODO: gatsby responsive image */}
-            <img className={classes.image} src={image} />
+            <FluidImage {... image} />
             {icon ? <img src={icon} className={classes.icon} /> : null}
             <h2 className={classes.preTitle}>{preTitle}</h2>
             <h3 className={classes.title}>{title}</h3>

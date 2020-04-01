@@ -1,10 +1,6 @@
 import React from "react";
 import { makeStyles } from '@material-ui/core/styles';
-
-type ButtonLinkProps = {
-    text: string;
-    url: string;
-};
+import { ButtonLinkProps } from "./buttonLinkProps";
 
 // TODO: animate background to black on hover
 const useStyles = makeStyles(theme => ({

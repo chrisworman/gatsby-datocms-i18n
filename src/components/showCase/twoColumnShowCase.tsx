@@ -2,11 +2,12 @@ import React from "react";
 import ShowCaseProps from "./showCaseProps";
 import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
-import ButtonLink from '../buttonLink';
+import ButtonLink from '../buttonLink/buttonLink';
+import FluidImage from '../fluidImage/fluidImage';
 
 const useStyles = makeStyles(theme => ({
     twoColumnShowCase: {
-        margin: "5rem 2rem"
+        margin: "8rem 2rem"
     },
     column1: {
         textAlign: "center",
@@ -75,8 +76,7 @@ export default function TwoColumnShowCase(props: ShowCaseProps) {
         <div className={classes.twoColumnShowCase}>
             <Grid container spacing={3} direction="row-reverse">
                 <Grid item xs={12} sm={12} md={6} className={classes.column1}>
-                    {/* TODO: gatsby responsive image */}
-                    <img className={classes.image} src={image} />
+                    <FluidImage { ... image } />
                 </Grid>
                 <Grid item xs={12} sm={12} md={6} className={classes.column2}>
                     {icon ? <img src={icon} className={classes.icon} /> : null}

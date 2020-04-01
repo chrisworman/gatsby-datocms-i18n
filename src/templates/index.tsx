@@ -6,6 +6,7 @@ import { ImageGridImage } from '../components/imageGrid/imageGridProps';
 import ImageGrid from "../components/imageGrid/imageGrid";
 import { Partner } from "../components/partners/partnersProps";
 import Partners from "../components/partners/partners";
+import { FluidObject } from "gatsby-image";
 
 // TODO: move to its own file
 type DatoCmsProps<X> = {
@@ -31,7 +32,7 @@ type DatoShowCase = {
     }
     layout: string;
     icon: {
-        url: string;
+        url: string; // TODO: gatsby image
     }
     description: string;
     linktext: string;
@@ -39,7 +40,7 @@ type DatoShowCase = {
     pretitle: string;
     title: string;
     image: {
-        url: string;
+        fluid: FluidObject;
     }
 };
 
@@ -49,12 +50,12 @@ type DatoImageGrid = {
     apiKey: string 
   }
   image1: {
-    url: string;
+    fluid: FluidObject;
   },
   image1linktext: string;
   image1linkurl: string;
   image2: {
-    url: string;
+    fluid: FluidObject;
   }
   image2linktext: string;
   image2linkurl: string;
@@ -84,38 +85,43 @@ type DatoPartner = {
 };
 
 const createImageGridArray = (imageGrid: DatoImageGrid) => {
+  const anyImageGrid = imageGrid as any; // So properties can be accessed using index notation
   const result: ImageGridImage[] = [];
-  if (imageGrid.image1?.url && imageGrid.image1linktext && imageGrid.image1linkurl) {
-    result.push({
-      imageUrl: imageGrid.image1.url,
-      imageLinkText: imageGrid.image1linktext,
-      imageLinkUrl: imageGrid.image1linkurl,
-    });
+
+  let imageNumber = 1;
+  let imageField = `image${imageNumber}`;
+  while (anyImageGrid.hasOwnProperty(imageField)) {
+    let fluid = anyImageGrid[imageField]?.fluid;
+    let imageLinkText = anyImageGrid[`image${imageNumber}linktext`];
+    let imageLinkUrl = anyImageGrid[`image${imageNumber}linkurl`];
+    if (fluid && imageLinkText && imageLinkUrl) {
+      result.push({
+        fluid,
+        imageLinkText,
+        imageLinkUrl,
+      });
+    }
+    imageNumber++;
+    imageField = `image${imageNumber}`;
   }
-  if (imageGrid.image2?.url && imageGrid.image2linktext && imageGrid.image2linkurl) {
-    result.push({
-      imageUrl: imageGrid.image2.url,
-      imageLinkText: imageGrid.image2linktext,
-      imageLinkUrl: imageGrid.image2linkurl,
-    });
-  }
+
   return result;
 };
 
 const createPartnersArray = (partner: DatoPartner) => {
-  const anyPartner = partner as any;
+  const anyPartner = partner as any; // So properties can be accessed using index notation
   const result: Partner[] = [];
 
   let partnerNumber = 1;
   let imageField = `partner${partnerNumber}image`;
   while (anyPartner.hasOwnProperty(imageField)) {
-    let imageUrl = anyPartner[imageField]?.url;
+    let fluid = anyPartner[imageField]?.fluid;
     let text = anyPartner[`partner${partnerNumber}text`];
     let linkUrl = anyPartner[`partner${partnerNumber}linkurl`];
     let description = anyPartner[`partner${partnerNumber}description`];
-    if (imageUrl && text && linkUrl && description) {
+    if (fluid && text && linkUrl && description) {
       result.push({
-        imageUrl,
+        image: { fluid },
         text,
         linkUrl,
         description,
@@ -137,7 +143,6 @@ class IndexPage extends React.Component<DatoCmsProps<IndexProps>> {
       return (
           <Layout>
             {sections.map(section => {
-                // TODO: switch on section type
                 switch (section.model.apiKey) {
                   case 'showcase':
                     const showCase = section as DatoShowCase;
@@ -151,7 +156,7 @@ class IndexPage extends React.Component<DatoCmsProps<IndexProps>> {
                         description={showCase.description}
                         linkText={showCase.linktext}
                         linkUrl={showCase.linkurl}
-                        image={showCase.image?.url}
+                        image={ { fluid: showCase.image?.fluid } }
                       />
                     );
                   case 'imagegrid':
@@ -173,8 +178,6 @@ class IndexPage extends React.Component<DatoCmsProps<IndexProps>> {
 
 export default IndexPage;
 
-// TODO: section queries partitioned by section type (aka modular block type)
-// TODO: do we need a something like sort: { fields: [position], order: ASC } for sections?
 export const query = graphql`
   query IndexQuery {
     home: allDatoCmsHome {
@@ -194,19 +197,25 @@ export const query = graphql`
                 pretitle
                 title
                 image {
-                  url
+                  fluid(maxWidth: 1200, imgixParams: { fm: "jpg", auto: "compress" }) {
+                    ...GatsbyDatoCmsFluid
+                  }
                 }
               }
               ... on DatoCmsImagegrid {
                 id
                 model { apiKey }
                 image1 {
-                  url
+                  fluid(maxWidth: 450, imgixParams: { fm: "jpg", auto: "compress" }) {
+                    ...GatsbyDatoCmsFluid
+                  }
                 }
                 image1linktext
                 image1linkurl
                 image2 {
-                  url
+                  fluid(maxWidth: 450, imgixParams: { fm: "jpg", auto: "compress" }) {
+                    ...GatsbyDatoCmsFluid
+                  }
                 }
                 image2linktext
                 image2linkurl
@@ -215,19 +224,25 @@ export const query = graphql`
                 id
                 model { apiKey }
                 partner1image {
-                  url
+                  fluid(maxWidth: 1000, imgixParams: { fm: "jpg", auto: "compress" }) {
+                    ...GatsbyDatoCmsFluid
+                  }
                 }
                 partner1linkurl
                 partner1text
                 partner1description
                 partner2image {
-                  url
+                  fluid(maxWidth: 1000, imgixParams: { fm: "jpg", auto: "compress" }) {
+                    ...GatsbyDatoCmsFluid
+                  }
                 }
                 partner2linkurl
                 partner2text
                 partner2description
                 partner3image {
-                  url
+                  fluid(maxWidth: 1000, imgixParams: { fm: "jpg", auto: "compress" }) {
+                    ...GatsbyDatoCmsFluid
+                  }
                 }
                 partner3linkurl
                 partner3text

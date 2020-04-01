@@ -2,6 +2,7 @@ import React from "react";
 import { FC } from "react";
 import { Grid, makeStyles } from "@material-ui/core";
 import { PartnersProps } from "./partnersProps";
+import FluidImage from '../fluidImage/fluidImage';
 
 const useStyles = makeStyles(theme => ({
     container: {
@@ -25,9 +26,6 @@ const useStyles = makeStyles(theme => ({
         margin: '0 0 1rem',
         color: '#000',
         fontFamily: '"Lora", serif',
-    },
-    image: {
-        width: '100%',
     },
     text: {
         textDecoration: 'none',
@@ -64,7 +62,7 @@ const Partners : FC<PartnersProps> = props => {
                         return (
                             <Grid xs={12} sm item key={partner.imageUrl}>
                                 <a href={partner.linkUrl}>
-                                    <img src={partner.imageUrl} className={classes.image} />
+                                    <FluidImage { ... partner.image } />
                                 </a>
                                 <a className={classes.text} href={partner.linkUrl}>{partner.text}</a>
                                 <p className={classes.description}>{partner.description}</p>

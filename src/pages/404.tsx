@@ -1,6 +1,6 @@
 import React from "react"
 import Layout from "../components/layout"
-import ButtonLink from "../components/buttonLink"
+import ButtonLink from "../components/buttonLink/buttonLink"
 import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles(theme => ({

@@ -1,8 +1,10 @@
 import React from "react";
 import { FC } from "react";
 import { Grid, makeStyles } from "@material-ui/core";
-import ButtonLink from "../buttonLink";
+import ButtonLink from "../buttonLink/buttonLink";
 import { ImageGridProps } from "./imageGridProps";
+import Image from 'gatsby-image';
+import FluidImage from '../fluidImage/fluidImage'
 
 const useStyles = makeStyles(theme => ({
     gridContainer: {
@@ -33,11 +35,11 @@ const ImageGrid : FC<ImageGridProps> = props => {
         <div className={classes.gridContainer}>
             <Grid container spacing={4}>
                 {
-                    images.map(image => {
+                    images.map((image, index) => {
                         return (
-                            <Grid xs={12} sm item key={image.imageUrl}>
+                            <Grid xs={12} sm item key={index}>
                                 <div className={classes.imageContainer}>
-                                    <img src={image.imageUrl} className={classes.image} />
+                                    <FluidImage fluid={image.fluid} imageUrl={image.imageUrl} />
                                     <div className={classes.buttonLinkContainer}>
                                         <ButtonLink text={image.imageLinkText} url={image.imageLinkUrl} />
                                     </div>

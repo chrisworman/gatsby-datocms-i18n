@@ -1,5 +1,8 @@
+import { FluidObject } from "gatsby-image";
+import { FluidImageProps } from "../fluidImage/fluidImageProps";
+
 export type Partner = {
-    imageUrl: string; // TODO: gatsby responsive images
+    image: FluidImageProps;
     linkUrl: string;
     text: string;
     description: string;

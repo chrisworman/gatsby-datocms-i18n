@@ -1,3 +1,5 @@
+import { FluidImageProps } from "../fluidImage/fluidImageProps";
+
 type ShowCaseProps = {
     layout: string;
     icon: string;
@@ -6,7 +8,7 @@ type ShowCaseProps = {
     description: string;
     linkText: string;
     linkUrl: string;
-    image: string;
+    image: FluidImageProps;
 };
 
 export default ShowCaseProps;
