@@ -214,7 +214,7 @@ const getFirstBanner = (allDatoCmsFirstbanner, bannerCssClassName) => {
     }
     
     const firstBanner = allDatoCmsFirstbanner.edges[0].node;
-    if (!firstBanner || !firstBanner.text) {
+    if (!firstBanner || !firstBanner.enabled || !firstBanner.text) {
         return null;
     }
 
@@ -239,7 +239,7 @@ const getSecondBanner = (allDatoCmsSecondbanner, bannerCssClassName) => {
     }
 
     const secondBanner = allDatoCmsSecondbanner.edges[0].node;
-    if (!secondBanner || !secondBanner.text) {
+    if (!secondBanner || !secondBanner.enabled || !secondBanner.text) {
         return null;
     }
 
@@ -282,6 +282,7 @@ export default function Nav() {
                             node {
                                 text
                                 url
+                                enabled
                             }
                         }
                     }
@@ -305,6 +306,7 @@ export default function Nav() {
                                 subtitle
                                 text
                                 url
+                                enabled
                             }
                         }
                     }
