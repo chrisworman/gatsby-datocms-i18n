@@ -159,21 +159,21 @@ const useStyles = makeStyles(theme => ({
         },
     },
     compactNavExpansion: {
-        border: 'none',
-        boxShadow: 'none',
-        width: '100%',
-        '&::before': {
-            display: 'none', // Remove divider
-        }
+        // border: 'none',
+        // boxShadow: 'none',
+        // width: '100%',
+        // '&::before': {
+        //     display: 'none', // Remove divider
+        // }
     },
     compactNavGroupHeading: {
         margin: '0 0 0 20px',
     },
     compactNavExpansionSummary: {
-        padding: '0',
+        // padding: '0',
     },
     compactNavExpansionPanelDetails: {
-        display: 'block',
+        // display: 'block',
     },
     compactNavMenuLink: {
         display: 'block',
