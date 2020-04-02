@@ -181,6 +181,9 @@ const useStyles = makeStyles(theme => ({
         textDecoration: 'none',
         margin: '1rem 0',
     },
+    drawerPaper: {
+        width: '100%',
+    },
 }));
 
 const MENU_GROUP_2ND_COLUMN_THRESHOLD = 6; // The number menu items in a group before a second column is added
@@ -416,7 +419,13 @@ export default function Nav() {
                             </Grid>
 
                             {/* Drawer */}
-                            <Drawer open={state.drawerOpen} onClose={toggleDrawer(false)}>
+                            <Drawer 
+                                open={state.drawerOpen}
+                                onClose={toggleDrawer(false)}
+                                classes={{
+                                    paper: classes.drawerPaper,
+                                }}
+                            >
                                 
                                 {/* Close Drawer and Account Icon */}
                                 <Grid container>
