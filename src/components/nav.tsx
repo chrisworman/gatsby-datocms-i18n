@@ -328,7 +328,7 @@ export default function Nav() {
                                 <Grid item md={1}>
                                     <div className={classes.fullNavLogoContainer}>
                                         <a href="https://pelacase.com">
-                                            <img className={classes.logo} src="/pela-logo-sm.webp" />
+                                            <img className={classes.logo} src="/pela-logo-sm.png" />
                                         </a>
                                     </div>
                                 </Grid>
@@ -395,7 +395,7 @@ export default function Nav() {
                                 </Grid>
                                 <Grid item xs={6} className={classes.compactNavLogoContainer}>
                                     <a href="https://pelacase.com">
-                                        <img className={classes.logo} src="/pela-logo-sm.webp" />
+                                        <img className={classes.logo} src="/pela-logo-sm.png" />
                                     </a>
                                 </Grid>
                                 <Grid item xs={3}></Grid>
