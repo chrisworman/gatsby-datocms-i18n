@@ -437,120 +437,123 @@ export default function Nav() {
                             >
                                 
                                 {/* Close Drawer and Account Icon */}
-                                <Grid container>
-                                    <Grid item xs={6}>
-                                        <Button onClick={toggleDrawer(false)}>
-                                            <ArrowBack fontSize="large" />
-                                        </Button>
+                                <div>
+                                    <Grid container>
+                                        <Grid item xs={6}>
+                                            <Button onClick={toggleDrawer(false)}>
+                                                <ArrowBack fontSize="large" />
+                                            </Button>
+                                        </Grid>
+                                        <Grid item xs={6} className={classes.account}>
+                                            <a href="https://pelacase.com/account">
+                                                <PersonOutline fontSize="large" />
+                                            </a>
+                                        </Grid>
                                     </Grid>
-                                    <Grid item xs={6} className={classes.account}>
-                                        <a href="https://pelacase.com/account">
-                                            <PersonOutline fontSize="large" />
-                                        </a>
-                                    </Grid>
-                                </Grid>
+                                </div>
 
 
 
-
-                                <List>
-                                    <ListItem button onClick={() => toggleDrawerMenu('phoneCases')}>
-                                        <ListItemText primary="Phone Cases" />
-                                    </ListItem>
-                                    <Collapse in={state.drawerMenus.get('phoneCases')} timeout="auto" unmountOnExit>
-                                        <List component="div" disablePadding>
-                                            <ListItem button onClick={() => toggleDrawerMenu('iPhoneCases')}>
-                                                <ListItemText primary="iPhone Cases" />
-                                            </ListItem>
-                                            <Collapse in={state.drawerMenus.get('iPhoneCases')} timeout="auto" unmountOnExit>
-                                                <a href="#">iPhone 6</a><br />
-                                                <a href="#">iPhone 6</a><br />
-                                                <a href="#">iPhone 6</a><br />
-                                                <a href="#">iPhone 6</a><br />
-                                                <a href="#">iPhone 6</a><br />
-                                                <a href="#">iPhone 6</a><br />
-                                                <a href="#">iPhone 6</a><br />
-                                                <a href="#">iPhone 6</a><br />
-                                                <a href="#">iPhone 6</a><br />
-                                                <a href="#">iPhone 6</a><br />
-                                                <a href="#">iPhone 6</a><br />
-                                                <a href="#">iPhone 6</a><br />
-                                                <a href="#">iPhone 6</a><br />
-                                                <a href="#">iPhone 6</a><br />
-                                                <a href="#">iPhone 6</a><br />
-                                                <a href="#">iPhone 6</a><br />
-                                                <a href="#">iPhone 6</a><br />
-                                                <a href="#">iPhone 6</a><br />
-                                                <a href="#">iPhone 6</a><br />
-                                                <a href="#">iPhone 6</a><br />
-                                                <a href="#">iPhone 6</a><br />
-                                                <a href="#">iPhone 6</a><br />
-                                                <a href="#">iPhone 6</a><br />
-                                                <a href="#">iPhone 6</a><br />
-                                                <a href="#">iPhone 6</a><br />
-                                                <a href="#">iPhone 6</a><br />
-                                                <a href="#">iPhone 6</a><br />
-                                                <a href="#">iPhone 6</a><br />
-                                                <a href="#">iPhone 6</a><br />
-                                                <a href="#">iPhone 6</a><br />
-                                                <a href="#">iPhone 6</a><br />
-                                                <a href="#">iPhone 6</a><br />
-                                                <a href="#">iPhone 6</a><br />
-                                                <a href="#">iPhone 6</a><br />
-                                                <a href="#">iPhone 6</a><br />
-                                                <a href="#">iPhone 6</a><br />
-                                                <a href="#">iPhone 6</a><br />
-                                                <a href="#">iPhone 6</a><br />
-                                            </Collapse>
-                                        </List>
-                                        <List component="div" disablePadding>
-                                            <ListItem button onClick={() => toggleDrawerMenu('androidCases')}>
-                                                <ListItemText primary="Android Cases" />
-                                            </ListItem>
-                                            <Collapse in={state.drawerMenus.get('androidCases')} timeout="auto" unmountOnExit>
-                                                <a href="#">Android 1</a><br />
-                                                <a href="#">Android 1</a><br />
-                                                <a href="#">Android 1</a><br />
-                                                <a href="#">Android 1</a><br />
-                                                <a href="#">Android 1</a><br />
-                                                <a href="#">Android 1</a><br />
-                                                <a href="#">Android 1</a><br />
-                                                <a href="#">Android 1</a><br />
-                                                <a href="#">Android 1</a><br />
-                                                <a href="#">Android 1</a><br />
-                                                <a href="#">Android 1</a><br />
-                                                <a href="#">Android 1</a><br />
-                                                <a href="#">Android 1</a><br />
-                                                <a href="#">Android 1</a><br />
-                                                <a href="#">Android 1</a><br />
-                                                <a href="#">Android 1</a><br />
-                                                <a href="#">Android 1</a><br />
-                                                <a href="#">Android 1</a><br />
-                                                <a href="#">Android 1</a><br />
-                                                <a href="#">Android 1</a><br />
-                                                <a href="#">Android 1</a><br />
-                                                <a href="#">Android 1</a><br />
-                                                <a href="#">Android 1</a><br />
-                                                <a href="#">Android 1</a><br />
-                                                <a href="#">Android 1</a><br />
-                                                <a href="#">Android 1</a><br />
-                                                <a href="#">Android 1</a><br />
-                                                <a href="#">Android 1</a><br />
-                                                <a href="#">Android 1</a><br />
-                                            </Collapse>
-                                        </List>
-                                    </Collapse>
-                                    <Divider />
-                                    <ListItem>
-                                        <a href="#">AirPod Cases</a>
-                                    </ListItem>
-                                    <ListItem>
-                                        Accessories
-                                    </ListItem>
-                                    <ListItem>
-                                        Inside Pela
-                                    </ListItem>
-                                </List>
+                                <div>
+                                    <List>
+                                        <ListItem button onClick={() => toggleDrawerMenu('phoneCases')}>
+                                            <ListItemText primary="Phone Cases" />
+                                        </ListItem>
+                                        <Collapse in={state.drawerMenus.get('phoneCases')} timeout="auto" unmountOnExit>
+                                            <List component="div" disablePadding>
+                                                <ListItem button onClick={() => toggleDrawerMenu('iPhoneCases')}>
+                                                    <ListItemText primary="iPhone Cases" />
+                                                </ListItem>
+                                                <Collapse in={state.drawerMenus.get('iPhoneCases')} timeout="auto" unmountOnExit>
+                                                    <a href="#">iPhone 6</a><br />
+                                                    <a href="#">iPhone 6</a><br />
+                                                    <a href="#">iPhone 6</a><br />
+                                                    <a href="#">iPhone 6</a><br />
+                                                    <a href="#">iPhone 6</a><br />
+                                                    <a href="#">iPhone 6</a><br />
+                                                    <a href="#">iPhone 6</a><br />
+                                                    <a href="#">iPhone 6</a><br />
+                                                    <a href="#">iPhone 6</a><br />
+                                                    <a href="#">iPhone 6</a><br />
+                                                    <a href="#">iPhone 6</a><br />
+                                                    <a href="#">iPhone 6</a><br />
+                                                    <a href="#">iPhone 6</a><br />
+                                                    <a href="#">iPhone 6</a><br />
+                                                    <a href="#">iPhone 6</a><br />
+                                                    <a href="#">iPhone 6</a><br />
+                                                    <a href="#">iPhone 6</a><br />
+                                                    <a href="#">iPhone 6</a><br />
+                                                    <a href="#">iPhone 6</a><br />
+                                                    <a href="#">iPhone 6</a><br />
+                                                    <a href="#">iPhone 6</a><br />
+                                                    <a href="#">iPhone 6</a><br />
+                                                    <a href="#">iPhone 6</a><br />
+                                                    <a href="#">iPhone 6</a><br />
+                                                    <a href="#">iPhone 6</a><br />
+                                                    <a href="#">iPhone 6</a><br />
+                                                    <a href="#">iPhone 6</a><br />
+                                                    <a href="#">iPhone 6</a><br />
+                                                    <a href="#">iPhone 6</a><br />
+                                                    <a href="#">iPhone 6</a><br />
+                                                    <a href="#">iPhone 6</a><br />
+                                                    <a href="#">iPhone 6</a><br />
+                                                    <a href="#">iPhone 6</a><br />
+                                                    <a href="#">iPhone 6</a><br />
+                                                    <a href="#">iPhone 6</a><br />
+                                                    <a href="#">iPhone 6</a><br />
+                                                    <a href="#">iPhone 6</a><br />
+                                                    <a href="#">iPhone 6</a><br />
+                                                </Collapse>
+                                            </List>
+                                            <List component="div" disablePadding>
+                                                <ListItem button onClick={() => toggleDrawerMenu('androidCases')}>
+                                                    <ListItemText primary="Android Cases" />
+                                                </ListItem>
+                                                <Collapse in={state.drawerMenus.get('androidCases')} timeout="auto" unmountOnExit>
+                                                    <a href="#">Android 1</a><br />
+                                                    <a href="#">Android 1</a><br />
+                                                    <a href="#">Android 1</a><br />
+                                                    <a href="#">Android 1</a><br />
+                                                    <a href="#">Android 1</a><br />
+                                                    <a href="#">Android 1</a><br />
+                                                    <a href="#">Android 1</a><br />
+                                                    <a href="#">Android 1</a><br />
+                                                    <a href="#">Android 1</a><br />
+                                                    <a href="#">Android 1</a><br />
+                                                    <a href="#">Android 1</a><br />
+                                                    <a href="#">Android 1</a><br />
+                                                    <a href="#">Android 1</a><br />
+                                                    <a href="#">Android 1</a><br />
+                                                    <a href="#">Android 1</a><br />
+                                                    <a href="#">Android 1</a><br />
+                                                    <a href="#">Android 1</a><br />
+                                                    <a href="#">Android 1</a><br />
+                                                    <a href="#">Android 1</a><br />
+                                                    <a href="#">Android 1</a><br />
+                                                    <a href="#">Android 1</a><br />
+                                                    <a href="#">Android 1</a><br />
+                                                    <a href="#">Android 1</a><br />
+                                                    <a href="#">Android 1</a><br />
+                                                    <a href="#">Android 1</a><br />
+                                                    <a href="#">Android 1</a><br />
+                                                    <a href="#">Android 1</a><br />
+                                                    <a href="#">Android 1</a><br />
+                                                    <a href="#">Android 1</a><br />
+                                                </Collapse>
+                                            </List>
+                                        </Collapse>
+                                        <Divider />
+                                        <ListItem>
+                                            <a href="#">AirPod Cases</a>
+                                        </ListItem>
+                                        <ListItem>
+                                            Accessories
+                                        </ListItem>
+                                        <ListItem>
+                                            Inside Pela
+                                        </ListItem>
+                                    </List>
+                                </div>
 
                                 {/* Drawer Nav Links */}
                                 {/* {edges.map(edge => {
