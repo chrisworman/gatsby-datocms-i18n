@@ -140,47 +140,27 @@ const useStyles = makeStyles(theme => ({
     compactNavMenuIcon: {
         cursor: 'pointer',
     },
-    compactNavItemNoMenuItemsContainer: {
-        padding: '12px 0',
-    },
-    compactNavItem: {
-        color: '#000',
-        textDecoration: 'none',
-        fontWeight: 'bold',
-        fontSize: '1rem',
-        display: 'inline-block',
-        margin: '20px',
-        cursor: 'pointer',
-    },
-    compactNavItemContainer: {
-        margin: '0 20px',
+    compactNavItemBorder: {
         borderBottom: 'solid 1px #ccc',
-        '&:last-child': {
+        '&:last-of-type': {
             borderBottom: 'none',
         },
     },
-    compactNavExpansion: {
-        border: 'none',
-        boxShadow: 'none',
-        width: '100%',
-        '&::before': {
-            display: 'none', // Remove divider
-        }
+    compactNavMenuListItem: {
+        padding: '20px',
     },
-    compactNavGroupHeading: {
-        margin: '0 0 0 20px',
+    compactNavMenuListItemText: {
+        fontWeight: 'bold',
     },
-    compactNavExpansionSummary: {
-        padding: '0',
+    compactNavSubMenuListItemText: {
+        fontWeight: 'bold',
+        fontSize: '0.875rem',
+        margin: '0 0 5px 20px',
     },
-    compactNavExpansionPanelDetails: {
-        display: 'block',
-    },
-    compactNavMenuLink: {
-        display: 'block',
-        color: '#000',
-        textDecoration: 'none',
-        margin: '1rem 0',
+    compactNavSubMenuLinkListItemText: {
+        color: '#4f5057',
+        fontSize: '0.875rem',
+        margin: '0 0 0 40px',
     },
     drawerPaper: {
         width: '100%',
@@ -282,7 +262,6 @@ export default function Nav() {
 
     const [state, setState] = React.useState({
         drawerOpen: false,
-        phoneCasesOpen: false,
         drawerMenus: new Map<string, boolean>(),
     });
 
@@ -460,24 +439,21 @@ export default function Nav() {
                                             const menuId = `drawerMenuGroup.${index}`;
                                             if (!menuitems || menuitems.length === 0) {
                                                 return (
-                                                    <ListItem key={index}>
-                                                        <a href={url}>{text}</a>
-                                                    </ListItem>
+                                                    <div key={index} className={classes.compactNavItemBorder}>
+                                                        <ListItem button component="a" href={url} className={classes.compactNavMenuListItem} key={index}>
+                                                            <ListItemText primary={text} classes={{ primary: classes.compactNavMenuListItemText }} />
+                                                        </ListItem>
+                                                    </div>
                                                 );
                                             }
 
                                             return (
-                                                <div key={index}>
-                                                    <ListItem button onClick={() => toggleDrawerMenu(menuId)}>
-                                                        <ListItemText primary={text} />
+                                                <div key={index} className={classes.compactNavItemBorder}>
+                                                    <ListItem className={classes.compactNavMenuListItem} button onClick={() => toggleDrawerMenu(menuId)}>
+                                                        <ListItemText primary={text} classes={{ primary: classes.compactNavMenuListItemText }} />
                                                     </ListItem>
                                                     <Collapse in={state.drawerMenus.get(menuId)} timeout="auto" unmountOnExit>
                                                         <List component="div" disablePadding>
-                                                            {/* <ListItem button onClick={() => toggleDrawerMenu('iPhoneCases')}>
-                                                                <ListItemText primary="iPhone Cases" />
-                                                            </ListItem>
-                                                            <Collapse in={state.drawerMenus.get('iPhoneCases')} timeout="auto" unmountOnExit>
-                                                            </Collapse> */}
                                                             {
                                                                 menugroups
                                                                 ? Array.from(createMenuGroupColumns(menugroups, menuitems).entries()).map((entry, index) => {
@@ -487,21 +463,22 @@ export default function Nav() {
                                                                     return (
                                                                         <div key={index}>
                                                                             <ListItem button onClick={() => toggleDrawerMenu(subMenuId)}>
-                                                                                {/* <ExpansionPanelSummary className={classes.compactNavExpansionSummary}>
-                                                                                    { group ? <h5 className={classes.compactNavGroupHeading}>{group}</h5> : null }
-                                                                                </ExpansionPanelSummary> */}
-                                                                                <ListItemText primary={group}></ListItemText>
+                                                                                <ListItemText primary={group} classes={{ primary: classes.compactNavSubMenuListItemText }}></ListItemText>
                                                                             </ListItem>
                                                                             <Collapse in={state.drawerMenus.get(subMenuId)} timeout="auto" unmountOnExit>
-                                                                                {columns.map((column, i) => {
-                                                                                    return (
-                                                                                        column.map((menuItem, j) => {
-                                                                                            return (
-                                                                                                <a key={`${i}.${j}}`} className={classes.compactNavMenuLink} href={menuItem.url}>{menuItem.text}</a>
-                                                                                            );
-                                                                                        })
-                                                                                    );
-                                                                                })}
+                                                                                <List>
+                                                                                    {columns.map((column, i: number) => {
+                                                                                        return (
+                                                                                            column.map((menuItem, j: number) => {
+                                                                                                return (
+                                                                                                    <ListItem key={`${i}.${j}}`} button component="a" href={menuItem.url}>
+                                                                                                        <ListItemText primary={menuItem.text} classes={{ primary: classes.compactNavSubMenuLinkListItemText }} />
+                                                                                                    </ListItem>
+                                                                                                );
+                                                                                            })
+                                                                                        );
+                                                                                    })}
+                                                                                </List>
                                                                             </Collapse>
                                                                         </div>
                                                                     );
@@ -509,10 +486,10 @@ export default function Nav() {
                                                                 : 
                                                                     <>
                                                                         { 
-                                                                            menuitems.map((menuItem, i) => {
+                                                                            menuitems.map((menuItem, i: number) => {
                                                                                 return (
-                                                                                    <ListItem key={i}>
-                                                                                        <a href={menuItem.url}>{menuItem.text}</a>
+                                                                                    <ListItem key={i} button component="a" href={menuItem.url}>
+                                                                                        <ListItemText primary={menuItem.text} classes={{ primary: classes.compactNavSubMenuLinkListItemText }} />
                                                                                     </ListItem>
                                                                                 );
                                                                             })
@@ -523,153 +500,9 @@ export default function Nav() {
                                                     </Collapse>
                                                 </div>
                                             );
-                                            
-                                    // return (  
-                                    //     <div key={text} className={classes.compactNavItemContainer}>
-                                    //         {
-                                    //             !menuitems || menuitems.length === 0
-                                    //             ? 
-                                    //             <div className={classes.compactNavItemNoMenuItemsContainer}>
-                                    //                 <a className={classes.compactNavItem} href={url}>{text}</a>
-                                    //             </div>
-                                    //             : 
-                                    //             <ExpansionPanel className={classes.compactNavExpansion}>
-                                    //                 <ExpansionPanelSummary className={classes.compactNavExpansionSummary}>
-                                    //                     <span className={classes.compactNavItem}>{text}</span> 
-                                    //                 </ExpansionPanelSummary>
-                                    //                 <ExpansionPanelDetails className={classes.compactNavExpansionPanelDetails}>
-                                    //                 {                                                        
-                                    //                     menugroups 
-                                    //                     ? Array.from(createMenuGroupColumns(menugroups, menuitems).entries()).map((entry, index) => {
-                                    //                         const group = entry[0];
-                                    //                         const columns = entry[1];
-                                    //                         return (
-                                    //                             <ExpansionPanel key={index} className={classes.compactNavExpansion}>
-                                    //                                 <ExpansionPanelSummary className={classes.compactNavExpansionSummary}>
-                                    //                                     { group ? <h5 className={classes.compactNavGroupHeading}>{group}</h5> : null }
-                                    //                                 </ExpansionPanelSummary>
-                                    //                                 <ExpansionPanelDetails>
-                                    //                                     <div key={`${index}`}>
-                                    //                                         {columns.map((column, i) => {
-                                    //                                             return (
-                                    //                                                 column.map((menuItem, j) => {
-                                    //                                                     return (
-                                    //                                                         <a key={`${i}.${j}}`} className={classes.compactNavMenuLink} href={menuItem.url}>{menuItem.text}</a>
-                                    //                                                     );
-                                    //                                                 })
-                                    //                                             );
-                                    //                                         })}
-                                    //                                     </div>
-                                    //                                 </ExpansionPanelDetails>
-                                    //                             </ExpansionPanel>
-                                    //                         );
-                                    //                     })
-                                    //                     : 
-                                    //                     <>
-                                    //                         { menuitems.map((menuItem, i) => <a key={i} className={classes.compactNavMenuLink} href={menuItem.url}>{menuItem.text}</a>) }
-                                    //                     </>
-                                    //                 }
-                                    //                 </ExpansionPanelDetails>
-                                    //             </ExpansionPanel>
-                                                
-                                                
-                                    //         }
-                                    //     </div>
-                                    // );
                                         })}
                                     </List>
                                 </div>
-
-                                {/* <div>
-                                    <List>
-                                        <ListItem button onClick={() => toggleDrawerMenu('phoneCases')}>
-                                            <ListItemText primary="Phone Cases" />
-                                        </ListItem>
-                                        <Collapse in={state.drawerMenus.get('phoneCases')} timeout="auto" unmountOnExit>
-                                            <List component="div" disablePadding>
-                                                <ListItem button onClick={() => toggleDrawerMenu('iPhoneCases')}>
-                                                    <ListItemText primary="iPhone Cases" />
-                                                </ListItem>
-                                                <Collapse in={state.drawerMenus.get('iPhoneCases')} timeout="auto" unmountOnExit>
-                                                </Collapse>
-                                            </List>
-                                            <List component="div" disablePadding>
-                                                <ListItem button onClick={() => toggleDrawerMenu('androidCases')}>
-                                                    <ListItemText primary="Android Cases" />
-                                                </ListItem>
-                                                <Collapse in={state.drawerMenus.get('androidCases')} timeout="auto" unmountOnExit>
-                                                </Collapse>
-                                            </List>
-                                        </Collapse>
-                                        <Divider />
-                                        <ListItem>
-                                            <a href="#">AirPod Cases</a>
-                                        </ListItem>
-                                        <ListItem>
-                                            Accessories
-                                        </ListItem>
-                                        <ListItem>
-                                            Inside Pela
-                                        </ListItem>
-                                    </List>
-                                </div> */}
-
-                                {/* Drawer Nav Links */}
-                                {/* {edges.map(edge => {
-                                    const { text, url, menugroups, menuitems } = edge.node;
-                                    return (  
-                                        <div key={text} className={classes.compactNavItemContainer}>
-                                            {
-                                                !menuitems || menuitems.length === 0
-                                                ? 
-                                                <div className={classes.compactNavItemNoMenuItemsContainer}>
-                                                    <a className={classes.compactNavItem} href={url}>{text}</a>
-                                                </div>
-                                                : 
-                                                <ExpansionPanel className={classes.compactNavExpansion}>
-                                                    <ExpansionPanelSummary className={classes.compactNavExpansionSummary}>
-                                                        <span className={classes.compactNavItem}>{text}</span> 
-                                                    </ExpansionPanelSummary>
-                                                    <ExpansionPanelDetails className={classes.compactNavExpansionPanelDetails}>
-                                                    {                                                        
-                                                        menugroups 
-                                                        ? Array.from(createMenuGroupColumns(menugroups, menuitems).entries()).map((entry, index) => {
-                                                            const group = entry[0];
-                                                            const columns = entry[1];
-                                                            return (
-                                                                <ExpansionPanel key={index} className={classes.compactNavExpansion}>
-                                                                    <ExpansionPanelSummary className={classes.compactNavExpansionSummary}>
-                                                                        { group ? <h5 className={classes.compactNavGroupHeading}>{group}</h5> : null }
-                                                                    </ExpansionPanelSummary>
-                                                                    <ExpansionPanelDetails>
-                                                                        <div key={`${index}`}>
-                                                                            {columns.map((column, i) => {
-                                                                                return (
-                                                                                    column.map((menuItem, j) => {
-                                                                                        return (
-                                                                                            <a key={`${i}.${j}}`} className={classes.compactNavMenuLink} href={menuItem.url}>{menuItem.text}</a>
-                                                                                        );
-                                                                                    })
-                                                                                );
-                                                                            })}
-                                                                        </div>
-                                                                    </ExpansionPanelDetails>
-                                                                </ExpansionPanel>
-                                                            );
-                                                        })
-                                                        : 
-                                                        <>
-                                                            { menuitems.map((menuItem, i) => <a key={i} className={classes.compactNavMenuLink} href={menuItem.url}>{menuItem.text}</a>) }
-                                                        </>
-                                                    }
-                                                    </ExpansionPanelDetails>
-                                                </ExpansionPanel>
-                                                
-                                                
-                                            }
-                                        </div>
-                                    );
-                                })} */}
                             </Drawer>
 
                             {/* Second Banner */}
