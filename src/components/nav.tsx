@@ -130,13 +130,17 @@ const useStyles = makeStyles(theme => ({
         },
     },
     compactNavLogoContainer: {
+        paddingTop: '4px',
         textAlign: 'center',
     },
     compactNavMenuIconContainer: {
-        padding: "5px 0 0 0",
+        padding: "3px 0 0 0",
     },
     compactNavMenuIcon: {
         cursor: 'pointer',
+    },
+    compactNavItemNoMenuItemsContainer: {
+        padding: '12px 0',
     },
     compactNavItem: {
         color: '#000',
@@ -144,8 +148,15 @@ const useStyles = makeStyles(theme => ({
         fontWeight: 'bold',
         fontSize: '1rem',
         display: 'inline-block',
-        margin: '2rem',
+        margin: '20px',
         cursor: 'pointer',
+    },
+    compactNavItemContainer: {
+        margin: '0 20px',
+        borderBottom: 'solid 1px #ccc',
+        '&:last-child': {
+            borderBottom: 'none',
+        },
     },
     compactNavExpansion: {
         border: 'none',
@@ -154,6 +165,9 @@ const useStyles = makeStyles(theme => ({
         '&::before': {
             display: 'none', // Remove divider
         }
+    },
+    compactNavGroupHeading: {
+        margin: '0 0 0 20px',
     },
     compactNavExpansionSummary: {
         padding: '0',
@@ -422,19 +436,20 @@ export default function Nav() {
                                 {edges.map(edge => {
                                     const { text, url, menugroups, menuitems } = edge.node;
                                     return (  
-                                        <div key={text}>
+                                        <div key={text} className={classes.compactNavItemContainer}>
                                             {
                                                 !menuitems || menuitems.length === 0
-                                                ? <a className={classes.compactNavItem} href={url}>{text}</a>
+                                                ? 
+                                                <div className={classes.compactNavItemNoMenuItemsContainer}>
+                                                    <a className={classes.compactNavItem} href={url}>{text}</a>
+                                                </div>
                                                 : 
                                                 <ExpansionPanel className={classes.compactNavExpansion}>
                                                     <ExpansionPanelSummary className={classes.compactNavExpansionSummary}>
                                                         <span className={classes.compactNavItem}>{text}</span> 
                                                     </ExpansionPanelSummary>
                                                     <ExpansionPanelDetails className={classes.compactNavExpansionPanelDetails}>
-                                                    {
-                                                        // TODO: only create expansion panel if there is more than one menugroup
-                                                        
+                                                    {                                                        
                                                         menugroups 
                                                         ? Array.from(createMenuGroupColumns(menugroups, menuitems).entries()).map((entry, index) => {
                                                             const group = entry[0];
@@ -442,7 +457,7 @@ export default function Nav() {
                                                             return (
                                                                 <ExpansionPanel key={index} className={classes.compactNavExpansion}>
                                                                     <ExpansionPanelSummary className={classes.compactNavExpansionSummary}>
-                                                                        { group ? <h5>{group}</h5> : null }
+                                                                        { group ? <h5 className={classes.compactNavGroupHeading}>{group}</h5> : null }
                                                                     </ExpansionPanelSummary>
                                                                     <ExpansionPanelDetails>
                                                                         <div key={`${index}`}>
