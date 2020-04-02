@@ -359,12 +359,14 @@ export default function Nav() {
                                                                                 <Grid container spacing={5}>
                                                                                     {columns.map((column, i) => {
                                                                                         return (
-                                                                                            <Grid item key={i}>
-                                                                                                { column.map((menuItem, j) => {
-                                                                                                    return (
-                                                                                                        <a key={`${i}.${j}`} className={classes.fullNavMenuLink} href={menuItem.url}>{menuItem.text}</a>
-                                                                                                    );
-                                                                                                })}
+                                                                                            <Grid xs={6} item key={i}>
+                                                                                                { 
+                                                                                                    column.map((menuItem, j) => {
+                                                                                                        return (
+                                                                                                            <a key={`${i}.${j}`} className={classes.fullNavMenuLink} href={menuItem.url}>{menuItem.text}</a>
+                                                                                                        );
+                                                                                                    })
+                                                                                                }
                                                                                             </Grid>
                                                                                         );
                                                                                     })}
