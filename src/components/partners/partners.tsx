@@ -58,9 +58,9 @@ const Partners : FC<PartnersProps> = props => {
             <p className={classes.preamble}>5% of total sales (not just profit) from these collections is donated directly to our causes so they can do the hard work.</p>
             <Grid container spacing={3}>
                 {
-                    partners.map(partner => {
+                    partners.map((partner, index) => {
                         return (
-                            <Grid xs={12} sm item key={partner.imageUrl}>
+                            <Grid xs={12} sm item key={index}>
                                 <a href={partner.linkUrl}>
                                     <FluidImage { ... partner.image } />
                                 </a>

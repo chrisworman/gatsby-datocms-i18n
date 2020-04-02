@@ -8,6 +8,7 @@ import Drawer from '@material-ui/core/Drawer';
 import ExpansionPanel from '@material-ui/core/ExpansionPanel';
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
+import { List, ListItem, Divider, ListItemText, Collapse } from "@material-ui/core";
 
 const useStyles = makeStyles(theme => ({
     header: {
@@ -159,21 +160,21 @@ const useStyles = makeStyles(theme => ({
         },
     },
     compactNavExpansion: {
-        // border: 'none',
-        // boxShadow: 'none',
-        // width: '100%',
-        // '&::before': {
-        //     display: 'none', // Remove divider
-        // }
+        border: 'none',
+        boxShadow: 'none',
+        width: '100%',
+        '&::before': {
+            display: 'none', // Remove divider
+        }
     },
     compactNavGroupHeading: {
         margin: '0 0 0 20px',
     },
     compactNavExpansionSummary: {
-        // padding: '0',
+        padding: '0',
     },
     compactNavExpansionPanelDetails: {
-        // display: 'block',
+        display: 'block',
     },
     compactNavMenuLink: {
         display: 'block',
@@ -281,6 +282,8 @@ export default function Nav() {
 
     const [state, setState] = React.useState({
         drawerOpen: false,
+        phoneCasesOpen: false,
+        drawerMenus: new Map<string, boolean>(),
     });
 
     const toggleDrawer = (drawerOpen) => event => {
@@ -288,6 +291,12 @@ export default function Nav() {
             return;
         }
         setState({ ...state, drawerOpen });
+    };
+
+    const toggleDrawerMenu = (menuId: string) => {
+        const drawerMenus = new Map(state.drawerMenus);
+        drawerMenus.set(menuId, !!!drawerMenus.get(menuId));
+        setState({ ...state, drawerMenus});
     };
 
     return (
@@ -441,8 +450,110 @@ export default function Nav() {
                                     </Grid>
                                 </Grid>
 
+
+
+
+                                <List>
+                                    <ListItem button onClick={() => toggleDrawerMenu('phoneCases')}>
+                                        <ListItemText primary="Phone Cases" />
+                                    </ListItem>
+                                    <Collapse in={state.drawerMenus.get('phoneCases')} timeout="auto" unmountOnExit>
+                                        <List component="div" disablePadding>
+                                            <ListItem button onClick={() => toggleDrawerMenu('iPhoneCases')}>
+                                                <ListItemText primary="iPhone Cases" />
+                                            </ListItem>
+                                            <Collapse in={state.drawerMenus.get('iPhoneCases')} timeout="auto" unmountOnExit>
+                                                <a href="#">iPhone 6</a><br />
+                                                <a href="#">iPhone 6</a><br />
+                                                <a href="#">iPhone 6</a><br />
+                                                <a href="#">iPhone 6</a><br />
+                                                <a href="#">iPhone 6</a><br />
+                                                <a href="#">iPhone 6</a><br />
+                                                <a href="#">iPhone 6</a><br />
+                                                <a href="#">iPhone 6</a><br />
+                                                <a href="#">iPhone 6</a><br />
+                                                <a href="#">iPhone 6</a><br />
+                                                <a href="#">iPhone 6</a><br />
+                                                <a href="#">iPhone 6</a><br />
+                                                <a href="#">iPhone 6</a><br />
+                                                <a href="#">iPhone 6</a><br />
+                                                <a href="#">iPhone 6</a><br />
+                                                <a href="#">iPhone 6</a><br />
+                                                <a href="#">iPhone 6</a><br />
+                                                <a href="#">iPhone 6</a><br />
+                                                <a href="#">iPhone 6</a><br />
+                                                <a href="#">iPhone 6</a><br />
+                                                <a href="#">iPhone 6</a><br />
+                                                <a href="#">iPhone 6</a><br />
+                                                <a href="#">iPhone 6</a><br />
+                                                <a href="#">iPhone 6</a><br />
+                                                <a href="#">iPhone 6</a><br />
+                                                <a href="#">iPhone 6</a><br />
+                                                <a href="#">iPhone 6</a><br />
+                                                <a href="#">iPhone 6</a><br />
+                                                <a href="#">iPhone 6</a><br />
+                                                <a href="#">iPhone 6</a><br />
+                                                <a href="#">iPhone 6</a><br />
+                                                <a href="#">iPhone 6</a><br />
+                                                <a href="#">iPhone 6</a><br />
+                                                <a href="#">iPhone 6</a><br />
+                                                <a href="#">iPhone 6</a><br />
+                                                <a href="#">iPhone 6</a><br />
+                                                <a href="#">iPhone 6</a><br />
+                                                <a href="#">iPhone 6</a><br />
+                                            </Collapse>
+                                        </List>
+                                        <List component="div" disablePadding>
+                                            <ListItem button onClick={() => toggleDrawerMenu('androidCases')}>
+                                                <ListItemText primary="Android Cases" />
+                                            </ListItem>
+                                            <Collapse in={state.drawerMenus.get('androidCases')} timeout="auto" unmountOnExit>
+                                                <a href="#">Android 1</a><br />
+                                                <a href="#">Android 1</a><br />
+                                                <a href="#">Android 1</a><br />
+                                                <a href="#">Android 1</a><br />
+                                                <a href="#">Android 1</a><br />
+                                                <a href="#">Android 1</a><br />
+                                                <a href="#">Android 1</a><br />
+                                                <a href="#">Android 1</a><br />
+                                                <a href="#">Android 1</a><br />
+                                                <a href="#">Android 1</a><br />
+                                                <a href="#">Android 1</a><br />
+                                                <a href="#">Android 1</a><br />
+                                                <a href="#">Android 1</a><br />
+                                                <a href="#">Android 1</a><br />
+                                                <a href="#">Android 1</a><br />
+                                                <a href="#">Android 1</a><br />
+                                                <a href="#">Android 1</a><br />
+                                                <a href="#">Android 1</a><br />
+                                                <a href="#">Android 1</a><br />
+                                                <a href="#">Android 1</a><br />
+                                                <a href="#">Android 1</a><br />
+                                                <a href="#">Android 1</a><br />
+                                                <a href="#">Android 1</a><br />
+                                                <a href="#">Android 1</a><br />
+                                                <a href="#">Android 1</a><br />
+                                                <a href="#">Android 1</a><br />
+                                                <a href="#">Android 1</a><br />
+                                                <a href="#">Android 1</a><br />
+                                                <a href="#">Android 1</a><br />
+                                            </Collapse>
+                                        </List>
+                                    </Collapse>
+                                    <Divider />
+                                    <ListItem>
+                                        <a href="#">AirPod Cases</a>
+                                    </ListItem>
+                                    <ListItem>
+                                        Accessories
+                                    </ListItem>
+                                    <ListItem>
+                                        Inside Pela
+                                    </ListItem>
+                                </List>
+
                                 {/* Drawer Nav Links */}
-                                {edges.map(edge => {
+                                {/* {edges.map(edge => {
                                     const { text, url, menugroups, menuitems } = edge.node;
                                     return (  
                                         <div key={text} className={classes.compactNavItemContainer}>
@@ -492,10 +603,11 @@ export default function Nav() {
                                                     </ExpansionPanelDetails>
                                                 </ExpansionPanel>
                                                 
+                                                
                                             }
                                         </div>
                                     );
-                                })}
+                                })} */}
                             </Drawer>
 
                             {/* Second Banner */}
