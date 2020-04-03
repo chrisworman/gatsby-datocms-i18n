@@ -392,7 +392,7 @@ export default function Nav() {
                             <Grid container className={classes.compactNav}>
                                 <Grid item xs={3}>
                                     <div className={classes.compactNavMenuIconContainer}>
-                                        <IconButton onClick={toggleDrawer(true)} aria-label="Open Menu">
+                                        <IconButton size="small" onClick={toggleDrawer(true)} aria-label="Open Menu">
                                             <Menu className={classes.compactNavMenuIcon} fontSize="large" />
                                         </IconButton>
                                     </div>
