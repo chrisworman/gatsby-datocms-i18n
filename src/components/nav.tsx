@@ -5,7 +5,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import Drawer from '@material-ui/core/Drawer';
-import { List, ListItem, Divider, ListItemText, Collapse } from "@material-ui/core";
+import { List, ListItem, Divider, ListItemText, Collapse, IconButton } from "@material-ui/core";
 
 const useStyles = makeStyles(theme => ({
     header: {
@@ -392,9 +392,9 @@ export default function Nav() {
                             <Grid container className={classes.compactNav}>
                                 <Grid item xs={3}>
                                     <div className={classes.compactNavMenuIconContainer}>
-                                        <Button onClick={toggleDrawer(true)}>
+                                        <IconButton onClick={toggleDrawer(true)} aria-label="Open Menu">
                                             <Menu className={classes.compactNavMenuIcon} fontSize="large" />
-                                        </Button>
+                                        </IconButton>
                                     </div>
                                 </Grid>
                                 <Grid item xs={6} className={classes.compactNavLogoContainer}>
@@ -418,12 +418,12 @@ export default function Nav() {
                                 <div>
                                     <Grid container>
                                         <Grid item xs={6}>
-                                            <Button onClick={toggleDrawer(false)}>
+                                            <IconButton onClick={toggleDrawer(false)} aria-label="Close Menu">
                                                 <ArrowBack fontSize="large" />
-                                            </Button>
+                                            </IconButton>
                                         </Grid>
                                         <Grid item xs={6} className={classes.account}>
-                                            <a href="https://pelacase.com/account">
+                                            <a href="https://pelacase.com/account" title="Pela Account">
                                                 <PersonOutline fontSize="large" />
                                             </a>
                                         </Grid>
@@ -439,7 +439,7 @@ export default function Nav() {
                                             if (!menuitems || menuitems.length === 0) {
                                                 return (
                                                     <div key={index} className={classes.compactNavItemBorder}>
-                                                        <ListItem button component="a" href={url} className={classes.compactNavMenuListItem} key={index}>
+                                                        <ListItem button aria-label={text} component="a" href={url} className={classes.compactNavMenuListItem} key={index}>
                                                             <ListItemText primary={text} classes={{ primary: classes.compactNavMenuListItemText }} />
                                                         </ListItem>
                                                     </div>
@@ -448,7 +448,7 @@ export default function Nav() {
 
                                             return (
                                                 <div key={index} className={classes.compactNavItemBorder}>
-                                                    <ListItem className={classes.compactNavMenuListItem} button onClick={() => toggleDrawerMenu(menuId)}>
+                                                    <ListItem className={classes.compactNavMenuListItem} button aria-label={text} onClick={() => toggleDrawerMenu(menuId)}>
                                                         <ListItemText primary={text} classes={{ primary: classes.compactNavMenuListItemText }} />
                                                     </ListItem>
                                                     <Collapse in={state.drawerMenus.get(menuId)} timeout="auto" unmountOnExit>
@@ -461,7 +461,7 @@ export default function Nav() {
                                                                     const subMenuId = `${menuId}.${index}`;
                                                                     return (
                                                                         <div key={index}>
-                                                                            <ListItem button onClick={() => toggleDrawerMenu(subMenuId)}>
+                                                                            <ListItem button aria-label={group} onClick={() => toggleDrawerMenu(subMenuId)}>
                                                                                 <ListItemText primary={group} classes={{ primary: classes.compactNavSubMenuListItemText }}></ListItemText>
                                                                             </ListItem>
                                                                             <Collapse in={state.drawerMenus.get(subMenuId)} timeout="auto" unmountOnExit>
@@ -470,7 +470,7 @@ export default function Nav() {
                                                                                         return (
                                                                                             column.map((menuItem, j: number) => {
                                                                                                 return (
-                                                                                                    <ListItem key={`${i}.${j}}`} button component="a" href={menuItem.url}>
+                                                                                                    <ListItem key={`${i}.${j}}`} button aria-label={menuItem.text} component="a" href={menuItem.url}>
                                                                                                         <ListItemText primary={menuItem.text} classes={{ primary: classes.compactNavSubMenuLinkListItemText }} />
                                                                                                     </ListItem>
                                                                                                 );
@@ -487,7 +487,7 @@ export default function Nav() {
                                                                         { 
                                                                             menuitems.map((menuItem, i: number) => {
                                                                                 return (
-                                                                                    <ListItem key={i} button component="a" href={menuItem.url}>
+                                                                                    <ListItem key={i} button aria-label={menuItem.text} component="a" href={menuItem.url}>
                                                                                         <ListItemText primary={menuItem.text} classes={{ primary: classes.compactNavSubMenuLinkListItemText }} />
                                                                                     </ListItem>
                                                                                 );

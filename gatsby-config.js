@@ -31,6 +31,12 @@ module.exports = {
         disableLiveReload: false
       }
     },
+    {
+      resolve: 'gatsby-plugin-html-attributes',
+      options: {
+        lang: 'en' // TODO: change for i18n
+      }
+    }
     // {
     //   resolve: "gatsby-source-shopify",
     //   options: {
