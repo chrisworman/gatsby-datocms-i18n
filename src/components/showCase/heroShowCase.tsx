@@ -11,12 +11,12 @@ const useStyles = makeStyles((theme => ({
         flex: '0 0 75%',
         position: 'relative',
         [theme.breakpoints.only('xs')]: {
-            height: "36.25rem",
+            height: "25rem",
             backgroundImage: `linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5) ), url(${props.image?.fluid?.src})`,
         },
         [theme.breakpoints.only('sm')]: {
             margin: '0 50px 50px 50px',
-            height: "46.25rem",
+            height: "30rem",
             backgroundImage: `linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5) ), url(${props.image?.fluid?.src})`,
         },
         [theme.breakpoints.up('md')]: {
@@ -73,7 +73,7 @@ const useStyles = makeStyles((theme => ({
         fontWeight: 'normal',
         [theme.breakpoints.only('xs')]: {
             color: '#fff',
-            margin: '50px 0px',
+            margin: '70px 0px',
             fontSize: '1.875rem',
             lineHeight: '2.25rem',
             textAlign: 'center',
@@ -82,7 +82,7 @@ const useStyles = makeStyles((theme => ({
             color: '#fff',
             fontSize: '1.875rem',
             lineHeight: '2.25rem',
-            margin: '150px 0px',
+            margin: '150px 0 100px 0px',
             textAlign: 'center',
         },
         [theme.breakpoints.up('md')]: {

@@ -35,17 +35,17 @@ const useStyles = makeStyles(theme => ({
         fontFamily: '"Lora", serif',
         fontWeight: 'normal',
         fontSize: '1.75rem',
-        marginBottom: '1.375rem',
+        margin: '0 auto 1.375rem auto',
+        maxWidth: '66%',
     },
     description: {
         color: "#4f5057",
-        paddingLeft: "1.875rem",
+        padding: "0 1.875rem",
         fontSize: "0.875rem",
         lineHeight: "1.5",
         margin: '0 auto 2rem auto',
-        [theme.breakpoints.up('md')]: {
+        [theme.breakpoints.up('sm')]: {
             maxWidth: '50%',
-            
         }
     }
 }));

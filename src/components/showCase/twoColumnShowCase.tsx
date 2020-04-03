@@ -20,9 +20,11 @@ const useStyles = makeStyles(theme => ({
             textAlign: 'left',
         }
     },
-    image: {
-        width: "100%",
-        height: "auto",
+    imageContainer: {
+        [theme.breakpoints.down('sm')]: {
+            width: '66%',
+            margin: '0 auto',
+        },
     },
     icon: {
         [theme.breakpoints.down('sm')]: {
@@ -57,7 +59,7 @@ const useStyles = makeStyles(theme => ({
     },
     description: {
         color: "#4f5057",
-        paddingLeft: "1.875rem",
+        padding: "0 1.875rem",
         fontSize: "0.875rem",
         lineHeight: "1.5",
         [theme.breakpoints.up('xs')]: {
@@ -76,7 +78,9 @@ export default function TwoColumnShowCase(props: ShowCaseProps) {
         <div className={classes.twoColumnShowCase}>
             <Grid container spacing={3} direction="row-reverse">
                 <Grid item xs={12} sm={12} md={6} className={classes.column1}>
-                    <FluidImage { ... image } />
+                    <div className={classes.imageContainer}>
+                        <FluidImage { ... image } />
+                    </div>
                 </Grid>
                 <Grid item xs={12} sm={12} md={6} className={classes.column2}>
                     {icon ? <img src={icon} className={classes.icon} /> : null}
