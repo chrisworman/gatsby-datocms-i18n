@@ -14,13 +14,6 @@ module.exports = {
     `gatsby-plugin-react-helmet`,
     `gatsby-plugin-styled-components`,
     `gatsby-plugin-material-ui`,
-    // {
-    //   resolve: `gatsby-source-filesystem`,
-    //   options: {
-    //     name: `images`,
-    //     path: `${__dirname}/src/images`
-    //   }
-    // },
     `gatsby-transformer-sharp`,
     `gatsby-plugin-sharp`,
     {
@@ -36,7 +29,27 @@ module.exports = {
       options: {
         lang: 'en' // TODO: change for i18n
       }
-    }
+    },
+    {
+      resolve: `gatsby-plugin-manifest`,
+      options: {
+        name: `Pela Case`,
+        short_name: `Pela`,
+        start_url: `/`,
+        background_color: `#fff`,
+        theme_color: `#9AC426`,
+        display: `standalone`,
+        icon: `static/pela-logo-lg.jpg`,
+      },
+    },
+    {
+      resolve: 'gatsby-plugin-offline',
+      options: {
+          workboxConfig: {
+            globPatterns: ['**/*']
+          }
+      }
+    },
     // {
     //   resolve: "gatsby-source-shopify",
     //   options: {
