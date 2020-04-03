@@ -144,12 +144,12 @@ export default function Footer() {
                         <Grid container className={classes.corpLinks}>
                             <Grid item xs={1} sm={2} md={3} lg={4}></Grid>
                             <Grid item xs={5} sm={4} md={3} lg={2}>
-                                <a href="https://bcorporation.net/" title="Certified B Corporation" target="_blank">
+                                <a href="https://bcorporation.net/" title="Certified B Corporation" target="_blank" rel="noopener">
                                     <img src="//cdn.shopify.com/s/files/1/0078/1032/files/b-corp_120x.png?v=1582919839" alt="Certified B Corporation" />
                                 </a>
                             </Grid>
                             <Grid item xs={5} sm={4} md={3} lg={2}>
-                                <a href="https://www.onepercentfortheplanet.org/" title="1% for the Planet" target="_blank">
+                                <a href="https://www.onepercentfortheplanet.org/" title="1% for the Planet" target="_blank" rel="noopener">
                                     <img src="//cdn.shopify.com/s/files/1/0078/1032/files/one_percent_for_planet_120x.png?v=1583439015" alt="1% for the Planet" />
                                 </a>
                             </Grid>
