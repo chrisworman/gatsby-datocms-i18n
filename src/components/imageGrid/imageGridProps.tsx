@@ -1,9 +1,8 @@
 import { FluidObject } from "gatsby-image";
+import { FluidImageProps } from "../fluidImage/fluidImageProps";
 
 export type ImageGridImage = {
-    // Consumers can set either fluid (gatsby) or imageUrl
-    fluid?: FluidObject;
-    imageUrl?: string;
+    image: FluidImageProps;
     imageLinkText: string;
     imageLinkUrl: string;
 };

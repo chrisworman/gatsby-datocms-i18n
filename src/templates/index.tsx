@@ -39,9 +39,12 @@ type DatoShowCase = {
     linkurl: string;
     pretitle: string;
     title: string;
-    image: {
-        fluid: FluidObject;
-    }
+    image: FluidWithAlt;
+};
+
+type FluidWithAlt = {
+  alt?: string;
+  fluid: FluidObject;
 };
 
 type DatoImageGrid = {
@@ -49,14 +52,10 @@ type DatoImageGrid = {
   model: { 
     apiKey: string 
   }
-  image1: {
-    fluid: FluidObject;
-  },
+  image1: FluidWithAlt;
   image1linktext: string;
   image1linkurl: string;
-  image2: {
-    fluid: FluidObject;
-  }
+  image2: FluidWithAlt;
   image2linktext: string;
   image2linkurl: string;
 };
@@ -64,21 +63,15 @@ type DatoImageGrid = {
 type DatoPartner = {
   id: string;
   model: { apiKey: string; }
-  partner1image: {
-    url: string;
-  }
+  partner1image: FluidWithAlt;
   partner1linkurl: string;
   partner1text: string;
   partner1description: string;
-  partner2image: {
-    url: string;
-  }
+  partner2image: FluidWithAlt;
   partner2linkurl: string;
   partner2text: string;
   partner2description: string;
-  partner3image: {
-    url: string;
-  }
+  partner3image: FluidWithAlt;
   partner3linkurl: string;
   partner3text: string;
   partner3description: string;
@@ -92,11 +85,12 @@ const createImageGridArray = (imageGrid: DatoImageGrid) => {
   let imageField = `image${imageNumber}`;
   while (anyImageGrid.hasOwnProperty(imageField)) {
     let fluid = anyImageGrid[imageField]?.fluid;
+    let alt =  anyImageGrid[imageField]?.alt;
     let imageLinkText = anyImageGrid[`image${imageNumber}linktext`];
     let imageLinkUrl = anyImageGrid[`image${imageNumber}linkurl`];
     if (fluid && imageLinkText && imageLinkUrl) {
       result.push({
-        fluid,
+        image: { fluid, alt },
         imageLinkText,
         imageLinkUrl,
       });
@@ -116,12 +110,13 @@ const createPartnersArray = (partner: DatoPartner) => {
   let imageField = `partner${partnerNumber}image`;
   while (anyPartner.hasOwnProperty(imageField)) {
     let fluid = anyPartner[imageField]?.fluid;
+    let alt =  anyPartner[imageField]?.alt;
     let text = anyPartner[`partner${partnerNumber}text`];
     let linkUrl = anyPartner[`partner${partnerNumber}linkurl`];
     let description = anyPartner[`partner${partnerNumber}description`];
     if (fluid && text && linkUrl && description) {
       result.push({
-        image: { fluid },
+        image: { fluid, alt },
         text,
         linkUrl,
         description,
@@ -156,7 +151,7 @@ class IndexPage extends React.Component<DatoCmsProps<IndexProps>> {
                         description={showCase.description}
                         linkText={showCase.linktext}
                         linkUrl={showCase.linkurl}
-                        image={ { fluid: showCase.image?.fluid } }
+                        image={ { fluid: showCase.image?.fluid, alt: showCase.image?.alt } }
                       />
                     );
                   case 'imagegrid':
@@ -197,6 +192,7 @@ export const query = graphql`
                 pretitle
                 title
                 image {
+                  alt
                   fluid(maxWidth: 1200, imgixParams: { fm: "jpg", auto: "compress" }) {
                     ...GatsbyDatoCmsFluid
                   }
@@ -206,6 +202,7 @@ export const query = graphql`
                 id
                 model { apiKey }
                 image1 {
+                  alt
                   fluid(maxWidth: 450, imgixParams: { fm: "jpg", auto: "compress" }) {
                     ...GatsbyDatoCmsFluid
                   }
@@ -213,6 +210,7 @@ export const query = graphql`
                 image1linktext
                 image1linkurl
                 image2 {
+                  alt
                   fluid(maxWidth: 450, imgixParams: { fm: "jpg", auto: "compress" }) {
                     ...GatsbyDatoCmsFluid
                   }
@@ -224,6 +222,7 @@ export const query = graphql`
                 id
                 model { apiKey }
                 partner1image {
+                  alt
                   fluid(maxWidth: 1000, imgixParams: { fm: "jpg", auto: "compress" }) {
                     ...GatsbyDatoCmsFluid
                   }
@@ -232,6 +231,7 @@ export const query = graphql`
                 partner1text
                 partner1description
                 partner2image {
+                  alt
                   fluid(maxWidth: 1000, imgixParams: { fm: "jpg", auto: "compress" }) {
                     ...GatsbyDatoCmsFluid
                   }
@@ -240,6 +240,7 @@ export const query = graphql`
                 partner2text
                 partner2description
                 partner3image {
+                  alt
                   fluid(maxWidth: 1000, imgixParams: { fm: "jpg", auto: "compress" }) {
                     ...GatsbyDatoCmsFluid
                   }
