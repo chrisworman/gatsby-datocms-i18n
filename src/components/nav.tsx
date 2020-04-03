@@ -5,9 +5,6 @@ import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import Drawer from '@material-ui/core/Drawer';
-import ExpansionPanel from '@material-ui/core/ExpansionPanel';
-import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
-import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import { List, ListItem, Divider, ListItemText, Collapse } from "@material-ui/core";
 
 const useStyles = makeStyles(theme => ({
