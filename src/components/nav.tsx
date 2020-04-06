@@ -55,6 +55,11 @@ const useStyles = makeStyles(theme => ({
             fontWeight: 'normal',
         },
     },
+    ie11GridFix: {
+        '@media all and (-ms-high-contrast: none), (-ms-high-contrast: active)': { // Selector only parsed by IE 10+
+            width: '50%',
+        },
+    },
     fullNav: {
         [theme.breakpoints.down('sm')]: {
             display: 'none',
@@ -108,9 +113,6 @@ const useStyles = makeStyles(theme => ({
     },
     fullNavMenuGroupHeading: {
         marginTop: "0",
-    },
-    ieMenuFix: {
-        width: '50%',
     },
     fullNavMenuLink: {
         color: '#4f5057',
@@ -320,7 +322,6 @@ export default function Nav() {
             render={data => {
                 const classes = useStyles();
                 const { edges } = data?.allDatoCmsMainnav;
-                const isIE = /*@cc_on!@*/false || !!document.documentMode;
                 if (edges) {
                     
                     return (
@@ -355,7 +356,7 @@ export default function Nav() {
                                                                         const group = entry[0];
                                                                         const columns = entry[1];
                                                                         return (
-                                                                            <Grid item className={isIE ? classes.ieMenuFix : undefined} key={index}>
+                                                                            <Grid item className={classes.ie11GridFix} key={index}>
                                                                                 {group ? <h5 className={classes.fullNavMenuGroupHeading}>{group}</h5> : null }
                                                                                 <Grid container spacing={5}>
                                                                                     {columns.map((column, i) => {
