@@ -109,6 +109,9 @@ const useStyles = makeStyles(theme => ({
     fullNavMenuGroupHeading: {
         marginTop: "0",
     },
+    ieMenuFix: {
+        width: '50%',
+    },
     fullNavMenuLink: {
         color: '#4f5057',
         textDecoration: 'none',
@@ -317,6 +320,7 @@ export default function Nav() {
             render={data => {
                 const classes = useStyles();
                 const { edges } = data?.allDatoCmsMainnav;
+                const isIE = /*@cc_on!@*/false || !!document.documentMode;
                 if (edges) {
                     
                     return (
@@ -351,7 +355,7 @@ export default function Nav() {
                                                                         const group = entry[0];
                                                                         const columns = entry[1];
                                                                         return (
-                                                                            <Grid item key={index}>
+                                                                            <Grid item className={isIE ? classes.ieMenuFix : undefined} key={index}>
                                                                                 {group ? <h5 className={classes.fullNavMenuGroupHeading}>{group}</h5> : null }
                                                                                 <Grid container spacing={5}>
                                                                                     {columns.map((column, i) => {
