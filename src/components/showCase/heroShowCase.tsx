@@ -23,6 +23,9 @@ const useStyles = makeStyles((theme => ({
             margin: '0 50px 50px 50px',
             height: "46.25rem",
             backgroundImage: `url(${props.image?.fluid?.src})`,
+        },
+        [theme.breakpoints.up('lg')]: {
+            height: "50rem",
         }
     }),
     textContainer: {
