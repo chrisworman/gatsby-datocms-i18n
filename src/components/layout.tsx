@@ -4,6 +4,7 @@ import Nav from "./nav";
 import Footer from "./footer";
 import { HelmetDatoCms } from "gatsby-source-datocms";
 import { createGlobalStyle } from "styled-components";
+import { makeStyles } from '@material-ui/core/styles';
 
 type LayoutProps = {
   title?: string;
@@ -19,6 +20,13 @@ const GlobalStyle = createGlobalStyle`
     margin: 0;
   }
 `;
+
+const useStyles = makeStyles(theme => ({
+  main: {
+    maxWidth: '1320px',
+    margin: '0 auto',
+  },
+}));
 
 const Layout : FC<LayoutProps> = props => {
     const { title, titleSuffix, description, children } = props;
@@ -49,6 +57,7 @@ const Layout : FC<LayoutProps> = props => {
         `}
         render={data => {
           const { globalSeo } = data.datoCmsSite;
+          const classes = useStyles();
           return (
             <>
               <GlobalStyle />
@@ -57,7 +66,7 @@ const Layout : FC<LayoutProps> = props => {
                 <meta name="description" content={description || globalSeo.fallbackSeo.description} />
               </HelmetDatoCms>
               <Nav />
-              <main>{children}</main>
+              <main className={classes.main}>{children}</main>
               <Footer />
             </>
           );
