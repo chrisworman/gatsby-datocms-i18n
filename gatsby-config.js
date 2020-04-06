@@ -4,11 +4,19 @@ require("dotenv").config({
 
 module.exports = {
   siteMetadata: {
-    title: `Pela Headless Prototype`,
-    description: `The prototype for the Pela Headless website`,
+    title: `Pela Case`,
+    description: `The Pela headless website`,
     author: `chris.worman@pelacase.com`
   },
   plugins: [
+    {
+      resolve: "gatsby-plugin-google-tagmanager",
+      options: {
+        id: process.env.GOOGLE_TAG_MANAGER_ID,
+        includeInDevelopment: false,
+        defaultDataLayer: { /* We can put initial data layer fields here if we want */ },
+      },
+    },
     `gatsby-plugin-typescript`,
     `gatsby-plugin-react-helmet`,
     `gatsby-plugin-styled-components`,
