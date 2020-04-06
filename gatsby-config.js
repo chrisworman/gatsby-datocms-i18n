@@ -1,6 +1,5 @@
 require("dotenv").config({
-  // TODO: env specific files
-  path: `.env` // `.env.${process.env.NODE_ENV}`
+  path: `.env`
 });
 
 module.exports = {
@@ -23,11 +22,11 @@ module.exports = {
           google: [
             {
               family: "Rubik",
-              variants: ["100", "500"],
+              variants: ["normal", "100", "500"],
             },
             {
               family: "Lora",
-              variants: ["400"],
+              variants: ["normal", "100", "400"],
             },
           ],
         },
