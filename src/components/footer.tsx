@@ -27,7 +27,6 @@ const useStyles = makeStyles(theme => ({
         color: "#fff",
         fontWeight: "bold",
         fontSize: "1rem",
-        fontFamily: "Rubik, sans-serif",
         textDecoration: "none",
         display: 'inline-block',
         textAlign: 'center',

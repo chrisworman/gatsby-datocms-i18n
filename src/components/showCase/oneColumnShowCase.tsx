@@ -21,7 +21,6 @@ const useStyles = makeStyles(theme => ({
     preTitle: {
         marginBottom: "0.625rem",
         color: "black",
-        fontFamily: '"Rubik", sans-serif',
         fontSize: "0.75rem",
         fontWeight: "bolder",
         letterSpacing: "0.3125rem",
@@ -33,10 +32,12 @@ const useStyles = makeStyles(theme => ({
     },
     title: {
         fontFamily: '"Lora", serif',
-        fontWeight: 'normal',
-        fontSize: '1.75rem',
+        fontWeight: 400,
+        fontSize: '1.5rem',
         margin: '0 auto 1.375rem auto',
         maxWidth: '66%',
+        lineHeight: '2.125rem',
+        letterSpacing: '-0.00625rem',
     },
     description: {
         color: "#4f5057",

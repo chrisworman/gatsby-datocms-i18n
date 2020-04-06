@@ -58,7 +58,6 @@ const useStyles = makeStyles((theme => ({
     preTitle: {
         marginBottom: "0.625rem",
         color: "black",
-        fontFamily: '"Rubik", sans-serif',
         fontSize: "0.75rem",
         fontWeight: "bolder",
         letterSpacing: "0.3125rem",
@@ -70,7 +69,7 @@ const useStyles = makeStyles((theme => ({
     },
     title: {
         fontFamily: '"Lora", serif',
-        fontWeight: 'normal',
+        fontWeight: 400,
         [theme.breakpoints.only('xs')]: {
             color: '#fff',
             margin: '70px 0px',

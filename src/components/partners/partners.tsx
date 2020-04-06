@@ -13,7 +13,6 @@ const useStyles = makeStyles(theme => ({
         textTransform: 'uppercase',
         marginBottom: '0.625rem',
         color: '#000',
-        fontFamily: '"Rubik", sans-serif',
         fontSize: '0.75rem',
         fontWeight: 'bold',
         letterSpacing: '0.3125rem',

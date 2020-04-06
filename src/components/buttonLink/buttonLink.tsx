@@ -27,6 +27,7 @@ const useStyles = makeStyles(theme => ({
         color : "#000",
         padding: "15px 30px",
         backgroundColor: 'transparent',
+        fontWeight: 500,
     },
     strip: {
         transition: 'all 0.2s',

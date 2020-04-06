@@ -3,7 +3,6 @@ import { StaticQuery, graphql } from "gatsby";
 import { Menu, PersonOutline, ArrowBack } from '@material-ui/icons';
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
-import Button from '@material-ui/core/Button';
 import Drawer from '@material-ui/core/Drawer';
 import { List, ListItem, Divider, ListItemText, Collapse, IconButton } from "@material-ui/core";
 
@@ -15,6 +14,8 @@ const useStyles = makeStyles(theme => ({
         backgroundColor: "#4E5057",
         textAlign: "center",
         padding: "0.3rem 0px",
+        fontWeight: 100,
+        letterSpacing: '0.0625rem',
         '& a, & span': {
             textTransform: "uppercase", 
             textDecoration: "none",
@@ -43,8 +44,8 @@ const useStyles = makeStyles(theme => ({
             color: '#fff',
             textDecoration: "none",
             fontSize: "18px",
-            fontWeight: 'bold',
             display: 'inline-block',
+            fontWeight: 'normal',
         },
         '& h5': {
             margin: '0',
@@ -71,7 +72,6 @@ const useStyles = makeStyles(theme => ({
         color: "#000",
         fontWeight: "bold",
         fontSize: "1rem",
-        fontFamily: "Rubik, sans-serif",
         display: "inline-block",
         whiteSpace: "nowrap",
         textDecoration: "none",

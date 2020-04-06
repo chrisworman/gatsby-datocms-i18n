@@ -17,6 +17,23 @@ module.exports = {
     `gatsby-transformer-sharp`,
     `gatsby-plugin-sharp`,
     {
+      resolve: `gatsby-plugin-webfonts`,
+      options: {
+        fonts: {
+          google: [
+            {
+              family: "Rubik",
+              variants: ["100", "500"],
+            },
+            {
+              family: "Lora",
+              variants: ["400"],
+            },
+          ],
+        },
+      },
+    },
+    {
       resolve: `gatsby-source-datocms`,
       options: {
         apiToken: process.env.DATOCMS_API_TOKEN,
