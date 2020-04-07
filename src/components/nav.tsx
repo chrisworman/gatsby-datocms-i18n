@@ -67,6 +67,11 @@ const useStyles = makeStyles(theme => ({
             display: 'none',
         },
     },
+    fullNavContainer: {
+        maxWidth: '1320px',
+        marginLeft: 'auto',
+        marginRight: 'auto',
+    },
     fullNavLogoContainer: {
         margin: "8px 10px",
     },
@@ -342,7 +347,7 @@ export default function Nav() {
                                     </div>
                                 </Grid>
                                 <Grid item md={10}>
-                                    <Grid container spacing={0}>
+                                    <Grid container className={classes.fullNavContainer} spacing={0}>
                                         {edges.map(edge => {
                                             const { text, url, menugroups, menuitems } = edge.node;
                                             return (
