@@ -4,7 +4,9 @@ import { Menu, PersonOutline, ArrowBack } from '@material-ui/icons';
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Drawer from '@material-ui/core/Drawer';
-import { List, ListItem, Divider, ListItemText, Collapse, IconButton } from "@material-ui/core";
+import { List, ListItem, ListItemText, Collapse, IconButton } from "@material-ui/core";
+import ExpandLess from '@material-ui/icons/ExpandLess';
+import ExpandMore from '@material-ui/icons/ExpandMore';
 
 const useStyles = makeStyles(theme => ({
     header: {
@@ -455,6 +457,7 @@ export default function Nav() {
                                                 <div key={index} className={classes.compactNavItemBorder}>
                                                     <ListItem className={classes.compactNavMenuListItem} button aria-label={text} onClick={() => toggleDrawerMenu(menuId)}>
                                                         <ListItemText primary={text} classes={{ primary: classes.compactNavMenuListItemText }} />
+                                                        {state.drawerMenus.get(menuId) ? <ExpandLess /> : <ExpandMore />}
                                                     </ListItem>
                                                     <Collapse in={state.drawerMenus.get(menuId)} timeout="auto" unmountOnExit>
                                                         <List component="div" disablePadding>
@@ -468,6 +471,7 @@ export default function Nav() {
                                                                         <div key={index}>
                                                                             <ListItem button aria-label={group} onClick={() => toggleDrawerMenu(subMenuId)}>
                                                                                 <ListItemText primary={group} classes={{ primary: classes.compactNavSubMenuListItemText }}></ListItemText>
+                                                                                {state.drawerMenus.get(subMenuId) ? <ExpandLess /> : <ExpandMore />}
                                                                             </ListItem>
                                                                             <Collapse in={state.drawerMenus.get(subMenuId)} timeout="auto" unmountOnExit>
                                                                                 <List>
