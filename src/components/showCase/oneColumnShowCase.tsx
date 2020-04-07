@@ -9,9 +9,9 @@ const useStyles = makeStyles(theme => ({
         textAlign: "center",
         margin: "8rem 0"
     },
-    image: {
-        width: "100%",
-        height: "auto",
+    imageContainer: {
+        width: '66%',
+        margin: '0 auto',
     },
     icon: {
         [theme.breakpoints.down('sm')]: {
@@ -56,7 +56,9 @@ export default function OneColumnShowCase(props: ShowCaseProps) {
     const { icon, preTitle, title, description, linkText, linkUrl, image} = props;
     return (
         <div className={classes.oneColumnShowCase}>
-            <FluidImage {... image} />
+            <div className={classes.imageContainer}>
+                <FluidImage {... image} />
+            </div>
             {icon ? <img src={icon} className={classes.icon} /> : null}
             <h2 className={classes.preTitle}>{preTitle}</h2>
             <h3 className={classes.title}>{title}</h3>

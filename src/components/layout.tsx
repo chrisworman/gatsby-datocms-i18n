@@ -7,10 +7,11 @@ import { createGlobalStyle } from "styled-components";
 import { makeStyles } from '@material-ui/core/styles';
 
 type LayoutProps = {
-  title?: string;
-  titleSuffix?: string;
-  description? : string;
-  // TODO: page specific meta tags
+  title?: string|null;
+  titleSuffix?: string|null;
+  description?: string|null;
+  currentUrl: string;
+  twitterCard?: string|null;
 };
 
 const GlobalStyle = createGlobalStyle`
@@ -28,16 +29,19 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
+// TODO: confirm this has been replaced by gatsby-plugin-manifest
+// faviconMetaTags {
+//  ...GatsbyDatoCmsFaviconMetaTags
+// }
+// favicon={data.datoCmsSite.faviconMetaTags}
+
 const Layout : FC<LayoutProps> = props => {
-    const { title, titleSuffix, description, children } = props;
+    const { title, titleSuffix, description, children, currentUrl, twitterCard } = props;
     return (
       <StaticQuery
         query={graphql`
           query LayoutQuery {
             datoCmsSite {
-              faviconMetaTags {
-                ...GatsbyDatoCmsFaviconMetaTags
-              }
               globalSeo {
                 siteName
                 titleSuffix
@@ -58,12 +62,27 @@ const Layout : FC<LayoutProps> = props => {
         render={data => {
           const { globalSeo } = data.datoCmsSite;
           const classes = useStyles();
+          const fullTitle = `${title || globalSeo.fallbackSeo.title} ${titleSuffix || globalSeo.titleSuffix}`
+          const coalescedDescription = description || globalSeo.fallbackSeo.description;
+          const metaImageUrl = globalSeo.fallbackSeo?.image?.url;
           return (
             <>
               <GlobalStyle />
-              <HelmetDatoCms favicon={data.datoCmsSite.faviconMetaTags}>
-                <title>{title || globalSeo.fallbackSeo.title} {titleSuffix || globalSeo.titleSuffix}</title>
-                <meta name="description" content={description || globalSeo.fallbackSeo.description} />
+              <HelmetDatoCms>
+                <title>{fullTitle}</title>
+                <meta name="description" content={coalescedDescription} />
+                {/* Facebook */}
+                <meta property="og:title" content={fullTitle} />
+                <meta property="og:description" content={coalescedDescription} />
+                { metaImageUrl && <meta property="og:image" content={metaImageUrl} /> }
+                <meta property="og:url" content={currentUrl} />
+                { globalSeo.siteName && <meta property="og:site_name" content={globalSeo.siteName} /> }
+                {/* Twitter */}
+                <meta name="twitter:title" content={fullTitle} />
+                <meta name="twitter:description" content={coalescedDescription} />
+                { metaImageUrl && <meta name="twitter:image" content={metaImageUrl} /> }
+                <meta name="twitter:card" content={twitterCard || globalSeo.fallbackSeo.twitterCard} />
+                <meta name="twitter:site" content={globalSeo.twitterAccount} />
               </HelmetDatoCms>
               <Nav />
               <main className={classes.main}>{children}</main>

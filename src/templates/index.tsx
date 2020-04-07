@@ -6,11 +6,15 @@ import { ImageGridImage } from '../components/imageGrid/imageGridProps';
 import ImageGrid from "../components/imageGrid/imageGrid";
 import { Partner } from "../components/partners/partnersProps";
 import Partners from "../components/partners/partners";
-import { FluidObject } from "gatsby-image";
+import FluidWithAlt from '../models/gatsby/fluidWithAlt';
+import DatoShowCase from '../models/dato/datoShowCase';
 
 // TODO: move to its own file
 type DatoCmsProps<X> = {
   data: X | null;
+  location: { // TODO: refactor (See customPage.tsx)
+    href: string;
+  }
 };
 
 type IndexProps = {
@@ -25,27 +29,7 @@ type DatoHomeEdge = {
     }
 };
 
-type DatoShowCase = {
-    id: string;
-    model: { 
-      apiKey: string 
-    }
-    layout: string;
-    icon: {
-        url: string; // TODO: gatsby image
-    }
-    description: string;
-    linktext: string;
-    linkurl: string;
-    pretitle: string;
-    title: string;
-    image: FluidWithAlt;
-};
 
-type FluidWithAlt = {
-  alt?: string;
-  fluid: FluidObject;
-};
 
 type DatoImageGrid = {
   id: string;
@@ -131,12 +115,12 @@ const createPartnersArray = (partner: DatoPartner) => {
 
 class IndexPage extends React.Component<DatoCmsProps<IndexProps>> {
   render() {
-    const { data } = this.props;
+    const { data, location } = this.props;
     if (data) {
       const { edges } = data?.home;
       const sections = edges && edges.length ? edges[0]?.node?.sections : [];
       return (
-          <Layout>
+          <Layout currentUrl={location.href}>
             {sections.map(section => {
                 switch (section.model.apiKey) {
                   case 'showcase':
@@ -179,25 +163,7 @@ export const query = graphql`
         edges {
           node {
             sections {
-              ... on DatoCmsShowcase {
-                id
-                model { apiKey }
-                icon {
-                  url
-                }
-                layout
-                description
-                linktext
-                linkurl
-                pretitle
-                title
-                image {
-                  alt
-                  fluid(maxWidth: 1200, imgixParams: { fm: "jpg", auto: "compress" }) {
-                    ...GatsbyDatoCmsFluid
-                  }
-                }
-              }
+              ... ShowCase
               ... on DatoCmsImagegrid {
                 id
                 model { apiKey }
