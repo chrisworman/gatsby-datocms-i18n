@@ -92,12 +92,25 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
+type FooterStaticQueryData = {
+    footerNav: {
+        edges: FooterNavEdge[];
+    }
+};
+
+type FooterNavEdge = {
+    node: {
+        text: string;
+        url: string;
+    }
+};
+
 export default function Footer() {  
   return (
     <StaticQuery
         query={graphql`
             query FooterNavQuery {
-                allDatoCmsFooternav(sort: { fields: [position], order: ASC }) {
+                footerNav: allDatoCmsFooternav(sort: { fields: [position], order: ASC }) {
                     edges {
                         node {
                             text
@@ -107,9 +120,9 @@ export default function Footer() {
                 }
             }
         `}
-        render={data => {
+        render={(data: FooterStaticQueryData) => {
             const classes = useStyles();
-            const { edges } = data?.allDatoCmsFooternav;
+            const { edges } = data?.footerNav;
             if (edges) {
                 return (
                     <footer className={classes.footer}>
@@ -177,7 +190,7 @@ export default function Footer() {
                                     </a>
                                 </Grid>
                                 <Grid item xs={12} md={4} className={classes.copyright}>
-                                    <span>Copyright © {(new Date()).getFullYear()} Pela Case</span>
+                                    <span>Copyright &copy; {(new Date()).getFullYear()} Pela Case</span>
                                 </Grid>
                             </Grid>
                         </div>
