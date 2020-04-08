@@ -1,4 +1,3 @@
-import { FluidObject } from "gatsby-image";
 import { FluidImageProps } from "../fluidImage/fluidImageProps";
 
 export type ImageGridImage = {
