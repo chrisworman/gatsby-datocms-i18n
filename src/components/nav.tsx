@@ -7,23 +7,12 @@ import Drawer from '@material-ui/core/Drawer';
 import { List, ListItem, ListItemText, Collapse, IconButton } from "@material-ui/core";
 import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
+import SlimBanner from "./banners/slimBanner";
+import WideBanner from "./banners/wideBanner";
 
 const useStyles = makeStyles(theme => ({
     header: {
         backgroundColor: "#eee"
-    },
-    firstBanner: {
-        backgroundColor: "#4E5057",
-        textAlign: "center",
-        padding: "0.3rem 0px",
-        fontWeight: 100,
-        letterSpacing: '0.0625rem',
-        '& a, & span': {
-            textTransform: "uppercase", 
-            textDecoration: "none",
-            color: "#f4f4f2",
-            fontSize: "0.75rem"
-        },
     },
     logo: {
         maxWidth: "3.5rem",
@@ -35,27 +24,6 @@ const useStyles = makeStyles(theme => ({
             display: "inline-block",
             margin: "8px 10px 0 0px",
         }
-    },
-    secondBanner: {
-        padding: '1rem',
-        backgroundColor: "#000",
-        textAlign: 'center',
-        color: '#fff',
-        '& h3, & a': {
-            margin: '0 0 0.5rem 0',
-            color: '#fff',
-            textDecoration: "none",
-            fontSize: "18px",
-            display: 'inline-block',
-            fontWeight: 'normal',
-        },
-        '& h5': {
-            margin: '0',
-            color: '#fff',
-            fontSize: "10px",
-            lineHeight: '1.5',
-            fontWeight: 'normal',
-        },
     },
     ie11GridFix: {
         '@media all and (-ms-high-contrast: none), (-ms-high-contrast: active)': { // Selector only parsed by IE 10+
@@ -178,13 +146,63 @@ const useStyles = makeStyles(theme => ({
 
 const MENU_GROUP_2ND_COLUMN_THRESHOLD = 6; // The number menu items in a group before a second column is added
 
-const createMenuGroupColumns = (menuGroups, menuItems) => {
+type NavStaticQueryData = {
+    firstBanner: DatoCmsFirstBanner;
+    mainNav: DatoCmsMainNav;
+    secondBanner: DatoCmsSecondBanner;
+};
+
+type DatoCmsMainNav = {
+    edges: DatoCmsMainNavEdge[];
+};
+
+type DatoCmsMainNavEdge = {
+    node: {
+        text: string;
+        url: string;
+        menugroups: string;
+        menuitems: MenuItem[];
+    }
+};
+
+type MenuItem = {
+    text: string;
+    url: string;
+    group: string;
+};
+
+type DatoCmsFirstBanner = {
+    edges: DatoCmsFirstBannerEdge[];
+};
+
+type DatoCmsFirstBannerEdge = {
+    node: {
+        text: string;
+        url: string;
+        enabled: boolean;
+    }
+};
+
+type DatoCmsSecondBanner = {
+    edges: DatoCmsSecondBannerEdge[];
+};
+
+type DatoCmsSecondBannerEdge = {
+    node: {
+        text: string;
+        subtitle: string;
+        url: string;
+        enabled: boolean;
+    }
+};
+
+const createMenuGroupColumns = (menuGroups: string, menuItems: MenuItem[]) => {
     if (!menuItems || menuItems.length === 0) {
         return new Map();
     }
 
     // Initialize a map from "menuGroup" to array of menu items for that group
-    const menuItemsByGroup = new Map();
+    const menuItemsByGroup = new Map<string, MenuItem[]>();
     const orderedMenuGroups = menuGroups.split('|');
     for (let i=0; i<orderedMenuGroups.length; i++) {
         menuItemsByGroup.set(orderedMenuGroups[i].trim(), []);
@@ -194,13 +212,14 @@ const createMenuGroupColumns = (menuGroups, menuItems) => {
     for (let i=0; i<menuItems.length; i++) {
         const menuItem = menuItems[i];
         const canonicalGroup = menuItem.group.trim();
-        if (menuItemsByGroup.has(canonicalGroup)) {
-            menuItemsByGroup.get(canonicalGroup).push(menuItem);
+        const menuGroup = menuItemsByGroup.get(canonicalGroup);
+        if (menuGroup) {
+            menuGroup.push(menuItem);
         }
     }
 
     // Create columns
-    const menuColumnsByGroup = new Map();
+    const menuColumnsByGroup = new Map<string, MenuItem[][]>();
     menuItemsByGroup.forEach((menuItems, group) => {
         if (menuItems.length < MENU_GROUP_2ND_COLUMN_THRESHOLD) { // One column
             menuColumnsByGroup.set(group, [menuItems]);
@@ -215,56 +234,20 @@ const createMenuGroupColumns = (menuGroups, menuItems) => {
     return menuColumnsByGroup;
 };
 
-const getFirstBanner = (allDatoCmsFirstbanner, bannerCssClassName) => {
-    if (!allDatoCmsFirstbanner || !allDatoCmsFirstbanner.edges || !allDatoCmsFirstbanner.edges.length) {
-        return null;
+const getFirstBanner = (firstBanner: DatoCmsFirstBanner) => {
+    const { text, url, enabled } = firstBanner.edges[0].node;
+    if (enabled) {
+        return <SlimBanner text={text} url={url} />;
     }
-    
-    const firstBanner = allDatoCmsFirstbanner.edges[0].node;
-    if (!firstBanner || !firstBanner.enabled || !firstBanner.text) {
-        return null;
-    }
-
-    if (firstBanner.url) {
-        return (
-            <div className={bannerCssClassName}>
-                <a href={firstBanner.url}>{firstBanner.text}</a>
-            </div>
-        );
-    } else {
-        return (
-            <div className={bannerCssClassName}>
-                <span>{firstBanner.text}</span>
-            </div>
-        );
-    }
+    return null;
 };
 
-const getSecondBanner = (allDatoCmsSecondbanner, bannerCssClassName) => {
-    if (!allDatoCmsSecondbanner || !allDatoCmsSecondbanner.edges || !allDatoCmsSecondbanner.edges.length) {
-        return null;
+const getSecondBanner = (secondBanner: DatoCmsSecondBanner) => {
+    const { text, subtitle, url, enabled } = secondBanner.edges[0].node;
+    if (enabled) {
+        return <WideBanner text={text} subTitle={subtitle} url={url} />;
     }
-
-    const secondBanner = allDatoCmsSecondbanner.edges[0].node;
-    if (!secondBanner || !secondBanner.enabled || !secondBanner.text) {
-        return null;
-    }
-
-    if (secondBanner.url) {
-        return (
-            <div className={bannerCssClassName}>
-                <a href={secondBanner.url}>{secondBanner.text}</a>
-                { secondBanner.subtitle ? <h5>{secondBanner.subtitle}</h5> : null }
-            </div>
-        );
-    } else {
-        return (
-            <div className={bannerCssClassName}>
-                <h3>{secondBanner.text}</h3>
-                { secondBanner.subtitle ? <h5>{secondBanner.subtitle}</h5> : null }
-            </div>
-        );
-    }
+    return null;
 };
 
 export default function Nav() {
@@ -274,10 +257,7 @@ export default function Nav() {
         drawerMenus: new Map<string, boolean>(),
     });
 
-    const toggleDrawer = (drawerOpen) => event => {
-        if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
-            return;
-        }
+    const toggleDrawer = (drawerOpen: boolean) => {
         setState({ ...state, drawerOpen });
     };
 
@@ -291,7 +271,7 @@ export default function Nav() {
         <StaticQuery
             query={graphql`
                 query MainNavQuery {
-                    allDatoCmsFirstbanner {
+                    firstBanner: allDatoCmsFirstbanner {
                         edges {
                             node {
                                 text
@@ -300,7 +280,7 @@ export default function Nav() {
                             }
                         }
                     }
-                    allDatoCmsMainnav(sort: { fields: [position], order: ASC }) {
+                    mainNav: allDatoCmsMainnav(sort: { fields: [position], order: ASC }) {
                         edges {
                             node {
                                 text
@@ -314,7 +294,7 @@ export default function Nav() {
                             }
                         }
                     }
-                    allDatoCmsSecondbanner {
+                    secondBanner: allDatoCmsSecondbanner {
                         edges {
                             node {
                                 subtitle
@@ -326,16 +306,15 @@ export default function Nav() {
                     }
                 }
             `}
-            render={data => {
+            render={(data: NavStaticQueryData) => {
                 const classes = useStyles();
-                const { edges } = data?.allDatoCmsMainnav;
+                const { edges } = data?.mainNav;
                 if (edges) {
-                    
                     return (
                         <header className={classes.header}>
 
                             {/* First Banner */}
-                            {getFirstBanner(data.allDatoCmsFirstbanner, classes.firstBanner)}
+                            {getFirstBanner(data.firstBanner)}
 
                             {/* Full Navigation */}
                             <Grid container className={classes.fullNav}>
@@ -348,7 +327,7 @@ export default function Nav() {
                                 </Grid>
                                 <Grid item md={10}>
                                     <Grid container className={classes.fullNavContainer} spacing={0}>
-                                        {edges.map(edge => {
+                                        {edges.map((edge: DatoCmsMainNavEdge) => {
                                             const { text, url, menugroups, menuitems } = edge.node;
                                             return (
                                                 <Grid item xs key={text} className={classes.fullNavItem}>
@@ -360,17 +339,17 @@ export default function Nav() {
                                                                 <Grid container direction="row" justify="space-evenly" alignItems="flex-start">
                                                                 {
                                                                     Array.from(createMenuGroupColumns(menugroups, menuitems).entries()).map((entry, index) => {
-                                                                        const group = entry[0];
-                                                                        const columns = entry[1];
+                                                                        const group = entry[0] as string;
+                                                                        const columns = entry[1] as MenuItem[][];
                                                                         return (
                                                                             <Grid item className={classes.ie11GridFix} key={index}>
                                                                                 {group ? <h5 className={classes.fullNavMenuGroupHeading}>{group}</h5> : null }
                                                                                 <Grid container spacing={5}>
-                                                                                    {columns.map((column, i) => {
+                                                                                    {columns.map((column, i: number) => {
                                                                                         return (
                                                                                             <Grid xs={6} item key={i}>
                                                                                                 { 
-                                                                                                    column.map((menuItem, j) => {
+                                                                                                    column.map((menuItem, j: number) => {
                                                                                                         return (
                                                                                                             <a key={`${i}.${j}`} className={classes.fullNavMenuLink} href={menuItem.url}>{menuItem.text}</a>
                                                                                                         );
@@ -404,7 +383,7 @@ export default function Nav() {
                             <Grid container className={classes.compactNav}>
                                 <Grid item xs={3}>
                                     <div className={classes.compactNavMenuIconContainer}>
-                                        <IconButton size="small" onClick={toggleDrawer(true)} aria-label="Open Menu">
+                                        <IconButton size="small" onClick={() => toggleDrawer(true)} aria-label="Open Menu">
                                             <Menu className={classes.compactNavMenuIcon} fontSize="large" />
                                         </IconButton>
                                     </div>
@@ -420,7 +399,7 @@ export default function Nav() {
                             {/* Drawer */}
                             <Drawer 
                                 open={state.drawerOpen}
-                                onClose={toggleDrawer(false)}
+                                onClose={() => toggleDrawer(false)}
                                 classes={{
                                     paper: classes.drawerPaper,
                                 }}
@@ -430,7 +409,7 @@ export default function Nav() {
                                 <div>
                                     <Grid container>
                                         <Grid item xs={6}>
-                                            <IconButton onClick={toggleDrawer(false)} aria-label="Close Menu">
+                                            <IconButton onClick={() => toggleDrawer(false)} aria-label="Close Menu">
                                                 <ArrowBack fontSize="large" />
                                             </IconButton>
                                         </Grid>
@@ -469,8 +448,8 @@ export default function Nav() {
                                                             {
                                                                 menugroups
                                                                 ? Array.from(createMenuGroupColumns(menugroups, menuitems).entries()).map((entry, index) => {
-                                                                    const group = entry[0];
-                                                                    const columns = entry[1];
+                                                                    const group = entry[0] as string;
+                                                                    const columns = entry[1] as MenuItem[][];
                                                                     const subMenuId = `${menuId}.${index}`;
                                                                     return (
                                                                         <div key={index}>
@@ -519,13 +498,13 @@ export default function Nav() {
                             </Drawer>
 
                             {/* Second Banner */}
-                            {getSecondBanner(data.allDatoCmsSecondbanner, classes.secondBanner)}
+                            {getSecondBanner(data.secondBanner)}
                             
                         </header>
                     )
                 }
 
-                console.log(`No "edges" found in data.allDatoCmsMainnav: data=${JSON.stringify(data)}`);
+                return null;
             }
         }
     />
