@@ -1,0 +1,1 @@
+declare module 'gatsby-source-datocms'; // Suppress type warnings when importing 'gatsby-source-datocms'

@@ -3505,9 +3505,9 @@ content-type@^1.0.4, content-type@~1.0.4:
   integrity sha512-hIP3EEPs8tB9AT1L+NUqtwOAps4mk2Zob89MWXMHjHWg9milF/j4osnnQLXBCBFBk/tvIG/tUc9mOUJiPBhPXA==
 
 contentful-management@^5.12.0:
-  version "5.19.0"
-  resolved "https://registry.yarnpkg.com/contentful-management/-/contentful-management-5.19.0.tgz#9133a83cda0d3095f80cd7638d2dbe019a4ce25c"
-  integrity sha512-GQoGXjL02lRzX1UWyP/ZDC1GKepcXOVr/bVQGZEpIMq1kCsV/ZbzfaLlp8ZFYTna50rr2lRi/ANu8kcHvNz+HQ==
+  version "5.21.1"
+  resolved "https://registry.yarnpkg.com/contentful-management/-/contentful-management-5.21.1.tgz#a2b129cfec6e4b6ec71d7b4346ec00bde8f84c3e"
+  integrity sha512-82Ly4a6lT9k8+JBl+g9BcEYH9Krsnw3FzKayR2hhurERLdq8Gs2nQ1MoartIeVE2M5bXHNu+R97bx70emWAf+w==
   dependencies:
     axios "^0.19.0"
     contentful-sdk-core "^6.4.0"
@@ -5902,9 +5902,9 @@ gatsby-graphiql-explorer@^0.3.1:
     "@babel/runtime" "^7.8.7"
 
 gatsby-image@^2.2.39:
-  version "2.3.1"
-  resolved "https://registry.yarnpkg.com/gatsby-image/-/gatsby-image-2.3.1.tgz#6898e03a489e9b43242562d70079bd8ed10c5d99"
-  integrity sha512-VCJIb2Sp7Dcql+seZ14pqP2yL8oUlLin+HNEb5u8hcn3txkZhzIW3zwPQ3UwfPvi9Em3gBsEClCR6TQSw96J8g==
+  version "2.3.2"
+  resolved "https://registry.yarnpkg.com/gatsby-image/-/gatsby-image-2.3.2.tgz#12e6cac9d6cc1a8152a35693ddf7729d5e59759f"
+  integrity sha512-xaFo2Bsox0aRvRXORLyYf9Rgzp/7aBR4aSmb8CuLLGs4c+IbeSlK0XofkLMZ9c52pxijVRfO3WLSVTB7dtHv+Q==
   dependencies:
     "@babel/runtime" "^7.8.7"
     object-fit-images "^3.2.4"
@@ -6142,9 +6142,9 @@ gatsby-transformer-sharp@^2.3.16:
     sharp "^0.25.1"
 
 gatsby@^2.19.7:
-  version "2.20.13"
-  resolved "https://registry.yarnpkg.com/gatsby/-/gatsby-2.20.13.tgz#e6b44e6e3ecf5f6a5c3e55f25f2097678a7db3a1"
-  integrity sha512-hPzmHSWhInIlY4Lg6hSrFlCxcITCsTs9QM5OhmmFtWDVY3fAr/MsVH1NVZJuY+rTFYtvk5hO284dOBMGcHtUww==
+  version "2.20.14"
+  resolved "https://registry.yarnpkg.com/gatsby/-/gatsby-2.20.14.tgz#63c2637605c6b394fc4b8255f69ccf244b8df2b5"
+  integrity sha512-+5QAWaak1VaW+6dCa7dFlaZ8T+vM6z8k5zK4WpUTW6SLxyDgJLSOk4s3BkpElg9CK4tJvkueeQsCK+IRvTHFgw==
   dependencies:
     "@babel/code-frame" "^7.8.3"
     "@babel/core" "^7.8.7"
@@ -12597,9 +12597,9 @@ terser-webpack-plugin@^1.4.3:
     worker-farm "^1.7.0"
 
 terser@^4.1.2:
-  version "4.6.10"
-  resolved "https://registry.yarnpkg.com/terser/-/terser-4.6.10.tgz#90f5bd069ff456ddbc9503b18e52f9c493d3b7c2"
-  integrity sha512-qbF/3UOo11Hggsbsqm2hPa6+L4w7bkr+09FNseEe8xrcVD3APGLFqE+Oz1ZKAxjYnFsj80rLOfgAtJ0LNJjtTA==
+  version "4.6.11"
+  resolved "https://registry.yarnpkg.com/terser/-/terser-4.6.11.tgz#12ff99fdd62a26de2a82f508515407eb6ccd8a9f"
+  integrity sha512-76Ynm7OXUG5xhOpblhytE7X58oeNSmC8xnNhjWVo8CksHit0U0kO4hfNbPrrYwowLWFgM2n9L176VNx2QaHmtA==
   dependencies:
     commander "^2.20.0"
     source-map "~0.6.1"
