@@ -2,7 +2,7 @@ import React from "react";
 import { StaticQuery, graphql } from "gatsby";
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
-import { Facebook, Twitter, Pinterest, Instagram, MailOutline, Face } from '@material-ui/icons';
+import { Facebook, Twitter, Pinterest, Instagram, MailOutline } from '@material-ui/icons';
 
 const useStyles = makeStyles(theme => ({
     footer: {
