@@ -29,8 +29,6 @@ type DatoHomeEdge = {
     }
 };
 
-
-
 type DatoImageGrid = {
   id: string;
   model: { 
